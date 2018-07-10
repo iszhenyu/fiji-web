@@ -1,12 +1,8 @@
 package com.xiaomianshi.entity.user;
 
 import com.xiaomianshi.entity.BaseEntity;
-import org.springframework.data.annotation.Id;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.*;
 
 /**
  * @author zhen.yu
@@ -17,7 +13,7 @@ public class User extends BaseEntity {
     private static final long serialVersionUID = -5487198824559449323L;
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, unique = true)
