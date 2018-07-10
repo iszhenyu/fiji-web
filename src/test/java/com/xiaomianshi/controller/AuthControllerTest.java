@@ -12,7 +12,7 @@ public class AuthControllerTest {
 
     @Test
     public void testSayHello() {
-        assertEquals("Hello,World!",new AuthController().sayHello());
+        assertEquals("Hello,World!",new UserController().sayHello());
     }
 
 }

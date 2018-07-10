@@ -1,5 +1,7 @@
 package com.xiaomianshi.controller;
 
+import com.xiaomianshi.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -8,9 +10,13 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2018/6/30
  */
 @RestController
-public class AuthController {
+@RequestMapping("/user")
+public class UserController extends BaseController {
 
-    @RequestMapping("/")
+    @Autowired
+    private UserService userService;
+
+    @RequestMapping("/login")
     public String sayHello() {
         return "Hello,World!";
     }
