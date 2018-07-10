@@ -17,7 +17,7 @@ public class UserController extends BaseController {
     private UserService userService;
 
     @RequestMapping("/login")
-    public String sayHello() {
+    public String login() {
         return "Hello,World!";
     }
 }
