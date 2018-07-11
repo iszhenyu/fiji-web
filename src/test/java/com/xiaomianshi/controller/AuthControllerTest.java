@@ -10,9 +10,6 @@ import static junit.framework.TestCase.assertEquals;
  */
 public class AuthControllerTest {
 
-    @Test
-    public void testSayHello() {
-        assertEquals("Hello,World!",new UserController().sayHello());
-    }
+
 
 }
