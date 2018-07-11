@@ -34,6 +34,7 @@ public class GlobalExceptionHandler {
     /**
      * 400 - Bad Request
      */
+    @ResponseBody
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ValidationException.class)
     public ResponseVO handleValidationException(ValidationException e) {

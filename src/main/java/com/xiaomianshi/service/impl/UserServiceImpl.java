@@ -1,5 +1,6 @@
 package com.xiaomianshi.service.impl;
 
+import com.xiaomianshi.common.exception.ValidationException;
 import com.xiaomianshi.entity.user.User;
 import com.xiaomianshi.form.RegisterForm;
 import com.xiaomianshi.helper.PasswordHelper;
@@ -31,6 +32,10 @@ public class UserServiceImpl extends FijiService implements UserService {
     }
 
     public User registerUser(RegisterForm form) {
+        User user = userRepository.findByUsername(form.getUsername());
+        if (user != null) {
+            throw new ValidationException("用户已存在");
+        }
         UserBuilder builder = UserBuilder.create();
         builder.setUsername(form.getUsername());
         builder.setPassword(form.getPassword());
