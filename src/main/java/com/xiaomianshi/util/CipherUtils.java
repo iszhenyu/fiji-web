@@ -16,13 +16,13 @@ public class CipherUtils {
     public static String hmacSHA256Digest(String key, String content) {
         try {
             Mac mac = Mac.getInstance("HmacSHA256");
-            byte[] secretByte = key.getBytes("utf-8");
-            byte[] dataBytes = content.getBytes("utf-8");
+            byte[] keyBytes = key.getBytes("utf-8");
+            byte[] contentBytes = content.getBytes("utf-8");
 
-            SecretKey secret = new SecretKeySpec(secretByte, "HMACSHA256");
+            SecretKey secret = new SecretKeySpec(keyBytes, "HMACSHA256");
             mac.init(secret);
 
-            byte[] doFinal = mac.doFinal(dataBytes);
+            byte[] doFinal = mac.doFinal(contentBytes);
             byte[] hexB = new Hex().encode(doFinal);
             return new String(hexB, "utf-8");
         } catch (Exception e) {

@@ -12,7 +12,7 @@ import java.util.List;
  * @author zhen.yu
  * @since 2018/7/10
  */
-public class BaseController {
+public class FijiController {
     protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
     protected void validateForm(BindingResult bindingResult) {

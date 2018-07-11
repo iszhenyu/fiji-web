@@ -2,6 +2,7 @@ package com.xiaomianshi.service.impl;
 
 import com.xiaomianshi.entity.user.User;
 import com.xiaomianshi.form.RegisterForm;
+import com.xiaomianshi.helper.PasswordHelper;
 import com.xiaomianshi.repository.UserRepository;
 import com.xiaomianshi.service.UserService;
 import com.xiaomianshi.util.RandomUtils;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Service;
  * @since 2018/7/10
  */
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends FijiService implements UserService {
 
     @Autowired
     private UserRepository userRepository;
@@ -79,7 +80,8 @@ public class UserServiceImpl implements UserService {
             user.setUsername(username);
             user.setMobile(mobile);
             user.setEmail(email);
-            user.setPassword(password);
+            String passwordHash = PasswordHelper.encrypt(password, salt);
+            user.setPassword(passwordHash);
             user.setSalt(salt);
             user.setCreateTime(TimeUtils.currentTime());
             user.setLastModifyTime(TimeUtils.currentTime());
