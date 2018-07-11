@@ -5,7 +5,7 @@ import com.xiaomianshi.form.RegisterForm;
 import com.xiaomianshi.repository.UserRepository;
 import com.xiaomianshi.service.UserService;
 import com.xiaomianshi.util.RandomUtils;
-import com.xiaomianshi.util.StringUtils;
+import com.xiaomianshi.helper.PrincipalHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,9 +20,9 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     public User findUser(String principal) {
-        if (StringUtils.isMobile(principal)) {
+        if (PrincipalHelper.isMobile(principal)) {
             return userRepository.findByMobile(principal);
-        } else if (StringUtils.isEmail(principal)) {
+        } else if (PrincipalHelper.isEmail(principal)) {
             return userRepository.findByEmail(principal);
         }
         return userRepository.findByUserName(principal);
