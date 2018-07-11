@@ -6,6 +6,7 @@ import com.xiaomianshi.repository.UserRepository;
 import com.xiaomianshi.service.UserService;
 import com.xiaomianshi.util.RandomUtils;
 import com.xiaomianshi.helper.PrincipalHelper;
+import com.xiaomianshi.util.TimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +26,7 @@ public class UserServiceImpl implements UserService {
         } else if (PrincipalHelper.isEmail(principal)) {
             return userRepository.findByEmail(principal);
         }
-        return userRepository.findByUserName(principal);
+        return userRepository.findByUsername(principal);
     }
 
     public User registerUser(RegisterForm form) {
@@ -44,42 +45,44 @@ public class UserServiceImpl implements UserService {
         private String password;
         private String salt;
 
-        public static UserBuilder create() {
+        static UserBuilder create() {
             return new UserBuilder();
         }
 
-        public UserBuilder setUsername(String username) {
+        UserBuilder setUsername(String username) {
             this.username = username;
             return this;
         }
 
-        public UserBuilder setMobile(String mobile) {
+        UserBuilder setMobile(String mobile) {
             this.mobile = mobile;
             return this;
         }
 
-        public UserBuilder setEmail(String email) {
+        UserBuilder setEmail(String email) {
             this.email = email;
             return this;
         }
 
-        public UserBuilder setPassword(String password) {
+        UserBuilder setPassword(String password) {
             this.password = password;
             return this;
         }
 
-        public UserBuilder setSalt(String salt) {
+        UserBuilder setSalt(String salt) {
             this.salt = salt;
             return this;
         }
 
-        public User build() {
+        User build() {
             User user = new User();
             user.setUsername(username);
             user.setMobile(mobile);
             user.setEmail(email);
             user.setPassword(password);
             user.setSalt(salt);
+            user.setCreateTime(TimeUtils.currentTime());
+            user.setLastModifyTime(TimeUtils.currentTime());
             return user;
         }
     }

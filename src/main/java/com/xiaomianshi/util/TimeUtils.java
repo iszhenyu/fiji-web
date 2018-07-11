@@ -12,12 +12,22 @@ import java.util.TimeZone;
  * @since 2017/5/24
  */
 public class TimeUtils {
+    private final static long MINUTE = 60 * 1000; // 1分钟
+    private final static long HOUR = 60 * MINUTE; // 1小时
+    private final static long DAY = 24 * HOUR;    // 1天
+    private final static long MONTH = 31 * DAY;   // 月
+    private final static long YEAR = 12 * MONTH;  // 年
+
     private static final DateFormat GMT_NORMAL_FORMAT;
     private static final DateFormat LOCAL_NORMAL_FORMAT;
     static {
         GMT_NORMAL_FORMAT = new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss");
         GMT_NORMAL_FORMAT.setTimeZone(TimeZone.getTimeZone("GMT"));
         LOCAL_NORMAL_FORMAT = new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss");
+    }
+
+    public static long currentTime() {
+        return System.currentTimeMillis();
     }
 
     public static Date gmtNow() {
