@@ -17,12 +17,14 @@ public class User extends BaseEntity {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String userName;
+    private String username;
     @Column(nullable = false)
-    private String passWord;
-    @Column(nullable = false, unique = true)
+    private String password;
+    @Column(nullable = true)
+    private String salt;
+    @Column(nullable = true, unique = true)
     private String email;
-    @Column(nullable = false, unique = true)
+    @Column(nullable = true, unique = true)
     private String mobile;
 
     @Column(nullable = true)
@@ -42,20 +44,28 @@ public class User extends BaseEntity {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getPassWord() {
-        return passWord;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPassWord(String passWord) {
-        this.passWord = passWord;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 
     public String getEmail() {
