@@ -23,26 +23,18 @@ import java.util.regex.Pattern;
 
 public class HtmlUtils {
 
-	public static Logger logger =  LoggerFactory.getLogger(HtmlUtils.class);
-	/**
-	 * @param url
-	 * @return
-	 */
+	private static Logger logger =  LoggerFactory.getLogger(HtmlUtils.class);
+
 	public static String getImge(String url){
-		String logo="";
-		logo=getPageImg(url);
-		if(StringUtils.isBlank(logo) || logo.length()>300){
-			logo=Const.BASE_PATH + Const.default_logo;
+		String logo = getPageImg(url);
+		if(StringUtils.isBlank(logo) || logo.length() > 300){
+			logo = Const.BASE_PATH + Const.default_logo;
 		}
 		return logo;
 	}
 	
-	/**
-	 * @param url
-	 * @return
-	 */
 	public static String getPageImg(String url){
-		String imgUrl="";
+		String imgUrl = "";
 		Document doc;
 		try {
 			doc = Jsoup.connect(url).userAgent(Const.userAgent).get();
