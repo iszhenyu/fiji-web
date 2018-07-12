@@ -7,7 +7,16 @@ package com.xiaomianshi.common;
 public interface Const {
     int COOKIE_TIMEOUT= 30 * 24 * 60 * 60;
 
-    String LOGIN_SESSION_KEY = "xiaomian_user";
-    String PASSWORD_KEY = "@#$%^&*()OPG#$%^&*(HG";
+    public static String LOGIN_SESSION_KEY = "Fiji_user";
+
+    public static String PASSWORD_KEY = "@#$%^&*()OPG#$%^&*(HG";
+
+    public static String DES3_KEY = "9964DYByKL967c3308imytCB";
+
+    public static String default_logo="img/logo.jpg";
+
+    public static String userAgent="Mozilla";
+
+    public static String LAST_REFERER = "LAST_REFERER";
 
 }
