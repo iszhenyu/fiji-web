@@ -1,6 +1,6 @@
 package com.xiaomianshi.util;
 
-import com.favorites.comm.Const;
+import com.xiaomianshi.common.Const;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
