@@ -5,7 +5,10 @@ import com.xiaomianshi.core.validator.annotation.NotEmpty;
 import com.xiaomianshi.model.user.User;
 import com.xiaomianshi.form.RegisterForm;
 import com.xiaomianshi.service.UserService;
-import com.xiaomianshi.vo.ResponseVO;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -24,22 +27,34 @@ public class UserController extends FijiController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String login(@NotEmpty(message = "用户名不能为空") String username,
-                        @NotEmpty(message = "密码不能为空") String password) {
-        return "Hello,World!";
-    }
-
     @RequestMapping(value = "register", method = RequestMethod.POST)
-    public ResponseVO register(@Validated RegisterForm form, BindingResult bindingResult) {
+    public String register(@Validated RegisterForm form, BindingResult bindingResult) {
         this.validateForm(bindingResult);
         if (!form.getPassword().equals(form.getRePassword())) {
             throw new ValidationException("两次密码不一致");
         }
-        User user = userService.registerUser(form);
-        if (user == null) {
-            return ResponseVO.fail("注册失败");
+        userService.registerUser(form);
+        return "注册成功";
+    }
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public User login(@NotEmpty(message = "用户名不能为空") String username,
+                      @NotEmpty(message = "密码不能为空") String password) {
+        Subject subject = SecurityUtils.getSubject();
+        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+        token.setRememberMe(true);
+        try {
+            // 根据token类型, 这里实际是FijiRealm执行的登录
+            subject.login(token);
+        } catch (AuthenticationException e) {
+            throw new ValidationException("用户名或密码错误");
         }
-        return ResponseVO.success();
+        return userService.findUser(username);
+    }
+
+    @RequestMapping("/logout")
+    public String logout() {
+        SecurityUtils.getSubject().logout();
+        return "登出成功";
     }
 }
