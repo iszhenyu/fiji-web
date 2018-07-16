@@ -1,6 +1,6 @@
 package com.xiaomianshi.vo;
 
-import com.xiaomianshi.entity.user.User;
+import com.xiaomianshi.model.user.User;
 
 /**
  * @author zhen.yu

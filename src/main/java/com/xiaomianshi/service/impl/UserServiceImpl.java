@@ -1,7 +1,7 @@
 package com.xiaomianshi.service.impl;
 
-import com.xiaomianshi.common.exception.ValidationException;
-import com.xiaomianshi.entity.user.User;
+import com.xiaomianshi.core.exception.ValidationException;
+import com.xiaomianshi.model.user.User;
 import com.xiaomianshi.form.RegisterForm;
 import com.xiaomianshi.helper.PasswordHelper;
 import com.xiaomianshi.repository.UserRepository;

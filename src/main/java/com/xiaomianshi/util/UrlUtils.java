@@ -59,7 +59,7 @@ public class UrlUtils {
 	
 	
 	public static void main(String[] args) {
-		System.out.println(getDomainUrl("http://common.cnblogs.com/favicon.ico"));
+		System.out.println(getDomainUrl("http://core.cnblogs.com/favicon.ico"));
 	}
 
 }

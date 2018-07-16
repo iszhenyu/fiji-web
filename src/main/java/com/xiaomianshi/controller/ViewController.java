@@ -1,6 +1,6 @@
 package com.xiaomianshi.controller;
 
-import com.xiaomianshi.common.annotation.LoggerManager;
+import com.xiaomianshi.core.annotation.LoggerManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

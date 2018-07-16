@@ -1,6 +1,6 @@
 package com.xiaomianshi.controller;
 
-import com.xiaomianshi.common.exception.ValidationException;
+import com.xiaomianshi.core.exception.ValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindingResult;

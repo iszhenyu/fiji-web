@@ -1,6 +1,6 @@
 package com.xiaomianshi.service;
 
-import com.xiaomianshi.entity.user.User;
+import com.xiaomianshi.model.user.User;
 import com.xiaomianshi.form.RegisterForm;
 
 /**

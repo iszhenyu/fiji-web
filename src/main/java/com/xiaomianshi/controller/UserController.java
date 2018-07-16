@@ -1,8 +1,8 @@
 package com.xiaomianshi.controller;
 
-import com.xiaomianshi.common.exception.ValidationException;
-import com.xiaomianshi.common.validator.annotation.NotEmpty;
-import com.xiaomianshi.entity.user.User;
+import com.xiaomianshi.core.exception.ValidationException;
+import com.xiaomianshi.core.validator.annotation.NotEmpty;
+import com.xiaomianshi.model.user.User;
 import com.xiaomianshi.form.RegisterForm;
 import com.xiaomianshi.service.UserService;
 import com.xiaomianshi.vo.ResponseVO;
