@@ -101,7 +101,6 @@ public class SecurityConfiguration {
 	/**
 	 * * * * * Session 相关
 	 */
-
 	@Bean
 	public DefaultWebSessionManager sessionManager() {
 		DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
