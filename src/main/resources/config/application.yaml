@@ -18,4 +18,4 @@ com:
   xiaomianshi:
     web:
       name: 小面试
-      copywright: @2017 - 2018 ${com.didispace.blog.name}
+#      copywright: @2017 - 2018 ${com.didispace.blog.name}

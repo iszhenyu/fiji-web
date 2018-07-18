@@ -3,9 +3,6 @@ package com.xiaomianshi.core.dao;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.ibatis.session.SqlSession;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.xiaomianshi.core.model.BaseModel;
 
 /**
@@ -14,14 +11,10 @@ import com.xiaomianshi.core.model.BaseModel;
  */
 public abstract class BaseDao<T extends BaseModel, K>  {
 
-    protected abstract BaseMapper<T, K> getMapper();
-
-    @Autowired
-    private SqlSession sqlSession;
+    public abstract BaseMapper<T, K> getMapper();
 
     public T findById(K id) {
-        return sqlSession.selectOne("selectCityById", id);
-//        return getMapper().findById(id);
+        return getMapper().findById(id);
     }
 
     public List<T> findByIds(Collection<K> ids) {
@@ -32,8 +25,9 @@ public abstract class BaseDao<T extends BaseModel, K>  {
         return getMapper().findAll();
     }
 
-    public void insert(T model) {
+    public T insert(T model) {
         getMapper().insert(model);
+        return model;
     }
 
     public void batchInsert(Collection<T> models) {
@@ -52,7 +46,6 @@ public abstract class BaseDao<T extends BaseModel, K>  {
         getMapper().batchRemove(models);
     }
 
-    //更新乐观锁
     public int update(T model) {
         int updatedCount = getMapper().update(model);
         if (updatedCount == 0) {

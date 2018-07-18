@@ -1,10 +1,10 @@
 package com.xiaomianshi.service.impl;
 
 import com.xiaomianshi.core.exception.ValidationException;
+import com.xiaomianshi.dao.UserDao;
 import com.xiaomianshi.model.user.User;
 import com.xiaomianshi.form.RegisterForm;
 import com.xiaomianshi.helper.PasswordHelper;
-import com.xiaomianshi.repository.UserRepository;
 import com.xiaomianshi.service.UserService;
 import com.xiaomianshi.util.RandomUtils;
 import com.xiaomianshi.helper.PrincipalHelper;
@@ -20,19 +20,19 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl extends FijiService implements UserService {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserDao userDao;
 
     public User findUser(String principal) {
         if (PrincipalHelper.isMobile(principal)) {
-            return userRepository.findByMobile(principal);
+            return userDao.findByMobile(principal);
         } else if (PrincipalHelper.isEmail(principal)) {
-            return userRepository.findByEmail(principal);
+            return userDao.findByEmail(principal);
         }
-        return userRepository.findByUsername(principal);
+        return userDao.findByUsername(principal);
     }
 
     public User registerUser(RegisterForm form) {
-        User user = userRepository.findByUsername(form.getUsername());
+        User user = userDao.findByUsername(form.getUsername());
         if (user != null) {
             throw new ValidationException("用户已存在");
         }
@@ -41,7 +41,7 @@ public class UserServiceImpl extends FijiService implements UserService {
         builder.setPassword(form.getPassword());
         String salt = RandomUtils.randomNumeric(4);
         builder.setSalt(salt);
-        return userRepository.save(builder.build());
+        return userDao.insert(builder.build());
     }
 
     private static class UserBuilder {

@@ -24,7 +24,7 @@ public interface UserMapper extends BaseMapper<User, Long> {
     User findByMobile(String mobile);
 
     @Select("select * from fj_user where email=#{email}")
-    User getByEmail(String email);
+    User findByEmail(String email);
 
     @Update("UPDATE fj_user SET mobile=#{mobile} WHERE id=#{id}")
     void updateMobile(User user);
