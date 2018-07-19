@@ -1,9 +1,5 @@
 package tech.jianshuo.dao;
 
-import com.jianshuo.core.dao.BaseDao;
-import com.jianshuo.core.dao.BaseMapper;
-import com.jianshuo.dao.mapper.UserMapper;
-import com.jianshuo.model.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

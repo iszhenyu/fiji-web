@@ -1,8 +1,6 @@
 package tech.jianshuo.service;
 
-import com.jianshuo.model.user.User;
-import com.jianshuo.form.RegisterForm;
-
+import tech.jianshuo.form.RegisterForm;
 import tech.jianshuo.model.user.User;
 
 /**

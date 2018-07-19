@@ -1,9 +1,9 @@
 package tech.jianshuo.core.model;
 
+import java.io.Serializable;
+
 import lombok.Getter;
 import lombok.Setter;
-
-import java.io.Serializable;
 
 /**
  * @author yuzhen
@@ -15,9 +15,9 @@ public class BaseModel implements Serializable {
 
     private static final long serialVersionUID = 5017546373479056007L;
 
-    protected Long id;
-    protected Boolean isDeleted;       // 删除标记
-    protected Long createTime; 	       // 创建时间
-    protected Long lastModifyTime;     // 修改时间
+    private Long id;
+    private Boolean isDeleted; // 删除标记
+    private Long createTime; // 创建时间
+    private Long lastModifyTime; // 修改时间
 
 }

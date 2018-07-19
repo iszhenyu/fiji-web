@@ -1,7 +1,5 @@
 package tech.jianshuo.dao.mapper;
 
-import com.jianshuo.core.dao.BaseMapper;
-import com.jianshuo.model.user.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;

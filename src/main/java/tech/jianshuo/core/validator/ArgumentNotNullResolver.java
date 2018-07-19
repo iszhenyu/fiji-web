@@ -1,6 +1,5 @@
 package tech.jianshuo.core.validator;
 
-import com.jianshuo.core.validator.annotation.NotNull;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;

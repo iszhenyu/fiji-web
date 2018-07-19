@@ -1,6 +1,5 @@
 package tech.jianshuo.core.validator;
 
-import com.jianshuo.core.validator.annotation.Max;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -31,7 +30,7 @@ public class ArgumentMaxResolver implements HandlerMethodArgumentResolver {
         String value = webRequest.getParameter(parameter);
         Max validation = methodParameter.getParameterAnnotation(Max.class);
         Integer realValue = Integer.valueOf(value);
-        if(validation.value() != Integer.MAX_VALUE && realValue > validation.value()){
+        if (validation.value() != Integer.MAX_VALUE && realValue > validation.value()){
             throw new IllegalArgumentException(validation.message());
         }
         return value;

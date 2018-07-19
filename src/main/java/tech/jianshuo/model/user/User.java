@@ -1,8 +1,11 @@
 package tech.jianshuo.model.user;
 
-import com.jianshuo.core.constant.UserStatus;
-import com.jianshuo.core.model.BaseModel;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import tech.jianshuo.core.constant.UserStatus;
 import tech.jianshuo.core.model.BaseModel;
 
 /**

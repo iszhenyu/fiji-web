@@ -1,6 +1,5 @@
 package tech.jianshuo.core.aop;
 
-import com.jianshuo.core.annotation.LoggerManager;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -24,19 +23,19 @@ public class LoggerAdvice {
 
     private Logger logger =  LoggerFactory.getLogger(this.getClass());
 
-    @Before("within(com.jianshuo..*) && @annotation(loggerManage)")
+    @Before("within(tech.jianshuo..*) && @annotation(loggerManage)")
     public void addBeforeLogger(JoinPoint joinPoint, LoggerManager loggerManage) {
         logger.info("执行 " + loggerManage.desc() + " 开始");
         logger.info(joinPoint.getSignature().toString());
         logger.info(parseParam(joinPoint.getArgs()));
     }
 
-    @AfterReturning("within(com.jianshuo..*) && @annotation(loggerManage)")
+    @AfterReturning("within(tech.jianshuo..*) && @annotation(loggerManage)")
     public void addAfterReturningLogger(JoinPoint joinPoint, LoggerManager loggerManage) {
         logger.info("执行 " + loggerManage.desc() + " 结束");
     }
 
-    @AfterThrowing(pointcut = "within(com.jianshuo..*) && @annotation(loggerManage)", throwing = "ex")
+    @AfterThrowing(pointcut = "within(tech.jianshuo..*) && @annotation(loggerManage)", throwing = "ex")
     public void addAfterThrowingLogger(JoinPoint joinPoint, LoggerManager loggerManage, Exception ex) {
         logger.error("执行 " + loggerManage.desc() + " 异常", ex);
     }

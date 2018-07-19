@@ -1,18 +1,17 @@
 package tech.jianshuo.service.impl;
 
-import com.jianshuo.core.exception.ValidationException;
-import com.jianshuo.dao.UserDao;
-import com.jianshuo.model.user.User;
-import com.jianshuo.form.RegisterForm;
-import com.jianshuo.helper.PasswordHelper;
-import com.jianshuo.service.UserService;
-import com.jianshuo.util.RandomUtils;
-import com.jianshuo.helper.PrincipalHelper;
-import com.jianshuo.util.TimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import tech.jianshuo.core.exception.ValidationException;
+import tech.jianshuo.dao.UserDao;
+import tech.jianshuo.form.RegisterForm;
+import tech.jianshuo.helper.PasswordHelper;
+import tech.jianshuo.helper.PrincipalHelper;
+import tech.jianshuo.model.user.User;
+import tech.jianshuo.service.UserService;
+import tech.jianshuo.util.RandomUtils;
+import tech.jianshuo.util.TimeUtils;
 
 /**
  * @author zhen.yu

@@ -1,12 +1,13 @@
 package tech.jianshuo.core.validator;
 
-import com.jianshuo.core.validator.annotation.NotEmpty;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
+
+import tech.jianshuo.core.validator.annotation.NotEmpty;
 
 /**
  * @author zhen.yu
