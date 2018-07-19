@@ -1,4 +1,4 @@
-package tech.jianshuo.controller;
+package tech.jianshuo.fiji.api.controller;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -11,11 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import tech.jianshuo.core.exception.ValidationException;
-import tech.jianshuo.core.validator.annotation.NotEmpty;
-import tech.jianshuo.form.RegisterForm;
-import tech.jianshuo.model.user.User;
-import tech.jianshuo.service.UserService;
+import tech.jianshuo.fiji.api.form.RegisterForm;
+import tech.jianshuo.fiji.biz.dto.RegisterDo;
+import tech.jianshuo.fiji.biz.model.user.User;
+import tech.jianshuo.fiji.biz.service.UserService;
+import tech.jianshuo.fiji.core.exception.ValidationException;
+import tech.jianshuo.fiji.core.validator.annotation.NotEmpty;
 
 /**
  * @author zhen.yu
@@ -34,7 +35,10 @@ public class UserController extends FijiController {
         if (!form.getPassword().equals(form.getRePassword())) {
             throw new ValidationException("两次密码不一致");
         }
-        userService.registerUser(form);
+        RegisterDo registerDo = new RegisterDo();
+        registerDo.setUsername(form.getUsername());
+        registerDo.setPassword(form.getPassword());
+        userService.registerUser(registerDo);
         return "注册成功";
     }
 

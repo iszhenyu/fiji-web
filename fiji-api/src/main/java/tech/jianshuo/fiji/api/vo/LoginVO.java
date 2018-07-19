@@ -1,4 +1,4 @@
-package tech.jianshuo.vo;
+package tech.jianshuo.fiji.api.vo;
 
 import tech.jianshuo.model.user.User;
 

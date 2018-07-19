@@ -1,4 +1,4 @@
-package tech.jianshuo.controller;
+package tech.jianshuo.fiji.api.controller;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 
-import tech.jianshuo.core.exception.ValidationException;
+import tech.jianshuo.fiji.core.exception.ValidationException;
 
 /**
  * @author zhen.yu

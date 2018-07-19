@@ -1,4 +1,4 @@
-package tech.jianshuo.core;
+package tech.jianshuo.fiji.biz.constant;
 
 /**
  * @author zhen.yu

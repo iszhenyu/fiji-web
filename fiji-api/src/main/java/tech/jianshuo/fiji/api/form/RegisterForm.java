@@ -1,4 +1,4 @@
-package tech.jianshuo.form;
+package tech.jianshuo.fiji.api.form;
 
 import javax.validation.constraints.NotEmpty;
 
