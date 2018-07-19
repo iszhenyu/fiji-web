@@ -2,7 +2,12 @@ package tech.jianshuo.fiji.view;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import tech.jianshuo.fiji.api.ApiApplication;
+import tech.jianshuo.fiji.biz.BizApplication;
+import tech.jianshuo.fiji.common.CommonApplication;
+import tech.jianshuo.fiji.core.CoreApplication;
 
 /**
  * @author zhen.yu
@@ -12,7 +17,15 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 public class FijiApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
-        SpringApplication.run(FijiApplication.class, args);
+        new SpringApplicationBuilder()
+                .sources(
+                        CommonApplication.class,
+                        CoreApplication.class,
+                        BizApplication.class,
+                        ApiApplication.class,
+                        FijiApplication.class
+                )
+                .run(args);
     }
 
 }
