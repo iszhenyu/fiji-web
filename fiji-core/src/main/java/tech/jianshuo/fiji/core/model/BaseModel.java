@@ -16,7 +16,7 @@ public class BaseModel implements Serializable {
     private static final long serialVersionUID = 5017546373479056007L;
 
     private Long id;
-    private Boolean isDeleted; // 删除标记
+    private Long deletedAt; // 删除标记
     private Long createTime; // 创建时间
     private Long lastModifyTime; // 修改时间
 

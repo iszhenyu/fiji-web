@@ -1,5 +1,6 @@
 package tech.jianshuo.fiji.core.security;
 
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.codec.Base64;
 import org.apache.shiro.mgt.DefaultSecurityManager;
@@ -19,6 +20,7 @@ import org.apache.shiro.web.servlet.SimpleCookie;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,19 +30,48 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * Created by xiaoz on 2017/5/9.
+ * Created by zhen.yu on 2017/5/9.
  */
 @Configuration
 public class SecurityConfiguration {
 
 	private Logger logger = LoggerFactory.getLogger(SecurityConfiguration.class);
 
-	/**
-	 * Shiro生命周期处理器
-	 */
+	@Bean
+	public EhCacheManager shiroCacheManager() {
+		logger.debug("注入Shiro的缓存管理器-->ehCacheManager");
+		EhCacheManager ehCacheManager = new EhCacheManager();
+		ehCacheManager.setCacheManagerConfigFile("classpath:config/ehcache-shiro.xml");
+		return ehCacheManager;
+	}
+
 	@Bean
 	public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
 		return new LifecycleBeanPostProcessor();
+	}
+
+	@Bean
+	public DefaultAdvisorAutoProxyCreator getDefaultAdvisorAutoProxyCreator() {
+		DefaultAdvisorAutoProxyCreator autoProxyCreator = new DefaultAdvisorAutoProxyCreator();
+		autoProxyCreator.setProxyTargetClass(true);
+		return autoProxyCreator;
+	}
+
+	@Bean
+	public RetryLimitHashedCredentialsMatcher retryLimitHashedCredentialsMatcher() {
+		RetryLimitHashedCredentialsMatcher credentialsMatcher = new RetryLimitHashedCredentialsMatcher(shiroCacheManager());
+		credentialsMatcher.setHashAlgorithmName("MD5");
+		credentialsMatcher.setHashIterations(2);
+		credentialsMatcher.setStoredCredentialsHexEncoded(true);
+		return credentialsMatcher;
+	}
+
+	@Bean
+	public FijiSecurityRealm shiroRealm(DataSource dataSource) {
+		FijiSecurityRealm realm = new FijiSecurityRealm();
+		realm.setDataSource(dataSource);
+		realm.setCredentialsMatcher(retryLimitHashedCredentialsMatcher());
+		return realm;
 	}
 
 	/**
@@ -64,43 +95,18 @@ public class SecurityConfiguration {
 		return authorizationAttributeSourceAdvisor;
 	}
 
-	/**
-	 * 配置缓存
-	 */
 	@Bean
-	public EhCacheManager shiroCacheManager() {
-		logger.debug("注入Shiro的缓存管理器-->ehCacheManager");
-		EhCacheManager ehCacheManager = new EhCacheManager();
-		ehCacheManager.setCacheManagerConfigFile("classpath:config/ehcache-shiro.xml");
-		return ehCacheManager;
+	public SecurityManager securityManager(DataSource dataSource) {
+		DefaultSecurityManager sm = new DefaultWebSecurityManager();
+		sm.setRealm(shiroRealm(dataSource));
+		sm.setCacheManager(shiroCacheManager());
+		sm.setSessionManager(sessionManager());
+		sm.setRememberMeManager(rememberMeManager());
+		return sm;
 	}
 
-	@Bean
-	public RetryLimitHashedCredentialsMatcher retryLimitHashedCredentialsMatcher() {
-		logger.debug("注入Shiro的凭证匹配器-->credentialsMatcher");
-		RetryLimitHashedCredentialsMatcher credentialsMatcher = new RetryLimitHashedCredentialsMatcher(shiroCacheManager());
-		credentialsMatcher.setHashAlgorithmName("MD5");
-		credentialsMatcher.setHashIterations(2);
-		credentialsMatcher.setStoredCredentialsHexEncoded(true);
-		return credentialsMatcher;
-	}
+	/** Session 相关 **/
 
-	/**
-	 * 配置Realm
-	 */
-	@Bean
-	@Qualifier("retryLimitHashedCredentialsMatcher")
-	public FijiSecurityRealm shiroRealm(DataSource dataSource) {
-		logger.debug("注入Shiro的Realm-->shiroRealm");
-		FijiSecurityRealm realm = new FijiSecurityRealm();
-		realm.setDataSource(dataSource);
-		realm.setCredentialsMatcher(retryLimitHashedCredentialsMatcher());
-		return realm;
-	}
-
-	/**
-	 * * * * * Session 相关
-	 */
 	@Bean
 	public DefaultWebSessionManager sessionManager() {
 		DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
@@ -144,13 +150,10 @@ public class SecurityConfiguration {
 		return new JavaUuidSessionIdGenerator();
 	}
 
-	/**
-	 * * * * * cookie管理器
-	 */
+	/** cookie管理器 **/
 
 	@Bean
 	public CookieRememberMeManager rememberMeManager() {
-		logger.info("注入Shiro的记住我(CookieRememberMeManager)管理器-->rememberMeManager");
 		CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
 		//rememberme cookie加密的密钥 建议每个项目都不一样 默认AES算法 密钥长度（128 256 512 位），通过以下代码可以获取
 		//KeyGenerator keygen = KeyGenerator.getInstance("AES");
@@ -173,19 +176,7 @@ public class SecurityConfiguration {
 		return simpleCookie;
 	}
 
-	/**
-	 * 配置安全管理器
-	 */
-	@Bean
-	public SecurityManager securityManager(FijiSecurityRealm shiroRealm) {
-		logger.debug("注入Shiro的Web过滤器-->securityManager");
-		DefaultSecurityManager sm = new DefaultWebSecurityManager();
-		sm.setRealm(shiroRealm);
-		sm.setCacheManager(shiroCacheManager());
-		sm.setSessionManager(sessionManager());
-		sm.setRememberMeManager(rememberMeManager());
-		return sm;
-	}
+
 
 	@Bean
 	public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager) {

@@ -10,7 +10,7 @@ public class FijiSecurityRealm extends JdbcRealm {
 	public FijiSecurityRealm() {
 		this.setSaltStyle(SaltStyle.COLUMN);
 		this.setPermissionsLookupEnabled(true);
-		this.setAuthenticationQuery("select password_hash, password_salt from xms_user where username = ?");
+		this.setAuthenticationQuery("select password, salt from fj_user where username = ?");
 		this.setAuthenticationCachingEnabled(true);
 		this.setAuthenticationCacheName(SecurityCacheName.AUTHENTICATION_CACHE);
 		this.setAuthorizationCachingEnabled(true);
