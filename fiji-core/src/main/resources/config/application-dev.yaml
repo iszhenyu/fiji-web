@@ -30,7 +30,7 @@ spring:
 #    timeout: 0
 mybatis:
   type-aliases-package: tech.jianshuo.fiji.biz.model
-#  type-handlers-package: com.jianshuo.core.dao.typehandler
+  type-handlers-package: tech.jianshuo.fiji.core.orm.typehandler
   mapper-locations: classpath:mapper/*.xml
   configuration:
     default-fetch-size: 100
