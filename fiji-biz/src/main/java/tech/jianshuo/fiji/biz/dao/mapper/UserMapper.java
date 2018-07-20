@@ -3,6 +3,7 @@ package tech.jianshuo.fiji.biz.dao.mapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+
 import tech.jianshuo.fiji.biz.model.user.User;
 import tech.jianshuo.fiji.core.orm.BaseMapper;
 

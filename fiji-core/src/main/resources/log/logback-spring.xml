@@ -3,8 +3,9 @@
     <include resource="org/springframework/boot/logging/logback/defaults.xml" />
     <!--<include resource="org/springframework/boot/logging/logback/base.xml" />-->
 
-    <property name="LOG_PATH" value="/Users/xiaoz/logs"/>
+    <property name="LOG_PATH" value="~/logs"/>
     <property name="LOG_FILE" value="${LOG_FILE:-${LOG_PATH:-${LOG_TEMP:-${java.io.tmpdir:-/tmp}}}/spring.log}"/>
+
     <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
     <!--<include resource="org/springframework/boot/logging/logback/file-appender.xml" />-->
     <include resource="log/rolling-file-appender.xml" />
@@ -16,7 +17,7 @@
         <root level="INFO">
             <appender-ref ref="CONSOLE" />
         </root>
-        <logger name="com.jianshuo" level="DEBUG" additivity="false">
+        <logger name="tech.jianshuo" level="DEBUG" additivity="false">
             <appender-ref ref="CONSOLE"/>
         </logger>
     </springProfile>
@@ -25,7 +26,7 @@
         <root level="INFO">
             <appender-ref ref="CONSOLE" />
         </root>
-        <logger name="com.jianshuo" level="DEBUG" additivity="false">
+        <logger name="tech.jianshuo" level="DEBUG" additivity="false">
             <appender-ref ref="CONSOLE"/>
         </logger>
     </springProfile>
@@ -34,7 +35,7 @@
         <root level="INFO">
             <appender-ref ref="ROLLING-FILE" />
         </root>
-        <logger name="com.jianshuo" level="DEBUG" additivity="false">
+        <logger name="tech.jianshuo" level="DEBUG" additivity="false">
             <appender-ref ref="ROLLING-FILE"/>
         </logger>
     </springProfile>
@@ -43,7 +44,7 @@
         <root level="INFO">
             <appender-ref ref="ROLLING-FILE" />
         </root>
-        <logger name="com.jianshuo" level="INFO" additivity="false">
+        <logger name="tech.jianshuo" level="INFO" additivity="false">
             <appender-ref ref="ROLLING-FILE"/>
         </logger>
     </springProfile>

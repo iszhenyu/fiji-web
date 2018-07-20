@@ -3,8 +3,8 @@ package tech.jianshuo.fiji.biz.helper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import tech.jianshuo.core.Const;
-import tech.jianshuo.util.CipherUtils;
+import tech.jianshuo.fiji.biz.constant.Const;
+import tech.jianshuo.fiji.common.util.CipherUtils;
 
 /**
  * @author zhen.yu

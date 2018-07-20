@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
  */
 public class UrlUtils {
 
-    private static final Logger logger = LoggerFactory.getLogger(HtmlUtils.class);
+    private static final Logger logger = LoggerFactory.getLogger(UrlUtils.class);
     private static final int HTTP_OK = 200;
 
     public static synchronized boolean isConnect(String urlStr) {

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tech.jianshuo.fiji.biz.dao.mapper.UserMapper">
+
+    <!--<resultMap id="User" type="User">-->
+        <!--<result property="deleted" column="is_deleted"/>-->
+    <!--</resultMap>-->
+
+    <insert id="insert" parameterType="User" useGeneratedKeys="true" keyProperty="id">
+      INSERT INTO fj_user
+        (username, password, salt, email, mobile, avatar_url, introduction, status, is_deleted, create_time, last_modify_time)
+      VALUES
+        (#{username}, #{password}, #{salt}, #{email}, #{mobile}, #{avatarUrl}, #{introduction}, #{status}, #{isDeleted}, #{createTime}, #{lastModifyTime})
+    </insert>
+
+</mapper>

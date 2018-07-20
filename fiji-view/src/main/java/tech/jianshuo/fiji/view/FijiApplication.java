@@ -1,9 +1,9 @@
 package tech.jianshuo.fiji.view;
 
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+
 import tech.jianshuo.fiji.api.ApiApplication;
 import tech.jianshuo.fiji.biz.BizApplication;
 import tech.jianshuo.fiji.common.CommonApplication;
