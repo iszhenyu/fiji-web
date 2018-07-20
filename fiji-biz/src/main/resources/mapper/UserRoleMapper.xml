@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tech.jianshuo.fiji.biz.dao.mapper.UserRoleMapper">
+
+    <resultMap id="rm" type="tech.jianshuo.fiji.biz.model.user">
+        <result property="id" jdbcType="BIGINT" column="id"/>
+        <result property="userId" jdbcType="BIGINT" column="user_id"/>
+        <result property="roleId" jdbcType="BIGINT" column="role_id"/>
+        <result property="deletedAt" jdbcType="BIGINT" column="deleted_at"/>
+        <result property="createTime" jdbcType="BIGINT" column="create_time"/>
+        <result property="lastModifyTime" jdbcType="BIGINT" column="last_modify_time"/>
+    </resultMap>
+
+    <select id="findUserIdByRoleId" parameterType="Integer" resultType="Integer">
+        SELECT user_id
+        FROM sys_user_role
+        WHERE role_id = #{roleId}
+    </select>
+</mapper>
