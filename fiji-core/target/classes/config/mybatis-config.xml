@@ -1,0 +1,11 @@
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <typeAliases>
+        <package name="tech.jianshuo.fiji.biz.model"/>
+    </typeAliases>
+    <mappers>
+        <package name="mapper/*.xml"/>
+    </mappers>
+</configuration>

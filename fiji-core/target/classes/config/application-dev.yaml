@@ -29,13 +29,14 @@ spring:
 #      max-active: 8
 #    timeout: 0
 mybatis:
-  type-aliases-package: tech.jianshuo.fiji.biz.model
+#  type-aliases-package: tech.jianshuo.fiji.biz.model
 #  type-handlers-package: com.jianshuo.core.dao.typehandler
-  mapper-locations: classpath:mapper/*.xml
-  configuration:
-    default-fetch-size: 100
-    default-statement-timeout: 30
-    map-underscore-to-camel-case: true
+#  mapper-locations: classpath:mapper/*.xml
+#  configuration:
+#    default-fetch-size: 100
+#    default-statement-timeout: 30
+#    map-underscore-to-camel-case: true
+  config-location: classpath:config/mybatis-config.xml
 logging:
   config: classpath:log/logback-spring.xml
 
