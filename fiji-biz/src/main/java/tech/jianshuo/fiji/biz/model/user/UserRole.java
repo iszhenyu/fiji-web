@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 import tech.jianshuo.fiji.core.model.BaseModel;
 
 /**
- * @author yuzhen <yuzhen@kuaishou.com>
+ * @author yuzhen
  * Created on 2018-07-21
  */
 @Data

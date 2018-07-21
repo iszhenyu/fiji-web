@@ -12,7 +12,7 @@ import tech.jianshuo.fiji.core.orm.BaseMapper;
  * @since 2018/7/17
  */
 @Mapper
-public interface UserMapper extends BaseMapper<User, Long> {
+public interface UserMapper extends BaseMapper<User> {
 
     @Select("select * from fj_user where id=#{id}")
     User findById(Long id);
