@@ -4,6 +4,40 @@
 
 <mapper namespace="tech.jianshuo.fiji.biz.dao.mapper.ResourceMapper">
 
+    <resultMap id="rm" type="com.zyd.shiro.persistence.beans.SysResources">
+        <result property="id" jdbcType="BIGINT" column="id"/>
+        <result property="name" jdbcType="VARCHAR" column="name"/>
+        <result property="type" jdbcType="VARCHAR" column="type"/>
+        <result property="url" jdbcType="VARCHAR" column="url"/>
+        <result property="permission" jdbcType="VARCHAR" column="permission"/>
+        <result property="parentId" jdbcType="BIGINT" column="parent_id"/>
+        <result column="sort" jdbcType="INTEGER" property="sort"/>
+        <result property="external" jdbcType="BIT" column="external"/>
+        <result property="available" jdbcType="BIT" column="available"/>
+        <result property="icon" jdbcType="VARCHAR" column="icon"/>
+        <result property="checked" jdbcType="VARCHAR" column="checked"/>
+        <association property="parent" javaType="com.zyd.shiro.persistence.beans.SysResources">
+            <result property="id" jdbcType="BIGINT" column="parent_id"/>
+            <result property="name" jdbcType="VARCHAR" column="parent_name"/>
+            <result property="type" jdbcType="VARCHAR" column="parent_type"/>
+            <result property="url" jdbcType="VARCHAR" column="parent_url"/>
+            <result property="parentId" jdbcType="BIGINT" column="parent_parent_id"/>
+            <result property="permission" jdbcType="VARCHAR" column="parent_permission"/>
+            <result property="available" jdbcType="BIT" column="parent_available"/>
+            <result property="icon" jdbcType="VARCHAR" column="parent_icon"/>
+        </association>
+        <collection property="nodes" column="node_id" javaType="ArrayList" ofType="com.zyd.shiro.persistence.beans.SysResources">
+            <result property="id" jdbcType="BIGINT" column="node_id"/>
+            <result property="name" jdbcType="VARCHAR" column="node_name"/>
+            <result property="type" jdbcType="VARCHAR" column="node_type"/>
+            <result property="url" jdbcType="VARCHAR" column="node_url"/>
+            <result property="parentId" jdbcType="BIGINT" column="node_parent_id"/>
+            <result property="permission" jdbcType="VARCHAR" column="node_permission"/>
+            <result property="available" jdbcType="BIT" column="node_available"/>
+            <result property="external" jdbcType="BIT" column="node_external"/>
+            <result property="icon" jdbcType="VARCHAR" column="node_icon"/>
+        </collection>
+    </resultMap>
     <select id="findPageBreakByCondition" parameterType="com.zyd.shiro.business.vo.ResourceConditionVO" resultMap="rm">
         SELECT
         com.*,
