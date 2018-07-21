@@ -1,11 +1,9 @@
 package tech.jianshuo.fiji.biz.model.user;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import javax.persistence.Table;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import tech.jianshuo.fiji.biz.constant.UserStatus;
 import tech.jianshuo.fiji.core.model.BaseModel;
 
@@ -13,13 +11,10 @@ import tech.jianshuo.fiji.core.model.BaseModel;
  * @author zhen.yu
  * @since 2018/7/1
  */
-@Setter
-@Getter
-@NoArgsConstructor
-@ToString
+@Data
 @EqualsAndHashCode(callSuper = true)
+@Table(name = "fj_user")
 public class User extends BaseModel {
-    private static final long serialVersionUID = -5487198824559449323L;
 
     private String username;
     private String password;

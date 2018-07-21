@@ -1,5 +1,6 @@
 package tech.jianshuo.fiji.core.orm;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -11,53 +12,59 @@ import tech.jianshuo.fiji.core.model.BaseModel;
  */
 public abstract class BaseDao<T extends BaseModel, K>  {
 
-    public abstract BaseMapper<T, K> getMapper();
+    public abstract BaseMapper<T> getMapper();
 
     public T findById(K id) {
-        return getMapper().findById(id);
+        return getMapper().selectByPrimaryKey(id);
     }
 
     public List<T> findByIds(Collection<K> ids) {
-        return getMapper().findByIds(ids);
+        List<T> result = new ArrayList<>(ids.size());
+        for (K id: ids) {
+            result.add(findById(id));
+        }
+        return result;
     }
 
     public List<T> findAll() {
-        return getMapper().findAll();
+        return getMapper().selectAll();
     }
 
     public T insert(T model) {
-        getMapper().insert(model);
-        return model;
+        int num = getMapper().insert(model);
+        return num == 0 ? null : model;
     }
 
-    public void batchInsert(Collection<T> models) {
-        getMapper().batchInsert(models);
+    public int batchInsert(Collection<T> models) {
+        return getMapper().insertList(new ArrayList<>(models));
     }
 
-    public void removeById(K id) {
-        getMapper().removeById(id);
+    public int removeById(K id) {
+        return getMapper().deleteByPrimaryKey(id);
     }
 
-    public void remove(T model) {
-        getMapper().remove(model);
+    public int remove(T model) {
+        return getMapper().delete(model);
     }
 
-    public void batchRemove(Collection<T> models) {
-        getMapper().batchRemove(models);
+    public int batchRemove(Collection<T> models) {
+        int num = 0;
+        for (T model : models) {
+            num += remove(model);
+        }
+        return num;
     }
 
     public int update(T model) {
-        int updatedCount = getMapper().update(model);
-        if (updatedCount == 0) {
-            throw new RuntimeException("更新失败");
-        }
-        return updatedCount;
+        return getMapper().updateByPrimaryKey(model);
     }
 
-    public void batchUpdate(Collection<T> models) {
+    public int batchUpdate(Collection<T> models) {
+        int num = 0;
         for (T model : models) {
-            update(model);
+            num += update(model);
         }
+        return num;
     }
 
 }
