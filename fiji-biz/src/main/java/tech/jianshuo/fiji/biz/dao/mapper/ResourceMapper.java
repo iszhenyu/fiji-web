@@ -11,4 +11,5 @@ import tech.jianshuo.fiji.core.orm.BaseMapper;
  */
 @Mapper
 public interface ResourceMapper extends BaseMapper<Resource> {
+
 }

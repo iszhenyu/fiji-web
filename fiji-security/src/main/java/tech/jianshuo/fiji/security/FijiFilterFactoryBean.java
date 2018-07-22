@@ -1,4 +1,4 @@
-package tech.jianshuo.fiji.core.security;
+package tech.jianshuo.fiji.security;
 
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;

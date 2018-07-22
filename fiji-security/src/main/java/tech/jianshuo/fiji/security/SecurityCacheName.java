@@ -1,4 +1,4 @@
-package tech.jianshuo.fiji.core.security;
+package tech.jianshuo.fiji.security;
 
 /**
  * @author zhen.yu
