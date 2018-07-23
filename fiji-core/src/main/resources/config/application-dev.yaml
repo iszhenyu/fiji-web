@@ -50,19 +50,18 @@ spring:
             paths: /**
   session:
     store-type: redis
-
-#  redis:
-#    host: 127.0.0.1
-#    port: 6379
-#    password:
-#    database: 0
-#    pool:
-#      max-wait: -1
-#      max-idle: 8
-#      min-idle: 0
-#      max-active: 8
-#    timeout: 0
-#    expire: 2592000
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password:
+    database: 0
+    timeout: 10000
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
 mybatis:
   type-aliases-package: tech.jianshuo.fiji.biz.model
   type-handlers-package: tech.jianshuo.fiji.core.orm.typehandler
@@ -86,14 +85,3 @@ pagehelper:
 #  config-location: classpath:mybatis/mybatis-config.xml
 logging:
   config: classpath:log/logback-spring.xml
-
-#
-
-#favorites.base.path=http://127.0.0.1:8080/
-#forgotpassword.url=http://127.0.0.1:8080/newPassword
-
-######   file path  begin ######
-#static.url=E:\\temp\\
-#file.profilepictures.url=profilepictures/
-#file.backgroundpictures.url=backgroundpictures/
-######   file path end ######
