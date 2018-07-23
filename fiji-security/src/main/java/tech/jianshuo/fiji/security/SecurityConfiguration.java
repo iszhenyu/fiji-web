@@ -1,5 +1,10 @@
 package tech.jianshuo.fiji.security;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import javax.sql.DataSource;
+
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.codec.Base64;
 import org.apache.shiro.mgt.DefaultSecurityManager;
@@ -22,10 +27,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import javax.sql.DataSource;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import org.springframework.context.annotation.DependsOn;
 
 /**
  * Created by zhen.yu on 2017/5/9.
@@ -37,7 +39,6 @@ public class SecurityConfiguration {
 
 	@Bean
 	public EhCacheManager shiroCacheManager() {
-		logger.debug("注入Shiro的缓存管理器-->ehCacheManager");
 		EhCacheManager ehCacheManager = new EhCacheManager();
 		ehCacheManager.setCacheManagerConfigFile("classpath:config/ehcache-shiro.xml");
 		return ehCacheManager;
@@ -49,6 +50,7 @@ public class SecurityConfiguration {
 	}
 
 	@Bean
+	@DependsOn("lifecycleBeanPostProcessor")
 	public DefaultAdvisorAutoProxyCreator getDefaultAdvisorAutoProxyCreator() {
 		DefaultAdvisorAutoProxyCreator autoProxyCreator = new DefaultAdvisorAutoProxyCreator();
 		autoProxyCreator.setProxyTargetClass(true);
@@ -56,7 +58,7 @@ public class SecurityConfiguration {
 	}
 
 	@Bean
-	public RetryLimitHashedCredentialsMatcher retryLimitHashedCredentialsMatcher() {
+	public RetryLimitHashedCredentialsMatcher credentialsMatcher() {
 		RetryLimitHashedCredentialsMatcher credentialsMatcher = new RetryLimitHashedCredentialsMatcher(shiroCacheManager());
 		credentialsMatcher.setHashAlgorithmName("MD5");
 		credentialsMatcher.setHashIterations(2);
@@ -65,10 +67,10 @@ public class SecurityConfiguration {
 	}
 
 	@Bean
-	public FijiSecurityRealm shiroRealm(DataSource dataSource) {
-		FijiSecurityRealm realm = new FijiSecurityRealm();
+	public SecurityRealm shiroRealm(DataSource dataSource) {
+		SecurityRealm realm = new SecurityRealm();
 		realm.setDataSource(dataSource);
-		realm.setCredentialsMatcher(retryLimitHashedCredentialsMatcher());
+		realm.setCredentialsMatcher(credentialsMatcher());
 		return realm;
 	}
 
@@ -86,6 +88,11 @@ public class SecurityConfiguration {
 //		return defaultAdvisorAutoProxyCreator;
 //	}
 
+	/**
+	 * 开启shiro aop注解支持.
+	 * 使用代理方式;
+	 * 所以需要开启代码支持;
+	 */
 	@Bean
 	public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager){
 		AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
@@ -151,6 +158,17 @@ public class SecurityConfiguration {
 	/** cookie管理器 **/
 
 	@Bean
+	public SimpleCookie rememberMeCookie(){
+		//这个参数是cookie的名称，对应前端的checkbox的name = rememberMe
+		SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
+		//如果httyOnly设置为true，则客户端不会暴露给客户端脚本代码，使用HttpOnly cookie有助于减少某些类型的跨站点脚本攻击；
+		simpleCookie.setHttpOnly(true);
+		//记住我cookie生效时间,默认30天 ,单位秒：60 * 60 * 24 * 30
+		simpleCookie.setMaxAge(259200);
+		return simpleCookie;
+	}
+
+	@Bean
 	public CookieRememberMeManager rememberMeManager() {
 		CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
 		//rememberme cookie加密的密钥 建议每个项目都不一样 默认AES算法 密钥长度（128 256 512 位），通过以下代码可以获取
@@ -164,26 +182,12 @@ public class SecurityConfiguration {
 	}
 
 	@Bean
-	public SimpleCookie rememberMeCookie(){
-		//这个参数是cookie的名称，对应前端的checkbox的name = rememberMe
-		SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
-		//如果httyOnly设置为true，则客户端不会暴露给客户端脚本代码，使用HttpOnly cookie有助于减少某些类型的跨站点脚本攻击；
-		simpleCookie.setHttpOnly(true);
-		//记住我cookie生效时间,默认30天 ,单位秒：60 * 60 * 24 * 30
-		simpleCookie.setMaxAge(259200);
-		return simpleCookie;
-	}
-
-
-
-	@Bean
 	public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager) {
-		FijiFilterFactoryBean factoryBean = new FijiFilterFactoryBean();
+		SecurityFilterFactoryBean factoryBean = new SecurityFilterFactoryBean();
 		factoryBean.setSecurityManager(securityManager);
 		factoryBean.setLoginUrl("/auth/login");
 		factoryBean.setSuccessUrl("/");
 		factoryBean.setUnauthorizedUrl("/error/401");
-
 		//拦截器.
 		Map<String,String> filterChainDefinitionMap = new LinkedHashMap<>();
 		filterChainDefinitionMap.put("/favicon.ico", "anon");

@@ -5,9 +5,9 @@ import org.apache.shiro.realm.jdbc.JdbcRealm;
 /**
  * Created by xiaoz on 2017/5/9.
  */
-public class FijiSecurityRealm extends JdbcRealm {
+public class SecurityRealm extends JdbcRealm {
 
-	public FijiSecurityRealm() {
+	public SecurityRealm() {
 		this.setSaltStyle(SaltStyle.COLUMN);
 		this.setPermissionsLookupEnabled(true);
 		this.setAuthenticationQuery("select password, salt from fj_user where username = ?");
