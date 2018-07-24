@@ -1,5 +1,7 @@
 package tech.jianshuo.fiji.api.form;
 
+import java.util.Objects;
+
 import javax.validation.constraints.NotEmpty;
 
 /**
@@ -16,6 +18,10 @@ public class RegisterForm {
 
     @NotEmpty(message = "重复密码不能为空")
     private String rePassword;
+
+    public boolean isPwdNotEqualsToRePwd() {
+        return !Objects.equals(password, rePassword);
+    }
 
     public String getUsername() {
         return username;

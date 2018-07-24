@@ -1,5 +1,7 @@
 package tech.jianshuo.fiji.api.controller;
 
+import javax.validation.constraints.NotEmpty;
+
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -16,7 +18,6 @@ import tech.jianshuo.fiji.biz.dto.RegisterDo;
 import tech.jianshuo.fiji.biz.model.user.User;
 import tech.jianshuo.fiji.biz.service.UserService;
 import tech.jianshuo.fiji.core.exception.ValidationException;
-import tech.jianshuo.fiji.core.validator.annotation.NotEmpty;
 
 /**
  * @author zhen.yu
@@ -32,7 +33,7 @@ public class UserController extends FijiController {
     @RequestMapping(value = "register", method = RequestMethod.POST)
     public String register(@Validated RegisterForm form, BindingResult bindingResult) {
         this.validateForm(bindingResult);
-        if (!form.getPassword().equals(form.getRePassword())) {
+        if (form.isPwdNotEqualsToRePwd()) {
             throw new ValidationException("两次密码不一致");
         }
         RegisterDo registerDo = new RegisterDo();
