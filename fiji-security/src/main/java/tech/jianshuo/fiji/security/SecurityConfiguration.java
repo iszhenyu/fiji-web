@@ -5,16 +5,17 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
-import org.apache.shiro.cache.ehcache.EhCacheManager;
+import org.apache.shiro.authc.credential.CredentialsMatcher;
+import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.codec.Base64;
 import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.mgt.SecurityManager;
-import org.apache.shiro.session.mgt.SessionValidationScheduler;
+import org.apache.shiro.realm.Realm;
+import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator;
 import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.apache.shiro.session.mgt.eis.SessionIdGenerator;
-import org.apache.shiro.session.mgt.quartz.QuartzSessionValidationScheduler;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
@@ -22,26 +23,44 @@ import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
+import org.crazycake.shiro.RedisCacheManager;
+import org.crazycake.shiro.RedisManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
+
+import tech.jianshuo.fiji.core.property.RedisProperties;
 
 /**
  * Created by zhen.yu on 2017/5/9.
  */
 @Configuration
+@ComponentScan({"tech.jianshuo.fiji.core"})
 public class SecurityConfiguration {
 
 	private Logger logger = LoggerFactory.getLogger(SecurityConfiguration.class);
 
 	@Bean
-	public EhCacheManager shiroCacheManager() {
-		EhCacheManager ehCacheManager = new EhCacheManager();
-		ehCacheManager.setCacheManagerConfigFile("classpath:config/ehcache-shiro.xml");
-		return ehCacheManager;
+	@DependsOn("redisProperties")
+	public RedisCacheManager redisCacheManager(RedisProperties redisProperties) {
+		RedisCacheManager redisCacheManager = new RedisCacheManager();
+		redisCacheManager.setRedisManager(redisManager(redisProperties));
+		return redisCacheManager;
+	}
+
+	private RedisManager redisManager(RedisProperties redisProperties) {
+		CustomRedisManager redisManager = new CustomRedisManager();
+		redisManager.setHost(redisProperties.getHost());
+		redisManager.setPort(redisProperties.getPort());
+		redisManager.setDatabase(redisProperties.getDatabase());
+		redisManager.setExpire(redisProperties.getExpire());
+		redisManager.setTimeout(redisProperties.getTimeout());
+		redisManager.setPassword(redisProperties.getPassword());
+		return redisManager;
 	}
 
 	@Bean
@@ -58,8 +77,8 @@ public class SecurityConfiguration {
 	}
 
 	@Bean
-	public RetryLimitHashedCredentialsMatcher credentialsMatcher() {
-		RetryLimitHashedCredentialsMatcher credentialsMatcher = new RetryLimitHashedCredentialsMatcher(shiroCacheManager());
+	public RetryLimitHashedCredentialsMatcher credentialsMatcher(CacheManager cacheManager) {
+		RetryLimitHashedCredentialsMatcher credentialsMatcher = new RetryLimitHashedCredentialsMatcher(cacheManager);
 		credentialsMatcher.setHashAlgorithmName("MD5");
 		credentialsMatcher.setHashIterations(2);
 		credentialsMatcher.setStoredCredentialsHexEncoded(true);
@@ -67,10 +86,11 @@ public class SecurityConfiguration {
 	}
 
 	@Bean
-	public SecurityRealm shiroRealm(DataSource dataSource) {
+	public SecurityRealm shiroRealm(DataSource dataSource,
+									CredentialsMatcher credentialsMatcher) {
 		SecurityRealm realm = new SecurityRealm();
 		realm.setDataSource(dataSource);
-		realm.setCredentialsMatcher(credentialsMatcher());
+		realm.setCredentialsMatcher(credentialsMatcher);
 		return realm;
 	}
 
@@ -101,11 +121,13 @@ public class SecurityConfiguration {
 	}
 
 	@Bean
-	public SecurityManager securityManager(DataSource dataSource) {
+	public SecurityManager securityManager(CacheManager cacheManager,
+										   Realm realm,
+										   SessionManager sessionManager) {
 		DefaultSecurityManager sm = new DefaultWebSecurityManager();
-		sm.setRealm(shiroRealm(dataSource));
-		sm.setCacheManager(shiroCacheManager());
-		sm.setSessionManager(sessionManager());
+		sm.setRealm(realm);
+		sm.setCacheManager(cacheManager);
+		sm.setSessionManager(sessionManager);
 		sm.setRememberMeManager(rememberMeManager());
 		return sm;
 	}
@@ -113,24 +135,24 @@ public class SecurityConfiguration {
 	/** Session 相关 **/
 
 	@Bean
-	public DefaultWebSessionManager sessionManager() {
+	public DefaultWebSessionManager sessionManager(SessionDAO sessionDAO) {
 		DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
 		sessionManager.setGlobalSessionTimeout(1800000);
 		sessionManager.setDeleteInvalidSessions(true);
 		sessionManager.setSessionValidationSchedulerEnabled(true);
 		sessionManager.setSessionIdCookieEnabled(true);
 		sessionManager.setSessionIdCookie(sessionIdCookie());
-		sessionManager.setSessionDAO(sessionDAO());
+		sessionManager.setSessionDAO(sessionDAO);
 		return sessionManager;
 	}
 
-	@Bean
-	public SessionValidationScheduler sessionValidationScheduler() {
-		QuartzSessionValidationScheduler scheduler = new QuartzSessionValidationScheduler();
-		scheduler.setSessionValidationInterval(1800000);
-		scheduler.setSessionManager(sessionManager());
-		return scheduler;
-	}
+//	@Bean
+//	public SessionValidationScheduler sessionValidationScheduler() {
+//		QuartzSessionValidationScheduler scheduler = new QuartzSessionValidationScheduler();
+//		scheduler.setSessionValidationInterval(1800000);
+//		scheduler.setSessionManager(sessionManager());
+//		return scheduler;
+//	}
 
 	@Bean
 	public SimpleCookie sessionIdCookie(){
@@ -142,10 +164,10 @@ public class SecurityConfiguration {
 	}
 
 	@Bean
-	public SessionDAO sessionDAO() {
+	public SessionDAO sessionDAO(CacheManager cacheManager) {
 		EnterpriseCacheSessionDAO dao = new EnterpriseCacheSessionDAO();
 		dao.setSessionIdGenerator(sessionIdGenerator());
-		dao.setCacheManager(shiroCacheManager());
+		dao.setCacheManager(cacheManager);
 		dao.setActiveSessionsCacheName(SecurityCacheName.SESSION_CACHE);
 		return dao;
 	}
