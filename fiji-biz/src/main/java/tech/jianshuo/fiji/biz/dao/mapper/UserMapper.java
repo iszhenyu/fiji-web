@@ -14,9 +14,6 @@ import tech.jianshuo.fiji.core.orm.BaseMapper;
 @Mapper
 public interface UserMapper extends BaseMapper<User> {
 
-    @Select("select * from fj_user where id=#{id}")
-    User findById(Long id);
-
     @Select("select * from fj_user where username=#{username}")
     User findByUsername(String username);
 

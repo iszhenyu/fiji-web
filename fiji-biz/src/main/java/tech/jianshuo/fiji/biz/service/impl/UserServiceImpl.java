@@ -3,7 +3,7 @@ package tech.jianshuo.fiji.biz.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import tech.jianshuo.fiji.biz.dao.mapper.UserMapper;
+import tech.jianshuo.fiji.biz.dao.UserDao;
 import tech.jianshuo.fiji.biz.dto.RegisterDo;
 import tech.jianshuo.fiji.biz.helper.PasswordHelper;
 import tech.jianshuo.fiji.biz.helper.PrincipalHelper;
@@ -21,19 +21,19 @@ import tech.jianshuo.fiji.core.exception.ValidationException;
 public class UserServiceImpl extends FijiService implements UserService {
 
     @Autowired
-    private UserMapper userMapper;
+    private UserDao userDao;
 
     public User findUser(String principal) {
         if (PrincipalHelper.isMobile(principal)) {
-            return userMapper.findByMobile(principal);
+            return userDao.findByMobile(principal);
         } else if (PrincipalHelper.isEmail(principal)) {
-            return userMapper.findByEmail(principal);
+            return userDao.findByEmail(principal);
         }
-        return userMapper.findByUsername(principal);
+        return userDao.findByUsername(principal);
     }
 
     public User registerUser(RegisterDo regDo) {
-        User user = userMapper.findByUsername(regDo.getUsername());
+        User user = findUser(regDo.getUsername());
         if (user != null) {
             throw new ValidationException("用户已存在");
         }
@@ -42,7 +42,8 @@ public class UserServiceImpl extends FijiService implements UserService {
         builder.setPassword(regDo.getPassword());
         String salt = RandomUtils.randomNumeric(4);
         builder.setSalt(salt);
-        userMapper.insert(builder.build());
+        user = builder.build();
+        userDao.insert(user);
         return user;
     }
 

@@ -23,4 +23,15 @@ public class UserDao extends BaseDao<User, Long> {
         return userMapper;
     }
 
+    public User findByUsername(String username) {
+        return userMapper.findByUsername(username);
+    }
+
+    public User findByMobile(String mobile) {
+        return userMapper.findByMobile(mobile);
+    }
+
+    public User findByEmail(String email) {
+        return userMapper.findByEmail(email);
+    }
 }
