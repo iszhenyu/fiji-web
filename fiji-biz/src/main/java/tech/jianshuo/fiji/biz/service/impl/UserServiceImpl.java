@@ -91,6 +91,7 @@ public class UserServiceImpl extends FijiService implements UserService {
             String passwordHash = PasswordHelper.encrypt(password, salt);
             user.setPassword(passwordHash);
             user.setSalt(salt);
+            user.setDeletedAt(0L);
             user.setCreateTime(TimeUtils.currentTime());
             user.setLastModifyTime(TimeUtils.currentTime());
             return user;

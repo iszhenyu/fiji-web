@@ -1,4 +1,4 @@
-package tech.jianshuo.fiji.core.config;
+package tech.jianshuo.fiji.core.web;
 
 import javax.servlet.MultipartConfigElement;
 

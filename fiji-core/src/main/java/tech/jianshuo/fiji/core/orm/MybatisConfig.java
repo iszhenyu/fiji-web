@@ -1,7 +1,8 @@
-package tech.jianshuo.fiji.core.config;
+package tech.jianshuo.fiji.core.orm;
 
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.stereotype.Component;
+
+import tk.mybatis.spring.annotation.MapperScan;
 
 /**
  * @author zhen.yu
