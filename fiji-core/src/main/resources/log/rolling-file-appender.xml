@@ -11,7 +11,7 @@ initialization performed by Boot
 		<encoder>
 			<pattern>${FILE_LOG_PATTERN}</pattern>
 		</encoder>
-		<file>${LOG_PATH}/ifiji.log</file>
+		<file>${LOG_PATH}/fiji.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<fileNamePattern>${LOG_PATH}/fiji.%d{yyyy-MM-dd}.log</fileNamePattern>
 			<maxHistory>30</maxHistory>
