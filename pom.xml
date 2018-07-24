@@ -27,6 +27,7 @@
     <modules>
         <module>fiji-view</module>
         <module>fiji-api</module>
+        <module>fiji-security</module>
         <module>fiji-biz</module>
         <module>fiji-core</module>
         <module>fiji-common</module>
