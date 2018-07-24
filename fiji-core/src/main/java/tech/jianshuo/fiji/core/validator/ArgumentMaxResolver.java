@@ -1,12 +1,12 @@
 package tech.jianshuo.fiji.core.validator;
 
+import javax.validation.constraints.Max;
+
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
-
-import tech.jianshuo.fiji.core.validator.annotation.Max;
 
 /**
  * @author zhen.yu
