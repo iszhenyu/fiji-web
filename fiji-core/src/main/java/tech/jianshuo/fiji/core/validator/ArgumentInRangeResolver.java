@@ -6,6 +6,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
+import tech.jianshuo.fiji.core.exception.NonValidArgumentException;
 import tech.jianshuo.fiji.core.validator.annotation.Range;
 
 /**
@@ -24,17 +25,17 @@ public class ArgumentInRangeResolver implements HandlerMethodArgumentResolver {
         String parameter = methodParameter.getParameterName();
         String parameterType = methodParameter.getParameterType().getName();
         if (!parameterType.equals("java.lang.Integer")) {
-            throw new IllegalArgumentException("argument must be Integer");
+            throw new NonValidArgumentException("argument must be Integer");
         }
 
         String value = webRequest.getParameter(parameter);
         Range validation = methodParameter.getParameterAnnotation(Range.class);
         Integer realValue = Integer.valueOf(value);
         if (validation.min() != -1 && realValue < validation.min()){
-            throw new IllegalArgumentException(validation.message());
+            throw new NonValidArgumentException(validation.message());
         }
         if (validation.max() != -1 && realValue > validation.max()){
-            throw new IllegalArgumentException(validation.message());
+            throw new NonValidArgumentException(validation.message());
         }
         return value;
     }

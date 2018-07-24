@@ -6,21 +6,21 @@ import org.springframework.http.HttpStatus;
  * @author zhen.yu
  * @since 2017/7/10
  */
-public class IllegalArgumentException extends FijiException {
+public class NonValidArgumentException extends FijiException {
     private static final long serialVersionUID = -8037864982038440596L;
 
-    public IllegalArgumentException() {
+    public NonValidArgumentException() {
     }
 
-    public IllegalArgumentException(String message) {
+    public NonValidArgumentException(String message) {
         super(message);
     }
 
-    public IllegalArgumentException(String message, Throwable cause) {
+    public NonValidArgumentException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public IllegalArgumentException(Throwable cause) {
+    public NonValidArgumentException(Throwable cause) {
         super(cause);
     }
 

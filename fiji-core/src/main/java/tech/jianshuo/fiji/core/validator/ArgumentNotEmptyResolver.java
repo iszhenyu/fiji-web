@@ -9,6 +9,8 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
+import tech.jianshuo.fiji.core.exception.NonValidArgumentException;
+
 /**
  * @author zhen.yu
  * @since 2017/7/10
@@ -26,7 +28,7 @@ public class ArgumentNotEmptyResolver implements HandlerMethodArgumentResolver {
         String value = webRequest.getParameter(parameter);
         if (StringUtils.isEmpty(value)) {
             NotEmpty validation = methodParameter.getParameterAnnotation(NotEmpty.class);
-            throw new IllegalArgumentException(validation.message());
+            throw new NonValidArgumentException(validation.message());
         }
         return value;
     }

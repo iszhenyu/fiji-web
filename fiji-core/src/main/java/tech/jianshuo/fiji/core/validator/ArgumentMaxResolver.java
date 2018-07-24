@@ -8,6 +8,8 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
+import tech.jianshuo.fiji.core.exception.NonValidArgumentException;
+
 /**
  * @author zhen.yu
  * @since 2017/7/10
@@ -24,14 +26,14 @@ public class ArgumentMaxResolver implements HandlerMethodArgumentResolver {
         String parameter = methodParameter.getParameterName();
         String parameterType = methodParameter.getParameterType().getName();
         if (!parameterType.equals("java.lang.Integer")) {
-            throw new IllegalArgumentException("argument must be Integer");
+            throw new NonValidArgumentException("argument must be Integer");
         }
 
         String value = webRequest.getParameter(parameter);
         Max validation = methodParameter.getParameterAnnotation(Max.class);
         Integer realValue = Integer.valueOf(value);
         if (validation.value() != Integer.MAX_VALUE && realValue > validation.value()){
-            throw new IllegalArgumentException(validation.message());
+            throw new NonValidArgumentException(validation.message());
         }
         return value;
     }

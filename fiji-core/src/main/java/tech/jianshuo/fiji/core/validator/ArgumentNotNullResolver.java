@@ -8,6 +8,8 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
+import tech.jianshuo.fiji.core.exception.NonValidArgumentException;
+
 /**
  * @author zhen.yu
  * @since 2017/7/10
@@ -25,7 +27,7 @@ public class ArgumentNotNullResolver implements HandlerMethodArgumentResolver {
         String value = webRequest.getParameter(parameter);
         if (value == null) {
             NotNull validation = methodParameter.getParameterAnnotation(NotNull.class);
-            throw new IllegalArgumentException(validation.message());
+            throw new NonValidArgumentException(validation.message());
         }
         return value;
     }
