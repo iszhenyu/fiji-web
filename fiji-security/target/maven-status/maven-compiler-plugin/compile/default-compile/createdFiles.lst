@@ -1,7 +1,0 @@
-tech/jianshuo/fiji/security/SecurityCacheName.class
-tech/jianshuo/fiji/security/SecurityFilterFactoryBean$CustomFilter.class
-tech/jianshuo/fiji/security/RetryLimitHashedCredentialsMatcher.class
-tech/jianshuo/fiji/security/SecurityRealm.class
-tech/jianshuo/fiji/security/SecurityApplication.class
-tech/jianshuo/fiji/security/SecurityConfiguration.class
-tech/jianshuo/fiji/security/SecurityFilterFactoryBean.class
