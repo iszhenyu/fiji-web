@@ -14,19 +14,21 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import tech.jianshuo.fiji.api.form.RegisterForm;
-import tech.jianshuo.fiji.biz.dto.RegisterDo;
 import tech.jianshuo.fiji.biz.model.user.User;
 import tech.jianshuo.fiji.biz.service.UserService;
 import tech.jianshuo.fiji.core.exception.ValidationException;
+import tech.jianshuo.fiji.security.service.SecurityService;
 
 /**
  * @author zhen.yu
  * @since 2018/6/30
  */
 @RestController
-@RequestMapping("/user")
-public class UserController extends FijiController {
+@RequestMapping("/auth")
+public class AuthController extends FijiController {
 
+    @Autowired
+    private SecurityService securityService;
     @Autowired
     private UserService userService;
 
@@ -36,10 +38,7 @@ public class UserController extends FijiController {
         if (form.isPwdNotEqualsToRePwd()) {
             throw new ValidationException("两次密码不一致");
         }
-        RegisterDo registerDo = new RegisterDo();
-        registerDo.setUsername(form.getUsername());
-        registerDo.setPassword(form.getPassword());
-        userService.registerUser(registerDo);
+        securityService.registerUser(form.getUsername(), form.getPassword());
         return "注册成功";
     }
 
@@ -50,7 +49,6 @@ public class UserController extends FijiController {
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         token.setRememberMe(true);
         try {
-            // 根据token类型, 这里实际是FijiRealm执行的登录
             subject.login(token);
         } catch (AuthenticationException e) {
             throw new ValidationException("用户名或密码错误");
