@@ -7,5 +7,7 @@ import tech.jianshuo.fiji.biz.model.user.User;
  * Created on 2018-07-26
  */
 public interface SecurityService {
+
     User registerUser(String principal, String credential);
+
 }

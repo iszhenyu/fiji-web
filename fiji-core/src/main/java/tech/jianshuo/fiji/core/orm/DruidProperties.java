@@ -1,4 +1,4 @@
-package tech.jianshuo.fiji.core.property;
+package tech.jianshuo.fiji.core.orm;
 
 import java.util.List;
 

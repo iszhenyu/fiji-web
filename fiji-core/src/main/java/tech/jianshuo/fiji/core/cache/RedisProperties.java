@@ -1,4 +1,4 @@
-package tech.jianshuo.fiji.core.property;
+package tech.jianshuo.fiji.core.cache;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -25,9 +25,9 @@ public class RedisProperties {
     private int database;
     @Value("${spring.redis.timeout}")
     private  int timeout;
-    @Value("${spring.redis.jedis.pool.max-idle}")
+    @Value("${spring.redis.lettuce.pool.max-idle}")
     private int maxIdle;
-    @Value("${spring.redis.jedis.pool.max-wait}")
+    @Value("${spring.redis.lettuce.pool.max-wait}")
     private long maxWaitMillis;
 
     private int expire = 30 * 24 * 60 * 60;

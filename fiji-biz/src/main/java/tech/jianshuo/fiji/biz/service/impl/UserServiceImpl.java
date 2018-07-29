@@ -2,6 +2,7 @@ package tech.jianshuo.fiji.biz.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import tech.jianshuo.fiji.biz.dao.UserDao;
@@ -20,7 +21,11 @@ public class UserServiceImpl extends FijiService implements UserService {
     @Autowired
     private UserDao userDao;
 
+    @Override
     public User findUser(String principal) {
+        if (StringUtils.isBlank(principal)) {
+            return null;
+        }
         if (PrincipalHelper.isMobile(principal)) {
             return userDao.findByMobile(principal);
         } else if (PrincipalHelper.isEmail(principal)) {

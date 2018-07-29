@@ -3,8 +3,6 @@ package tech.jianshuo.fiji.security;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import javax.sql.DataSource;
-
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.codec.Base64;
@@ -23,45 +21,43 @@ import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
-import org.crazycake.shiro.RedisCacheManager;
-import org.crazycake.shiro.RedisManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 
-import tech.jianshuo.fiji.core.property.RedisProperties;
+import tech.jianshuo.fiji.biz.service.UserService;
+import tech.jianshuo.fiji.core.cache.RedisProperties;
+import tech.jianshuo.fiji.security.cache.SpringCacheManagerWrapper;
+import tech.jianshuo.fiji.security.service.PasswordService;
 
 /**
  * Created by zhen.yu on 2017/5/9.
  */
 @Configuration
-@ComponentScan({"tech.jianshuo.fiji.core"})
 public class SecurityConfiguration {
 
 	private Logger logger = LoggerFactory.getLogger(SecurityConfiguration.class);
 
 	@Bean
-	@DependsOn("redisProperties")
-	public RedisCacheManager redisCacheManager(RedisProperties redisProperties) {
-		RedisCacheManager redisCacheManager = new RedisCacheManager();
-		redisCacheManager.setRedisManager(redisManager(redisProperties));
-		return redisCacheManager;
+	public CacheManager shiroRedisCacheManager(org.springframework.cache.CacheManager cacheManager) {
+		SpringCacheManagerWrapper springCacheManagerWrapper = new SpringCacheManagerWrapper();
+		springCacheManagerWrapper.setSpringCacheManager(cacheManager);
+		return springCacheManagerWrapper;
 	}
 
-	private RedisManager redisManager(RedisProperties redisProperties) {
-		CustomRedisManager redisManager = new CustomRedisManager();
-		redisManager.setHost(redisProperties.getHost());
-		redisManager.setPort(redisProperties.getPort());
-		redisManager.setDatabase(redisProperties.getDatabase());
-		redisManager.setExpire(redisProperties.getExpire());
-		redisManager.setTimeout(redisProperties.getTimeout());
-		redisManager.setPassword(redisProperties.getPassword());
-		return redisManager;
-	}
+//	private RedisManager redisManager(RedisProperties redisProperties) {
+//		CustomRedisManager redisManager = new CustomRedisManager();
+//		redisManager.setHost(redisProperties.getHost());
+//		redisManager.setPort(redisProperties.getPort());
+//		redisManager.setDatabase(redisProperties.getDatabase());
+//		redisManager.setExpire(redisProperties.getExpire());
+//		redisManager.setTimeout(redisProperties.getTimeout());
+//		redisManager.setPassword(redisProperties.getPassword());
+//		return redisManager;
+//	}
 
 	@Bean
 	public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
@@ -77,19 +73,21 @@ public class SecurityConfiguration {
 	}
 
 	@Bean
-	public RetryLimitHashedCredentialsMatcher credentialsMatcher(CacheManager cacheManager) {
-		RetryLimitHashedCredentialsMatcher credentialsMatcher = new RetryLimitHashedCredentialsMatcher(cacheManager);
-		credentialsMatcher.setHashAlgorithmName("MD5");
-		credentialsMatcher.setHashIterations(2);
+	public RetryLimitCredentialsMatcher credentialsMatcher(CacheManager cacheManager) {
+		RetryLimitCredentialsMatcher credentialsMatcher = new RetryLimitCredentialsMatcher(cacheManager);
+		credentialsMatcher.setHashAlgorithmName(SecurityConstants.HASH_NAME);
+		credentialsMatcher.setHashIterations(SecurityConstants.HASH_TIMES);
 		credentialsMatcher.setStoredCredentialsHexEncoded(true);
 		return credentialsMatcher;
 	}
 
 	@Bean
-	public SecurityRealm shiroRealm(DataSource dataSource,
+	public SecurityRealm shiroRealm(UserService userService,
+									PasswordService passwordService,
 									CredentialsMatcher credentialsMatcher) {
 		SecurityRealm realm = new SecurityRealm();
-		realm.setDataSource(dataSource);
+		realm.setUserService(userService);
+		realm.setPasswordService(passwordService);
 		realm.setCredentialsMatcher(credentialsMatcher);
 		return realm;
 	}
@@ -168,7 +166,7 @@ public class SecurityConfiguration {
 		EnterpriseCacheSessionDAO dao = new EnterpriseCacheSessionDAO();
 		dao.setSessionIdGenerator(sessionIdGenerator());
 		dao.setCacheManager(cacheManager);
-		dao.setActiveSessionsCacheName(SecurityCacheName.SESSION_CACHE);
+		dao.setActiveSessionsCacheName(SecurityConstants.SESSION_CACHE);
 		return dao;
 	}
 

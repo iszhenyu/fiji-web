@@ -22,8 +22,8 @@ public class BaseModel implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long deletedAt; // 删除标记
-    private Long createTime; // 创建时间
+    private Long deletedAt = 0L; // 删除标记
+    private Long createTime;     // 创建时间
     private Long lastModifyTime; // 修改时间
 
 }

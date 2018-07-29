@@ -1,6 +1,5 @@
 package tech.jianshuo.fiji.security.service.impl;
 
-import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +8,7 @@ import tech.jianshuo.fiji.biz.model.user.User;
 import tech.jianshuo.fiji.biz.service.UserService;
 import tech.jianshuo.fiji.common.util.RandomUtils;
 import tech.jianshuo.fiji.common.util.TimeUtils;
-import tech.jianshuo.fiji.security.RetryLimitHashedCredentialsMatcher;
+import tech.jianshuo.fiji.security.service.PasswordService;
 import tech.jianshuo.fiji.security.service.SecurityService;
 
 /**
@@ -21,8 +20,9 @@ public class SecurityServiceImpl implements SecurityService {
 
     @Autowired
     private UserService userService;
+
     @Autowired
-    private RetryLimitHashedCredentialsMatcher credentialsMatcher;
+    private PasswordService passwordService;
 
     @Override
     public User registerUser(String principal, String credential) {
@@ -75,16 +75,13 @@ public class SecurityServiceImpl implements SecurityService {
             user.setMobile(mobile);
             user.setEmail(email);
             user.setSalt(salt);
-            user.setPassword(genPasswordHash());
+            String encryptedPassword = passwordService.encryptPassword(password, salt);
+            user.setPassword(encryptedPassword);
             user.setDeletedAt(0L);
             user.setCreateTime(TimeUtils.currentTime());
             user.setLastModifyTime(TimeUtils.currentTime());
             return user;
         }
 
-        String genPasswordHash() {
-            SimpleHash hash = new SimpleHash(credentialsMatcher.getHashAlgorithmName(), password, salt, credentialsMatcher.getHashIterations());
-            return hash.toHex();
-        }
     }
 }
