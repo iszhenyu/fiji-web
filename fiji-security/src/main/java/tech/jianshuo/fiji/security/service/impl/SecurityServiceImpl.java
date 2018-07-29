@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import tech.jianshuo.fiji.biz.helper.PrincipalHelper;
 import tech.jianshuo.fiji.biz.model.user.User;
 import tech.jianshuo.fiji.biz.service.UserService;
-import tech.jianshuo.fiji.common.util.RandomUtils;
 import tech.jianshuo.fiji.common.util.TimeUtils;
 import tech.jianshuo.fiji.security.service.PasswordService;
 import tech.jianshuo.fiji.security.service.SecurityService;
@@ -37,8 +36,6 @@ public class SecurityServiceImpl implements SecurityService {
             builder.setUsername(principal);
         }
         builder.setPassword(credential);
-        String salt = RandomUtils.randomNumeric(4);
-        builder.setSalt(salt);
         return userService.addUser(builder.build());
     }
 
@@ -47,7 +44,6 @@ public class SecurityServiceImpl implements SecurityService {
         private String mobile;
         private String email;
         private String password;
-        private String salt;
 
         void setUsername(String username) {
             this.username = username;
@@ -65,15 +61,12 @@ public class SecurityServiceImpl implements SecurityService {
             this.password = password;
         }
 
-        void setSalt(String salt) {
-            this.salt = salt;
-        }
-
         User build() {
             User user = new User();
             user.setUsername(username);
             user.setMobile(mobile);
             user.setEmail(email);
+            String salt = passwordService.generateSalt();
             user.setSalt(salt);
             String encryptedPassword = passwordService.encryptPassword(password, salt);
             user.setPassword(encryptedPassword);

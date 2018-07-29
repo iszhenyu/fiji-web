@@ -8,4 +8,5 @@ public interface PasswordService {
 
     String encryptPassword(String planTextPassword, String salt);
 
+    String generateSalt();
 }

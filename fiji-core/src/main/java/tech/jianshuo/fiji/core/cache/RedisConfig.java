@@ -23,7 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * Created on 2018-07-23
  */
 @Configuration
-@EnableCaching
+@EnableCaching  // 启动注解驱动的缓存
 public class RedisConfig extends CachingConfigurerSupport {
 
     @Autowired

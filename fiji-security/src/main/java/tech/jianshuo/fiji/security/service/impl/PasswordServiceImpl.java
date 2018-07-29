@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.stereotype.Service;
 
+import tech.jianshuo.fiji.common.util.RandomUtils;
 import tech.jianshuo.fiji.security.SecurityConstants;
 import tech.jianshuo.fiji.security.service.PasswordService;
 
@@ -13,6 +14,11 @@ import tech.jianshuo.fiji.security.service.PasswordService;
  */
 @Service
 public class PasswordServiceImpl implements PasswordService {
+
+    @Override
+    public String generateSalt() {
+        return RandomUtils.randomString(6);
+    }
 
     @Override
     public String encryptPassword(String planTextPassword, String salt) {
