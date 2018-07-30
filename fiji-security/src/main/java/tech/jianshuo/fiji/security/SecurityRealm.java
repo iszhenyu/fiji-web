@@ -1,7 +1,5 @@
 package tech.jianshuo.fiji.security;
 
-import java.util.Objects;
-
 import org.apache.shiro.authc.AccountException;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -16,7 +14,6 @@ import org.apache.shiro.util.ByteSource;
 
 import tech.jianshuo.fiji.biz.model.user.User;
 import tech.jianshuo.fiji.biz.service.UserService;
-import tech.jianshuo.fiji.security.service.PasswordService;
 
 /**
  * Created by xiaoz on 2017/5/9.
@@ -24,14 +21,9 @@ import tech.jianshuo.fiji.security.service.PasswordService;
 public class SecurityRealm extends AuthorizingRealm {
 
 	private UserService userService;
-	private PasswordService passwordService;
 
-	public void setUserService(UserService userService) {
+	void setUserService(UserService userService) {
 		this.userService = userService;
-	}
-
-	public void setPasswordService(PasswordService passwordService) {
-		this.passwordService = passwordService;
 	}
 
 	@Override
@@ -49,24 +41,13 @@ public class SecurityRealm extends AuthorizingRealm {
 			throw new AccountException("Null usernames are not allowed by this realm.");
 		}
 
-		String password = "";
-		if (upToken.getPassword() != null) {
-			password = new String(upToken.getPassword());
-		}
-
 		User user = userService.findUser(username.trim());
 		if (user == null) {
 			throw new UnknownAccountException("No account found for user [" + username + "]");
 		}
 
-		String encryptedPassword = passwordService.encryptPassword(password, user.getSalt());
-
-		if (!Objects.equals(encryptedPassword, user.getPassword())) {
-			throw new AuthenticationException("Wrong Password for user [" + username + "]");
-		}
-
 		SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(
-				username, encryptedPassword.toCharArray(), getName());
+				username, user.getPassword(), getName());
 		info.setCredentialsSalt(ByteSource.Util.bytes(user.getSalt()));
 		return info;
 	}

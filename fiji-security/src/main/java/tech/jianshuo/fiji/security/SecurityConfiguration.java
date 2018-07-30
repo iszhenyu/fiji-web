@@ -29,7 +29,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 
 import tech.jianshuo.fiji.biz.service.UserService;
-import tech.jianshuo.fiji.core.cache.RedisProperties;
 import tech.jianshuo.fiji.security.cache.SpringCacheManagerWrapper;
 import tech.jianshuo.fiji.security.service.PasswordService;
 
@@ -73,21 +72,17 @@ public class SecurityConfiguration {
 	}
 
 	@Bean
-	public RetryLimitCredentialsMatcher credentialsMatcher(CacheManager cacheManager) {
+	public RetryLimitCredentialsMatcher credentialsMatcher(CacheManager cacheManager, PasswordService passwordService) {
 		RetryLimitCredentialsMatcher credentialsMatcher = new RetryLimitCredentialsMatcher(cacheManager);
-		credentialsMatcher.setHashAlgorithmName(SecurityConstants.HASH_NAME);
-		credentialsMatcher.setHashIterations(SecurityConstants.HASH_TIMES);
-		credentialsMatcher.setStoredCredentialsHexEncoded(true);
+		credentialsMatcher.setPasswordService(passwordService);
 		return credentialsMatcher;
 	}
 
 	@Bean
 	public SecurityRealm shiroRealm(UserService userService,
-									PasswordService passwordService,
 									CredentialsMatcher credentialsMatcher) {
 		SecurityRealm realm = new SecurityRealm();
 		realm.setUserService(userService);
-		realm.setPasswordService(passwordService);
 		realm.setCredentialsMatcher(credentialsMatcher);
 		return realm;
 	}

@@ -2,6 +2,7 @@ package tech.jianshuo.fiji.security.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.util.ByteSource;
 import org.springframework.stereotype.Service;
 
 import tech.jianshuo.fiji.common.util.RandomUtils;
@@ -17,11 +18,11 @@ public class PasswordServiceImpl implements PasswordService {
 
     @Override
     public String generateSalt() {
-        return RandomUtils.randomString(6);
+        return RandomUtils.randomString(4);
     }
 
     @Override
-    public String encryptPassword(String planTextPassword, String salt) {
+    public String encryptPassword(String planTextPassword, ByteSource salt) {
         if (StringUtils.isBlank(planTextPassword)) {
             return "";
         }
@@ -33,4 +34,5 @@ public class PasswordServiceImpl implements PasswordService {
         );
         return hash.toHex();
     }
+
 }

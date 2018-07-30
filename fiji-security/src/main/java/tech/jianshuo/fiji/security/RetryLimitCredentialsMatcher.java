@@ -4,20 +4,29 @@ import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
-import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.authc.SaltedAuthenticationInfo;
+import org.apache.shiro.authc.credential.SimpleCredentialsMatcher;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
+import org.apache.shiro.util.ByteSource;
+
+import tech.jianshuo.fiji.security.service.PasswordService;
 
 /**
  * Created by zhen.yu on 2017/3/13.
  */
-public class RetryLimitCredentialsMatcher extends HashedCredentialsMatcher {
+public class RetryLimitCredentialsMatcher extends SimpleCredentialsMatcher {
 
+	private PasswordService passwordService;
 	private Cache<String, Integer> passwordRetryCache;
 	private static final int RETRY_TIMES = 5;
 
 	RetryLimitCredentialsMatcher(CacheManager cacheManager) {
 		passwordRetryCache = cacheManager.getCache(SecurityConstants.PASSWORD_RETRY_CACHE);
+	}
+
+	public void setPasswordService(PasswordService passwordService) {
+		this.passwordService = passwordService;
 	}
 
 	@Override
@@ -35,7 +44,7 @@ public class RetryLimitCredentialsMatcher extends HashedCredentialsMatcher {
 			throw new ExcessiveAttemptsException("您已连续错误" + RETRY_TIMES + "次！请10分钟后再试");
 		}
 
-		boolean matches = super.doCredentialsMatch(token, info);
+		boolean matches = match(token, info);
 		if (matches) {
 			passwordRetryCache.remove(username);
 		} else {
@@ -44,4 +53,21 @@ public class RetryLimitCredentialsMatcher extends HashedCredentialsMatcher {
 		return true;
 	}
 
+	public boolean match(AuthenticationToken token, AuthenticationInfo info) {
+		Object tokenHashedCredentials = hashProvidedCredentials(token, info);
+		Object accountCredentials = getCredentials(info);
+		return equals(tokenHashedCredentials, accountCredentials);
+	}
+
+	private Object hashProvidedCredentials(AuthenticationToken token, AuthenticationInfo info) {
+		ByteSource salt = null;
+		if (info instanceof SaltedAuthenticationInfo) {
+			salt = ((SaltedAuthenticationInfo) info).getCredentialsSalt();
+		}
+		if (salt == null) {
+			return null;
+		}
+		String planTextPassword = new String(toBytes(token.getCredentials()));
+		return passwordService.encryptPassword(planTextPassword, salt);
+	}
 }
