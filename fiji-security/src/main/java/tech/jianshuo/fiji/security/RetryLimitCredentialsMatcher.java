@@ -1,5 +1,6 @@
 package tech.jianshuo.fiji.security;
 
+import org.apache.shiro.authc.AccountException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.ExcessiveAttemptsException;
@@ -65,7 +66,7 @@ public class RetryLimitCredentialsMatcher extends SimpleCredentialsMatcher {
 			salt = ((SaltedAuthenticationInfo) info).getCredentialsSalt();
 		}
 		if (salt == null) {
-			return null;
+			throw new AccountException("salt is empty");
 		}
 		String planTextPassword = new String(toBytes(token.getCredentials()));
 		return passwordService.encryptPassword(planTextPassword, salt);
