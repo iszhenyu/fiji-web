@@ -27,7 +27,6 @@ import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreato
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
-import org.springframework.data.redis.core.RedisTemplate;
 
 import tech.jianshuo.fiji.biz.service.UserService;
 import tech.jianshuo.fiji.security.cache.SpringRedisCacheManager;
@@ -42,22 +41,11 @@ public class SecurityConfiguration {
 	private Logger logger = LoggerFactory.getLogger(SecurityConfiguration.class);
 
 	@Bean
-	public CacheManager shiroRedisCacheManager(RedisTemplate<String, Object> redisTemplate) {
+	public CacheManager shiroRedisCacheManager(org.springframework.cache.CacheManager cacheManager) {
 		SpringRedisCacheManager springCacheManagerWrapper = new SpringRedisCacheManager();
-		springCacheManagerWrapper.setRedisTemplate(redisTemplate);
+		springCacheManagerWrapper.setSpringCacheManager(cacheManager);
 		return springCacheManagerWrapper;
 	}
-
-//	private RedisManager redisManager(RedisProperties redisProperties) {
-//		CustomRedisManager redisManager = new CustomRedisManager();
-//		redisManager.setHost(redisProperties.getHost());
-//		redisManager.setPort(redisProperties.getPort());
-//		redisManager.setDatabase(redisProperties.getDatabase());
-//		redisManager.setExpire(redisProperties.getExpire());
-//		redisManager.setTimeout(redisProperties.getTimeout());
-//		redisManager.setPassword(redisProperties.getPassword());
-//		return redisManager;
-//	}
 
 	@Bean
 	public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {

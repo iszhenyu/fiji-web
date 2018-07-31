@@ -32,8 +32,15 @@ public class SpringRedisCacheManager implements CacheManager, Initializable, Des
             logger.trace("Acquiring SpringRedisCache instance named [" + name + "]");
         }
 
-        org.springframework.cache.Cache cache = springCacheManager.getCache(name);
-        return new SpringRedisCache<>(cache);
+        try {
+            org.springframework.cache.Cache cache = springCacheManager.getCache(name);
+            if (logger.isInfoEnabled()) {
+                logger.info("Using existing SpringRedisCache named [" + name + "]");
+            }
+            return new SpringRedisCache<>(cache);
+        } catch (net.sf.ehcache.CacheException e) {
+            throw new CacheException(e);
+        }
     }
 
     @Override
