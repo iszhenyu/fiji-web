@@ -27,9 +27,10 @@ import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreato
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import tech.jianshuo.fiji.biz.service.UserService;
-import tech.jianshuo.fiji.security.cache.SpringCacheManagerWrapper;
+import tech.jianshuo.fiji.security.cache.SpringRedisCacheManager;
 import tech.jianshuo.fiji.security.service.PasswordService;
 
 /**
@@ -41,9 +42,9 @@ public class SecurityConfiguration {
 	private Logger logger = LoggerFactory.getLogger(SecurityConfiguration.class);
 
 	@Bean
-	public CacheManager shiroRedisCacheManager(org.springframework.cache.CacheManager cacheManager) {
-		SpringCacheManagerWrapper springCacheManagerWrapper = new SpringCacheManagerWrapper();
-		springCacheManagerWrapper.setSpringCacheManager(cacheManager);
+	public CacheManager shiroRedisCacheManager(RedisTemplate<String, Object> redisTemplate) {
+		SpringRedisCacheManager springCacheManagerWrapper = new SpringRedisCacheManager();
+		springCacheManagerWrapper.setRedisTemplate(redisTemplate);
 		return springCacheManagerWrapper;
 	}
 
