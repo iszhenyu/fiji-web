@@ -210,13 +210,4 @@ public class SecurityConfiguration {
 		return factoryBean;
 	}
 
-//	@Bean
-//	public FilterRegistrationBean delegatingFilterProxy() {
-//		FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
-//		DelegatingFilterProxy proxy = new DelegatingFilterProxy();
-//		proxy.setTargetFilterLifecycle(true);
-//		proxy.setTargetBeanName("shiroFilter");
-//		filterRegistrationBean.setFilter(proxy);
-//		return filterRegistrationBean;
-//	}
 }
