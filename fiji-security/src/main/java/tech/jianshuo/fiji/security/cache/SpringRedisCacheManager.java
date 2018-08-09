@@ -38,7 +38,7 @@ public class SpringRedisCacheManager implements CacheManager, Initializable, Des
                 logger.info("Using existing SpringRedisCache named [" + name + "]");
             }
             return new SpringRedisCache<>(cache);
-        } catch (net.sf.ehcache.CacheException e) {
+        } catch (Exception e) {
             throw new CacheException(e);
         }
     }

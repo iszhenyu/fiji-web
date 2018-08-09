@@ -41,23 +41,41 @@ public class SecurityConfiguration {
 	private Logger logger = LoggerFactory.getLogger(SecurityConfiguration.class);
 
 	@Bean
-	public CacheManager shiroRedisCacheManager(org.springframework.cache.CacheManager cacheManager) {
-		SpringRedisCacheManager springCacheManagerWrapper = new SpringRedisCacheManager();
-		springCacheManagerWrapper.setSpringCacheManager(cacheManager);
-		return springCacheManagerWrapper;
-	}
-
-	@Bean
 	public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
 		return new LifecycleBeanPostProcessor();
 	}
 
+	/**
+	 * 开启Shiro的注解(如@RequiresRoles,@RequiresPermissions),
+	 * 需借助SpringAOP扫描使用Shiro注解的类,并在必要时进行安全逻辑验证
+	 * 配置以下两个bean(DefaultAdvisorAutoProxyCreator(可选)和AuthorizationAttributeSourceAdvisor)即可实现此功能
+	 * 设置setProxyTargetClass(true) 会启用CGLIB
+	 */
 	@Bean
 	@DependsOn("lifecycleBeanPostProcessor")
 	public DefaultAdvisorAutoProxyCreator getDefaultAdvisorAutoProxyCreator() {
 		DefaultAdvisorAutoProxyCreator autoProxyCreator = new DefaultAdvisorAutoProxyCreator();
 		autoProxyCreator.setProxyTargetClass(true);
 		return autoProxyCreator;
+	}
+
+	/**
+	 * 开启shiro aop注解支持.
+	 * 使用代理方式;
+	 * 所以需要开启代码支持;
+	 */
+	@Bean
+	public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager){
+		AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
+		authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
+		return authorizationAttributeSourceAdvisor;
+	}
+
+	@Bean
+	public CacheManager shiroRedisCacheManager(org.springframework.cache.CacheManager cacheManager) {
+		SpringRedisCacheManager springCacheManagerWrapper = new SpringRedisCacheManager();
+		springCacheManagerWrapper.setSpringCacheManager(cacheManager);
+		return springCacheManagerWrapper;
 	}
 
 	@Bean
@@ -74,32 +92,6 @@ public class SecurityConfiguration {
 		realm.setUserService(userService);
 		realm.setCredentialsMatcher(credentialsMatcher);
 		return realm;
-	}
-
-	/**
-	 * 开启Shiro的注解(如@RequiresRoles,@RequiresPermissions),
-	 * 需借助SpringAOP扫描使用Shiro注解的类,并在必要时进行安全逻辑验证
-	 * 配置以下两个bean(DefaultAdvisorAutoProxyCreator(可选)和AuthorizationAttributeSourceAdvisor)即可实现此功能
-	 * 设置setProxyTargetClass(true) 会启用CGLIB
-	 */
-//	@Bean
-//	@DependsOn({"lifecycleBeanPostProcessor"})
-//	public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {
-//		DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator = new DefaultAdvisorAutoProxyCreator();
-//		defaultAdvisorAutoProxyCreator.setProxyTargetClass(true);
-//		return defaultAdvisorAutoProxyCreator;
-//	}
-
-	/**
-	 * 开启shiro aop注解支持.
-	 * 使用代理方式;
-	 * 所以需要开启代码支持;
-	 */
-	@Bean
-	public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager){
-		AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
-		authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
-		return authorizationAttributeSourceAdvisor;
 	}
 
 	@Bean
