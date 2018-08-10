@@ -65,12 +65,12 @@ public class SecurityFilterFactoryBean extends ShiroFilterFactoryBean {
 		@Override
 		protected void doFilterInternal(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws ServletException, IOException {
 			HttpServletRequest request = (HttpServletRequest) servletRequest;
-			String str = request.getRequestURI().toLowerCase();
+			String uri = request.getRequestURI().toLowerCase();
 			boolean shouldFilter = true;
-			int idx;
-			if ((idx = str.indexOf(".")) > 0) {
-				str = str.substring(idx);
-				if (ignoreExt.contains(str.toLowerCase())) {
+			int lastDotIdx;
+			if ((lastDotIdx = uri.lastIndexOf(".")) > 0) {
+				String ext = uri.substring(lastDotIdx);
+				if (ignoreExt.contains(ext)) {
 					shouldFilter = false;
 				}
 			}
