@@ -3,7 +3,7 @@ package tech.jianshuo.fiji.core.exception;
 import org.springframework.http.HttpStatus;
 
 /**
- * @author yuzhen <yuzhen@kuaishou.com>
+ * @author yuzhen
  * Created on 2018-07-15
  */
 public class NotFoundException extends FijiException {
