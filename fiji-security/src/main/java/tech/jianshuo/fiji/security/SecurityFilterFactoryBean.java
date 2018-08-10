@@ -23,18 +23,6 @@ import java.util.Set;
  */
 public class SecurityFilterFactoryBean extends ShiroFilterFactoryBean {
 
-	private Set<String> ignoreExt;
-
-	SecurityFilterFactoryBean() {
-		super();
-		ignoreExt = new HashSet<>();
-		ignoreExt.add(".jpg");
-		ignoreExt.add(".png");
-		ignoreExt.add(".gif");
-		ignoreExt.add(".js");
-		ignoreExt.add(".css");
-	}
-
 	@Override
 	protected AbstractShiroFilter createInstance() throws Exception {
 		SecurityManager securityManager = getSecurityManager();
@@ -49,12 +37,21 @@ public class SecurityFilterFactoryBean extends ShiroFilterFactoryBean {
 		FilterChainManager manager = createFilterChainManager();
 		PathMatchingFilterChainResolver chainResolver = new PathMatchingFilterChainResolver();
 		chainResolver.setFilterChainManager(manager);
-		return new CustomFilter((WebSecurityManager) securityManager, chainResolver);
+		return new IgnoreSpecifyExtFilter((WebSecurityManager) securityManager, chainResolver);
 	}
 
-	private final class CustomFilter extends AbstractShiroFilter {
+	private static class IgnoreSpecifyExtFilter extends AbstractShiroFilter {
+		private static final Set<String> ignoreExt;
+		static {
+			ignoreExt = new HashSet<>();
+			ignoreExt.add(".jpg");
+			ignoreExt.add(".png");
+			ignoreExt.add(".gif");
+			ignoreExt.add(".js");
+			ignoreExt.add(".css");
+		}
 
-		CustomFilter(WebSecurityManager webSecurityManager, FilterChainResolver filterChainResolver) {
+		IgnoreSpecifyExtFilter(WebSecurityManager webSecurityManager, FilterChainResolver filterChainResolver) {
 			super();
 			if (webSecurityManager == null) {
 				throw new IllegalArgumentException("WebSecurityManager property can not be null");
@@ -69,16 +66,16 @@ public class SecurityFilterFactoryBean extends ShiroFilterFactoryBean {
 		protected void doFilterInternal(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws ServletException, IOException {
 			HttpServletRequest request = (HttpServletRequest) servletRequest;
 			String str = request.getRequestURI().toLowerCase();
-			boolean flag = true;
+			boolean shouldFilter = true;
 			int idx;
 			if ((idx = str.indexOf(".")) > 0) {
 				str = str.substring(idx);
 				if (ignoreExt.contains(str.toLowerCase())) {
-					flag = false;
+					shouldFilter = false;
 				}
 			}
 
-			if (flag) {
+			if (shouldFilter) {
 				super.doFilterInternal(servletRequest, servletResponse, chain);
 			} else {
 				chain.doFilter(servletRequest, servletResponse);
