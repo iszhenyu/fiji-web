@@ -40,6 +40,11 @@ public class SecurityFilterFactoryBean extends ShiroFilterFactoryBean {
 		return new IgnoreSpecifyExtFilter((WebSecurityManager) securityManager, chainResolver);
 	}
 
+	@Override
+	public Class getObjectType() {
+		return IgnoreSpecifyExtFilter.class;
+	}
+
 	private static class IgnoreSpecifyExtFilter extends AbstractShiroFilter {
 		private static final Set<String> ignoreExt;
 		static {
