@@ -132,7 +132,7 @@ public class SecurityConfiguration {
 	public SimpleCookie sessionIdCookie(){
 		SimpleCookie cookie = new SimpleCookie();
 		cookie.setHttpOnly(true);
-		cookie.setMaxAge(259200);
+		cookie.setMaxAge(1800);
 		cookie.setName("sid");
 		return cookie;
 	}
