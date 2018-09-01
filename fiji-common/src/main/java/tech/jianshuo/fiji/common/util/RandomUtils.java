@@ -1,9 +1,8 @@
 package tech.jianshuo.fiji.common.util;
 
+import java.security.SecureRandom;
 import java.util.List;
 import java.util.Random;
-
-import tech.jianshuo.fiji.common.util.provider.RandomProvider;
 
 /**
  * @author zhen.yu
@@ -12,12 +11,20 @@ import tech.jianshuo.fiji.common.util.provider.RandomProvider;
 public class RandomUtils {
     private static final String Chars_Number = "0123456789";
     private static final String Chars_Alpha_Number = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    private static final String Chars_UpperAlpha_Number = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     private static final Random ran;
-
     static {
-        ran = RandomProvider.getRandom();
+        ran = initializeRandom();
+    }
+
+    private static Random initializeRandom() {
+        try {
+            SecureRandom ran = SecureRandom.getInstance("SHA1PRNG");
+            byte[] seed = ran.generateSeed(20);
+            return new SecureRandom(seed);
+        } catch (Exception ex) {
+            return new Random();
+        }
     }
 
     public static long nextLong() {
@@ -41,6 +48,46 @@ public class RandomUtils {
         }
         int i = end - start + 1;
         return nextInt(i) + start;
+    }
+
+    /**
+     * 返回一个定长的随机字符串(只包含大小写字母、数字)
+     *
+     * @param length 随机字符串长度
+     * @return 随机字符串
+     */
+    public static String randomString(int length) {
+        if (length < 0) {
+            throw new IllegalArgumentException();
+        }
+        if (length == 0) {
+            return "";
+        }
+        return randomString(length, Chars_Alpha_Number);
+    }
+
+    /**
+     * 返回一个定长的随机字符串(只包含数字)
+     *
+     * @param length 随机字符串长度
+     * @return 随机字符串
+     */
+    public static String randomNumeric(int length) {
+        if (length < 0) {
+            throw new IllegalArgumentException();
+        }
+        if (length == 0) {
+            return "";
+        }
+        return randomString(length, Chars_Number);
+    }
+
+    private static String randomString(int length, String chars) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            sb.append(chars.charAt(ran.nextInt(chars.length())));
+        }
+        return sb.toString();
     }
 
     public static String randomChinese(int len) {
@@ -72,49 +119,16 @@ public class RandomUtils {
         return list.get(index);
     }
 
-
     /**
-     * 返回一个定长的随机字符串(只包含大小写字母、数字)
-     *
-     * @param length 随机字符串长度
-     * @return 随机字符串
+     * 从大量数据中随机抽取少量数据且原数组不能被破坏的时候, 效率比较高
+     * 这个算法的复杂度是 O(n^2)，实际大概需要 3*n*(n-1)/4 次操作
+     * 由于all不能被破坏, 所以这个算法的价值是在 count < sqrt(all.size()) 的时候才适用
+     * 如果all可以被破坏, 直接用洗牌算法就可以了, 不用费这么多事.
      */
-    public static String randomString(int length) {
-        if (length < 0) {
-            throw new IllegalArgumentException();
-        }
-        if (length == 0) {
-            return "";
-        }
-        return randomString(length, Chars_Alpha_Number);
-    }
-
-    public static String randomNumeric(int length) {
-        if (length < 0) {
-            throw new IllegalArgumentException();
-        }
-        if (length == 0) {
-            return "";
-        }
-        return randomString(length, Chars_Number);
-    }
-
-    public static String randomString(int length, String chars) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < length; i++) {
-            sb.append(chars.charAt(ran.nextInt(chars.length())));
-        }
-        return sb.toString();
-    }
-
-
-    // 从大量数据中随机抽取少量数据且原数组不能被破坏的时候, 效率比较高
-    // 这个算法的复杂度是 O(n^2)，实际大概需要 3*n*(n-1)/4 次操作
-    // 由于all不能被破坏, 所以这个算法的价值是在 count < sqrt(all.size()) 的时候才适用
-    // 如果all可以被破坏, 直接用洗牌算法就可以了, 不用费这么多事.
     public static <T> void randomPickFew(List<T> all, int count, T[] result) {
-        if (result == null || result.length < count)
+        if (result == null || result.length < count) {
             throw new IllegalArgumentException();
+        }
 
         int[] selected = new int[count];
         for (int i = 0; i < count; i++) {
@@ -137,7 +151,9 @@ public class RandomUtils {
             result[i] = all.get(k);
 
             //如果已经处理到最后一个，就不需要后续处理了，直接返回即可
-            if (i == count - 1) break;
+            if (i == count - 1) {
+                break;
+            }
 
             //把当前要取走的元素下标，按从小到大的顺序插入到选中表中
             for (int j = count - i; j <= pos; j++) {
