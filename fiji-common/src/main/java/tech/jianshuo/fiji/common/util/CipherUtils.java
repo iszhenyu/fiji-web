@@ -1,5 +1,6 @@
 package tech.jianshuo.fiji.common.util;
 
+import java.security.MessageDigest;
 import java.util.Map;
 
 import javax.crypto.Mac;
@@ -7,12 +8,32 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Hex;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author zhen.yu
  * @since 2017/6/8
  */
 public class CipherUtils {
+    private static final Logger logger = LoggerFactory.getLogger(CipherUtils.class);
+
+    public static String md5Digest(String oriText) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("MD5");
+            digest.update(oriText.getBytes("UTF8"));
+            byte s[] = digest.digest();
+            String result = "";
+            for (int i = 0; i < s.length; i++) {
+                result += Integer.toHexString((0x000000FF & s[i]) | 0xFFFFFF00).substring(6);
+            }
+            return result;
+        } catch (Exception e) {
+            logger.error("md5 digest error, oriText: {}", oriText, e);
+        }
+
+        return "";
+    }
 
     public static String hmacSHA256Digest(String key, String content) {
         try {
