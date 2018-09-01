@@ -1,7 +1,6 @@
 package tech.jianshuo.fiji.common.util;
 
 import java.security.MessageDigest;
-import java.util.Map;
 
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
@@ -15,8 +14,8 @@ import org.slf4j.LoggerFactory;
  * @author zhen.yu
  * @since 2017/6/8
  */
-public class CipherUtils {
-    private static final Logger logger = LoggerFactory.getLogger(CipherUtils.class);
+public class DigestUtils {
+    private static final Logger logger = LoggerFactory.getLogger(DigestUtils.class);
 
     public static String md5Digest(String oriText) {
         try {
@@ -50,12 +49,6 @@ public class CipherUtils {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public static String hmacSHA256Digest(String key, Map<String, String> map) {
-        StringBuilder s = new StringBuilder();
-        map.values().forEach(s::append);
-        return hmacSHA256Digest(key, s.toString());
     }
 
 }
