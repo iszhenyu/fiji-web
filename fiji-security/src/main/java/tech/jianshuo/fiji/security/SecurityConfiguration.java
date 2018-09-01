@@ -140,15 +140,9 @@ public class SecurityConfiguration {
 	@Bean
 	public SessionDAO sessionDAO(CacheManager cacheManager) {
 		EnterpriseCacheSessionDAO dao = new EnterpriseCacheSessionDAO();
-		dao.setSessionIdGenerator(sessionIdGenerator());
 		dao.setCacheManager(cacheManager);
 		dao.setActiveSessionsCacheName(SecurityConstants.SESSION_CACHE);
 		return dao;
-	}
-
-	@Bean
-	public SessionIdGenerator sessionIdGenerator() {
-		return new JavaUuidSessionIdGenerator();
 	}
 
 	/** cookie管理器 **/
