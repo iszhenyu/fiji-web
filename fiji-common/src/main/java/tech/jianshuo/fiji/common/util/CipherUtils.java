@@ -23,16 +23,16 @@ public class CipherUtils {
             MessageDigest digest = MessageDigest.getInstance("MD5");
             digest.update(oriText.getBytes("UTF8"));
             byte s[] = digest.digest();
-            String result = "";
-            for (int i = 0; i < s.length; i++) {
-                result += Integer.toHexString((0x000000FF & s[i]) | 0xFFFFFF00).substring(6);
+            StringBuilder builder = new StringBuilder();
+            for (byte b: s) {
+                builder.append(Integer.toHexString((0x000000FF & b) | 0xFFFFFF00).substring(6));
             }
-            return result;
+            return builder.toString();
         } catch (Exception e) {
             logger.error("md5 digest error, oriText: {}", oriText, e);
         }
 
-        return "";
+        return null;
     }
 
     public static String hmacSHA256Digest(String key, String content) {
