@@ -3,6 +3,7 @@ package tech.jianshuo.fiji.common.util;
 import java.io.UnsupportedEncodingException;
 import java.util.Base64;
 
+import org.apache.commons.codec.binary.Hex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
