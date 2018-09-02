@@ -35,7 +35,7 @@ public class StatelessToken implements AuthenticationToken {
     public static class Builder {
         private StatelessToken token;
 
-        public Builder() {
+        private Builder() {
             this.token = new StatelessToken();
         }
 
