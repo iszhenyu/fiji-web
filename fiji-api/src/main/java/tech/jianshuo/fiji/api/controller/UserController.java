@@ -1,5 +1,6 @@
 package tech.jianshuo.fiji.api.controller;
 
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +17,7 @@ public class UserController extends FijiController {
     @Autowired
     private UserService userService;
 
+    @RequiresAuthentication
     @RequestMapping("/test")
     public void test() {
         userService.findUser("zhen");
