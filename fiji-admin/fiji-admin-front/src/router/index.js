@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Layout from '../pages/layout/Layout'
+import Layout from '../views/layout/Layout'
 
 const _import = require('./_import_production')
 
