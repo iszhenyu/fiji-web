@@ -13,10 +13,12 @@ import {hasPermission} from "./utils/auth";
 
 Vue.use(ElementUI, {locale})
 
+// 全局的常量
 Vue.prototype.$api = api
-//全局的常量
 Vue.prototype.$hasPerm = hasPermission
-Vue.config.productionTip = (process.env.NODE_ENV != 'production')
+
+// 生产环境时自动设置为 false 以阻止 vue 在启动时生成生产提示。
+Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 new Vue({

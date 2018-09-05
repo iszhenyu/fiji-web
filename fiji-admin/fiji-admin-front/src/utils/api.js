@@ -1,12 +1,12 @@
 import Axios from 'axios'
-import {Message, MessageBox} from 'element-ui'
+import {Message} from 'element-ui'
 import {getToken} from '@/utils/auth'
 import store from '../store'
 
 // 创建axios实例
 const service = Axios.create({
-  baseURL: process.env.BASE_URL,  // api的base_url
-  timeout: 15000                  // 请求超时时间2
+  baseURL: '/',
+  timeout: 15000
 })
 
 // request拦截器
