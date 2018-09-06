@@ -17,6 +17,7 @@ import tech.jianshuo.fiji.api.form.RegisterForm;
 import tech.jianshuo.fiji.biz.model.user.User;
 import tech.jianshuo.fiji.biz.service.UserService;
 import tech.jianshuo.fiji.core.exception.ValidationException;
+import tech.jianshuo.fiji.core.vo.ResponseVo;
 import tech.jianshuo.fiji.security.service.SecurityService;
 
 /**
@@ -43,7 +44,7 @@ public class AuthController extends FijiController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public User login(@NotEmpty(message = "用户名不能为空") String username,
+    public ResponseVo login(@NotEmpty(message = "用户名不能为空") String username,
                       @NotEmpty(message = "密码不能为空") String password) {
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
@@ -53,12 +54,12 @@ public class AuthController extends FijiController {
         } catch (AuthenticationException e) {
             throw new ValidationException("用户名或密码错误");
         }
-        return userService.findUser(username);
+        return ResponseVo.success(userService.findUser(username));
     }
 
     @RequestMapping("/logout")
-    public String logout() {
+    public ResponseVo logout() {
         SecurityUtils.getSubject().logout();
-        return "登出成功";
+        return ResponseVo.success("登出成功");
     }
 }

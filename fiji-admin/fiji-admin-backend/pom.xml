@@ -11,5 +11,12 @@
 
     <artifactId>fiji-admin-backend</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>tech.jianshuo</groupId>
+            <artifactId>fiji-security</artifactId>
+            <version>${fiji.version}</version>
+        </dependency>
+    </dependencies>
 
 </project>

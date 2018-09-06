@@ -26,17 +26,22 @@ public class GlobalExceptionHandler {
 
     private static final String DEFAULT_ERROR_VIEW = "error";
 
-    @ExceptionHandler({FijiException.class})
+    @ExceptionHandler(FijiException.class)
     public ResponseEntity<ResponseVo> handleFijiException(FijiException e) {
         ResponseVo vo = ResponseVo.fail(e.getShowMessage());
         return new ResponseEntity<>(vo, e.getStatus());
     }
 
+//    @ResponseBody
+//    @ExceptionHandler(FijiException.class)
+//    public ResponseVo handleFijiException(FijiException e) {
+//        return ResponseVo.fail(e.getShowMessage());
+//    }
+
     /**
      * 400 - Bad Request
      */
     @ResponseBody
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ValidationException.class)
     public ResponseVo handleValidationException(ValidationException e) {
         return ResponseVo.fail(e.getMessage());
@@ -46,7 +51,7 @@ public class GlobalExceptionHandler {
      * 400 - Bad Request
      */
     @ResponseBody
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+//    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseVo handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
         return ResponseVo.fail("could_not_read_json");
@@ -56,7 +61,7 @@ public class GlobalExceptionHandler {
      * 405 - Method Not Allowed
      */
     @ResponseBody
-    @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
+//    @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseVo handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
         return ResponseVo.fail("request_method_not_supported");
@@ -66,7 +71,7 @@ public class GlobalExceptionHandler {
      * 415 - Unsupported Media Type
      */
     @ResponseBody
-    @ResponseStatus(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
+//    @ResponseStatus(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
     @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
     public ResponseVo handleHttpMediaTypeNotSupportedException(Exception e) {
         return ResponseVo.fail("content_type_not_supported");
@@ -76,7 +81,7 @@ public class GlobalExceptionHandler {
      * 500 - Internal Server Error
      */
     @ResponseBody
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+//    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler({RuntimeException.class})
     public ResponseVo handleRuntimeException(RuntimeException e) {
         logger.error("系统内部出错", e);

@@ -1,4 +1,4 @@
-package tech.jianshuo.fiji.api.form;
+package tech.jianshuo.fiji.admin.form;
 
 import java.util.Objects;
 

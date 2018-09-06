@@ -187,6 +187,9 @@ public class SecurityConfiguration {
 		filterChainDefinitionMap.put("/auth/login", "anon");
 		filterChainDefinitionMap.put("/auth/register", "anon");
 		filterChainDefinitionMap.put("/auth/logout", "logout");
+		filterChainDefinitionMap.put("/admin/auth/login", "anon");
+		filterChainDefinitionMap.put("/admin/auth/register", "anon");
+		filterChainDefinitionMap.put("/admin/auth/logout", "logout");
 		//配置记住我过滤器或认证通过可以访问的地址(当上次登录时，记住我以后，在下次访问/或/index时，可以直接访问，不需要登陆)
 		filterChainDefinitionMap.put("/index", "user");
 		filterChainDefinitionMap.put("/", "user");

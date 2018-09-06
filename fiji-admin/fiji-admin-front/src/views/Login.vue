@@ -31,8 +31,8 @@
     data() {
       return {
         loginForm: {
-          username: 'admin',
-          password: '123456'
+          username: '',
+          password: ''
         },
         loginRules: {
           username: [{required: true, trigger: 'blur', message: "请输入用户名"}],
@@ -46,7 +46,7 @@
         this.$refs.loginForm.validate(valid => {
           if (valid) {
             this.loading = true
-            this.$store.dispatch('Login', this.loginForm).then(data => {
+            this.$store.dispatch('user/login', this.loginForm).then(data => {
               this.loading = false
               if ("success" === data.result) {
                 this.$router.push({path: '/'})

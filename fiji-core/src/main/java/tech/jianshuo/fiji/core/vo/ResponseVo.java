@@ -48,6 +48,11 @@ public class ResponseVo {
         return this;
     }
 
+    public ResponseVo fillFailure(String message, int errorCode) {
+        this.meta = new Meta(false, message, errorCode);
+        return this;
+    }
+
     public Meta getMeta() {
         return meta;
     }
@@ -58,6 +63,7 @@ public class ResponseVo {
 
     public class Meta {
 
+        private int code;
         private boolean success;
         private String message;
 
@@ -68,6 +74,12 @@ public class ResponseVo {
         public Meta(boolean success, String message) {
             this.success = success;
             this.message = message;
+        }
+
+        public Meta(boolean success, String message, int code) {
+            this.success = success;
+            this.message = message;
+            this.code = code;
         }
 
         public boolean isSuccess() {

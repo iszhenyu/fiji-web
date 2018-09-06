@@ -29,10 +29,6 @@ export const constantRouterMap = [
   }
 ]
 
-export default new Router({
-  routes: constantRouterMap
-})
-
 export const asyncRouterMap = [
   {
     path: '/system',
@@ -71,3 +67,7 @@ export const asyncRouterMap = [
   },
   {path: '*', redirect: '/404', hidden: true}
 ]
+
+export default new Router({
+  routes: constantRouterMap
+})
