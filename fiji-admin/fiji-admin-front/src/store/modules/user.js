@@ -1,7 +1,8 @@
 import {removeToken, setToken} from '@/utils/auth'
-import {default as api} from '../../utils/api'
 import store from '../../store'
 import router from '../../router'
+import {login, logout} from '@/api/auth'
+import {getUserInfo} from '@/api/user'
 
 const state = {
   nickname: '',
@@ -33,11 +34,7 @@ const actions = {
   // 登录
   login ({commit, state}, loginForm) {
     return new Promise((resolve, reject) => {
-      api({
-        url: 'auth/login',
-        method: 'post',
-        data: loginForm
-      }).then(data => {
+      login(loginForm.username, loginForm.password).then(data => {
         if (data.meta.success) {
           // cookie中保存前端登录状态
           setToken()
@@ -51,10 +48,7 @@ const actions = {
   // 获取用户信息
   getInfo ({commit, state}) {
     return new Promise((resolve, reject) => {
-      api({
-        url: '/user/detail',
-        method: 'get'
-      }).then(data => {
+      getUserInfo().then(data => {
         // 储存用户信息
         commit('SET_USER', data.userPermission)
         // cookie保存登录状态,仅靠vuex保存的话,页面刷新就会丢失登录状态
@@ -74,10 +68,7 @@ const actions = {
   // 登出
   logout ({commit}) {
     return new Promise((resolve) => {
-      api({
-        url: 'auth/logout',
-        method: 'post'
-      }).then(data => {
+      logout().then(data => {
         commit('RESET_USER')
         removeToken()
         resolve(data)
