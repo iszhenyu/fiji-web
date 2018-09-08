@@ -10,10 +10,7 @@ import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.session.mgt.SessionManager;
-import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
-import org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator;
 import org.apache.shiro.session.mgt.eis.SessionDAO;
-import org.apache.shiro.session.mgt.eis.SessionIdGenerator;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
@@ -31,6 +28,7 @@ import org.springframework.context.annotation.DependsOn;
 import tech.jianshuo.fiji.biz.service.UserService;
 import tech.jianshuo.fiji.security.cache.SpringRedisCacheManager;
 import tech.jianshuo.fiji.security.service.PasswordService;
+import tech.jianshuo.fiji.security.session.FijiSessionDao;
 
 /**
  * Created by zhen.yu on 2017/5/9.
@@ -139,7 +137,7 @@ public class SecurityConfiguration {
 
 	@Bean
 	public SessionDAO sessionDAO(CacheManager cacheManager) {
-		EnterpriseCacheSessionDAO dao = new EnterpriseCacheSessionDAO();
+		FijiSessionDao dao = new FijiSessionDao();
 		dao.setCacheManager(cacheManager);
 		dao.setActiveSessionsCacheName(SecurityConstants.SESSION_CACHE);
 		return dao;
