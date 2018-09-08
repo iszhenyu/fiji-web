@@ -68,6 +68,7 @@ public class RedisConfig extends CachingConfigurerSupport {
         return RedisCacheManager.RedisCacheManagerBuilder
                 .fromConnectionFactory(lettuceConnectionFactory)
 //                .cacheDefaults(configuration)
+                .transactionAware()
                 .build();
     }
 
