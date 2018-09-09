@@ -14,6 +14,7 @@ import tech.jianshuo.fiji.core.model.BaseModel;
 @EqualsAndHashCode(callSuper = true)
 @Table(name = "fj_user_role")
 public class UserRole extends BaseModel {
+    private static final long serialVersionUID = -1302438435305903555L;
 
     private Long userId;
     private Long roleId;

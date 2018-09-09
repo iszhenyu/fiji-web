@@ -17,16 +17,17 @@ import tech.jianshuo.fiji.core.model.BaseModel;
 @EqualsAndHashCode(callSuper = true)
 @Table(name = "fj_resource")
 public class Resource extends BaseModel {
+    private static final long serialVersionUID = -7216674797590670244L;
 
     private String name;
     private String type;
     private String url;
+    private String icon;
     private String permission;
     private Long parentId;
     private Integer sort;
     private Boolean external;
     private Boolean available;
-    private String icon;
 
     @Transient
     private String checked;
