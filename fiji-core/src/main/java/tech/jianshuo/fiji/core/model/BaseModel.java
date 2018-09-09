@@ -22,7 +22,7 @@ public class BaseModel<K> implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private K id;
-    private Long deletedAt = 0L; // 删除标记
+    private Long deletedAt = 0L; // 逻辑删除标识
     private Long createTime;     // 创建时间
     private Long lastModifyTime; // 修改时间
 

@@ -1,5 +1,6 @@
 package tech.jianshuo.fiji.biz.service.impl;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -10,7 +11,9 @@ import lombok.extern.slf4j.Slf4j;
 import tech.jianshuo.fiji.biz.persistence.UserDao;
 import tech.jianshuo.fiji.biz.helper.PrincipalHelper;
 import tech.jianshuo.fiji.biz.model.user.User;
+import tech.jianshuo.fiji.biz.persistence.UserRoleDao;
 import tech.jianshuo.fiji.biz.service.UserService;
+import tech.jianshuo.fiji.common.util.CollectionUtils;
 import tech.jianshuo.fiji.core.exception.ValidationException;
 
 /**
@@ -23,6 +26,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDao userDao;
+    @Autowired
+    private UserRoleDao userRoleDao;
 
     @Override
     public User loadUserByPrincipal(String principal) {
@@ -39,7 +44,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> loadUsersByRoleId(Long roleId) {
-        return userDao.findByRoleId(roleId);
+        List<Long> userIds = userRoleDao.findUserIdsByRoleId(roleId);
+        if (CollectionUtils.isEmpty(userIds)) {
+            return Collections.emptyList();
+        }
+        return userDao.findByIds(userIds);
     }
 
     @Override
