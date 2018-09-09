@@ -5,7 +5,7 @@ import java.util.Map;
 
 /**
  * @author zhen.yu
- * @since 2018/7/17
+ * Created on 2018-07-17
  */
 public enum UserStatus {
     NORMAL(1, "正常"),
