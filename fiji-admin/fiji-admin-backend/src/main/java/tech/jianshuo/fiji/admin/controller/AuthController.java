@@ -46,6 +46,9 @@ public class AuthController extends AdminController {
     public ResponseVo login(@NotEmpty(message = "用户名不能为空") String username,
                             @NotEmpty(message = "密码不能为空") String password) {
         Subject subject = SecurityUtils.getSubject();
+        if (subject.isAuthenticated()) {
+            return ResponseVo.fail("已经登录，不要重复登录");
+        }
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         token.setRememberMe(true);
         try {
