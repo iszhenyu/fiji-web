@@ -1,7 +1,5 @@
 package tech.jianshuo.fiji.biz.persistence;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,7 +22,4 @@ public class RoleDao extends DelegatingDao<Role, Long> {
         return roleMapper;
     }
 
-    public List<Role> findRolesByUserId(Long userId) {
-        return getMapper().findRolesByUserId(userId);
-    }
 }

@@ -18,6 +18,7 @@ public class ResourceServiceImpl implements ResourceService {
 
     @Override
     public List<Resource> loadUrlAndPermissions() {
+        // TODO
         return null;
     }
 }
