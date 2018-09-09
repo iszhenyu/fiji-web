@@ -14,11 +14,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import tech.jianshuo.fiji.api.form.RegisterForm;
-import tech.jianshuo.fiji.biz.model.user.User;
 import tech.jianshuo.fiji.biz.service.UserService;
 import tech.jianshuo.fiji.core.exception.ValidationException;
 import tech.jianshuo.fiji.core.vo.ResponseVo;
-import tech.jianshuo.fiji.security.service.SecurityService;
+import tech.jianshuo.fiji.security.service.PassportService;
 
 /**
  * @author zhen.yu
@@ -29,7 +28,7 @@ import tech.jianshuo.fiji.security.service.SecurityService;
 public class AuthController extends FijiController {
 
     @Autowired
-    private SecurityService securityService;
+    private PassportService securityService;
     @Autowired
     private UserService userService;
 
@@ -54,7 +53,7 @@ public class AuthController extends FijiController {
         } catch (AuthenticationException e) {
             throw new ValidationException("用户名或密码错误");
         }
-        return ResponseVo.success(userService.findUser(username));
+        return ResponseVo.success(userService.loadUserByPrincipal(username));
     }
 
     @RequestMapping("/logout")

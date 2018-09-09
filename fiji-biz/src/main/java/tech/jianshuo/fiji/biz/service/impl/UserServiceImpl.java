@@ -1,9 +1,12 @@
 package tech.jianshuo.fiji.biz.service.impl;
 
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lombok.extern.slf4j.Slf4j;
 import tech.jianshuo.fiji.biz.persistence.UserDao;
 import tech.jianshuo.fiji.biz.helper.PrincipalHelper;
 import tech.jianshuo.fiji.biz.model.user.User;
@@ -14,14 +17,15 @@ import tech.jianshuo.fiji.core.exception.ValidationException;
  * @author zhen.yu
  * @since 2018/7/10
  */
+@Slf4j
 @Service
-public class UserServiceImpl extends FijiService implements UserService {
+public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDao userDao;
 
     @Override
-    public User findUser(String principal) {
+    public User loadUserByPrincipal(String principal) {
         if (StringUtils.isBlank(principal)) {
             return null;
         }
@@ -34,9 +38,15 @@ public class UserServiceImpl extends FijiService implements UserService {
     }
 
     @Override
-    public User addUser(User user) {
+    public List<User> loadUsersByRoleId(Long roleId) {
+        // TODO
+        return null;
+    }
+
+    @Override
+    public User createUser(User user) {
         String principal = getPrincipal(user);
-        User existUser = findUser(principal);
+        User existUser = loadUserByPrincipal(principal);
         if (existUser != null) {
             throw new ValidationException("用户已存在");
         }

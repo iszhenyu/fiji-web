@@ -41,7 +41,7 @@ public class SecurityRealm extends AuthorizingRealm {
 			throw new AccountException("Null usernames are not allowed by this realm.");
 		}
 
-		User user = userService.findUser(username.trim());
+		User user = userService.loadUserByPrincipal(username.trim());
 		if (user == null) {
 			throw new UnknownAccountException("No account found for user [" + username + "]");
 		}

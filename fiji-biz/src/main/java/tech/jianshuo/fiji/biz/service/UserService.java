@@ -1,5 +1,7 @@
 package tech.jianshuo.fiji.biz.service;
 
+import java.util.List;
+
 import tech.jianshuo.fiji.biz.model.user.User;
 
 /**
@@ -8,8 +10,15 @@ import tech.jianshuo.fiji.biz.model.user.User;
  */
 public interface UserService {
 
-    User findUser(String principal);
+    /**
+     * 根据principal获取用户
+     * @param principal mobile or email or username
+     * @return User
+     */
+    User loadUserByPrincipal(String principal);
 
-    User addUser(User user);
+    List<User> loadUsersByRoleId(Long roleId);
+
+    User createUser(User user);
 
 }

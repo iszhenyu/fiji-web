@@ -20,7 +20,7 @@ public class UserController extends FijiController {
     @RequiresAuthentication
     @RequestMapping("/test")
     public void test() {
-        userService.findUser("zhen");
+        userService.loadUserByPrincipal("zhen");
     }
 
 }
