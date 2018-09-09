@@ -39,18 +39,18 @@ public abstract class BaseDao<T extends BaseModel, K>  {
         return getMapper().insertList(new ArrayList<>(models));
     }
 
-    public int removeById(K id) {
+    public int deleteById(K id) {
         return getMapper().deleteByPrimaryKey(id);
     }
 
-    public int remove(T model) {
+    public int delete(T model) {
         return getMapper().delete(model);
     }
 
-    public int batchRemove(Collection<T> models) {
+    public int batchDelete(Collection<T> models) {
         int num = 0;
         for (T model : models) {
-            num += remove(model);
+            num += delete(model);
         }
         return num;
     }
