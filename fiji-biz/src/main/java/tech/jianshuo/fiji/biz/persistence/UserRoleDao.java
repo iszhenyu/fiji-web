@@ -28,16 +28,8 @@ public class UserRoleDao extends DelegatingDao<UserRole, Long> {
         return userRoleMapper;
     }
 
-    public List<Long> findUserIdsByRoleIdIncludeDeleted(Long roleId) {
-        List<UserRole> userRoles = getMapper().findUserIdsByRoleId(roleId);
-        if (CollectionUtils.isEmpty(userRoles)) {
-            return Collections.emptyList();
-        }
-        return userRoles.stream().map(UserRole::getUserId).collect(Collectors.toList());
-    }
-
     public List<Long> findUserIdsByRoleId(Long roleId) {
-        List<UserRole> userRoles = getMapper().findUserIdsByRoleId(roleId);
+        List<UserRole> userRoles = getMapper().findByRoleId(roleId);
         if (CollectionUtils.isEmpty(userRoles)) {
             return Collections.emptyList();
         }
@@ -45,6 +37,33 @@ public class UserRoleDao extends DelegatingDao<UserRole, Long> {
                 .filter(ModelHelper::isNotDeleted)
                 .map(UserRole::getUserId)
                 .collect(Collectors.toList());
+    }
+
+    public List<Long> findUserIdsByRoleIdIncludeDeleted(Long roleId) {
+        List<UserRole> userRoles = getMapper().findByRoleId(roleId);
+        if (CollectionUtils.isEmpty(userRoles)) {
+            return Collections.emptyList();
+        }
+        return userRoles.stream().map(UserRole::getUserId).collect(Collectors.toList());
+    }
+
+    public List<Long> findRoleIdsByUserId(Long userId) {
+        List<UserRole> userRoles = getMapper().findByUserId(userId);
+        if (CollectionUtils.isEmpty(userRoles)) {
+            return Collections.emptyList();
+        }
+        return userRoles.stream()
+                .filter(ModelHelper::isNotDeleted)
+                .map(UserRole::getRoleId)
+                .collect(Collectors.toList());
+    }
+
+    public List<Long> findRoleIdsByUserIdIncludeDeleted(Long userId) {
+        List<UserRole> userRoles = getMapper().findByUserId(userId);
+        if (CollectionUtils.isEmpty(userRoles)) {
+            return Collections.emptyList();
+        }
+        return userRoles.stream().map(UserRole::getRoleId).collect(Collectors.toList());
     }
 
 }

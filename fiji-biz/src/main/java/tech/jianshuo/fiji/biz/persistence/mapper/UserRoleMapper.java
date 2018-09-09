@@ -16,6 +16,9 @@ import tech.jianshuo.fiji.core.orm.BaseMapper;
 public interface UserRoleMapper extends BaseMapper<UserRole> {
 
     @Select("select * from fj_user_role where role_id=#{roleId}")
-    List<UserRole> findUserIdsByRoleId(Long roleId);
+    List<UserRole> findByRoleId(Long roleId);
+
+    @Select("select * from fj_user_role where user_id=#{userId}")
+    List<UserRole> findByUserId(Long userId);
 
 }
