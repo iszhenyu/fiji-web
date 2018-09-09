@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 import tech.jianshuo.fiji.biz.persistence.mapper.UserMapper;
 import tech.jianshuo.fiji.biz.model.user.User;
 import tech.jianshuo.fiji.core.orm.DelegatingDao;
-import tech.jianshuo.fiji.core.orm.BaseMapper;
 
 /**
  * @author yuzhen
@@ -19,7 +18,7 @@ public class UserDao extends DelegatingDao<User, Long> {
     private UserMapper userMapper;
 
     @Override
-    public BaseMapper<User> getMapper() {
+    public UserMapper getMapper() {
         return userMapper;
     }
 

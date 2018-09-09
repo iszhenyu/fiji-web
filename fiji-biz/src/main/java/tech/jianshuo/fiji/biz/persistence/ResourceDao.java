@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 import tech.jianshuo.fiji.biz.persistence.mapper.ResourceMapper;
 import tech.jianshuo.fiji.biz.model.user.Resource;
 import tech.jianshuo.fiji.core.orm.DelegatingDao;
-import tech.jianshuo.fiji.core.orm.BaseMapper;
 
 /**
  * @author yuzhen
@@ -19,7 +18,7 @@ public class ResourceDao extends DelegatingDao<Resource, Long> {
     private ResourceMapper resourceMapper;
 
     @Override
-    public BaseMapper<Resource> getMapper() {
+    public ResourceMapper getMapper() {
         return resourceMapper;
     }
 }
