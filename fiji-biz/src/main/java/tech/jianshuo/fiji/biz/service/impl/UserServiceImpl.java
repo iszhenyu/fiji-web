@@ -39,8 +39,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> loadUsersByRoleId(Long roleId) {
-        // TODO
-        return null;
+        return userDao.findByRoleId(roleId);
     }
 
     @Override

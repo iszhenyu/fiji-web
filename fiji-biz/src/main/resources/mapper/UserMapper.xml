@@ -3,4 +3,5 @@
 <mapper namespace="tech.jianshuo.fiji.biz.persistence.mapper.UserMapper">
 
 
+
 </mapper>

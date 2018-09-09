@@ -1,5 +1,7 @@
 package tech.jianshuo.fiji.biz.persistence;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -33,5 +35,9 @@ public class UserDao extends DelegatingDao<User, Long> {
 
     public User findByEmail(String email) {
         return userMapper.findByEmail(email);
+    }
+
+    public List<User> findByRoleId(Long roleId) {
+        return userMapper.findByRoleId(roleId);
     }
 }
