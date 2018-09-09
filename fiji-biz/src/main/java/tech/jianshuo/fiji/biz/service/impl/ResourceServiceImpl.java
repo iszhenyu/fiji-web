@@ -17,6 +17,12 @@ import tech.jianshuo.fiji.biz.service.ResourceService;
 public class ResourceServiceImpl implements ResourceService {
 
     @Override
+    public List<Resource> loadResourcesByUserId(Long userId) {
+        // TODO
+        return null;
+    }
+
+    @Override
     public List<Resource> loadUrlAndPermissions() {
         // TODO
         return null;
