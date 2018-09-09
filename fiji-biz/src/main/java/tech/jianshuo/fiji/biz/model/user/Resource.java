@@ -7,7 +7,7 @@ import javax.persistence.Transient;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import tech.jianshuo.fiji.core.model.BaseModel;
+import tech.jianshuo.fiji.biz.model.Model;
 
 /**
  * @author yuzhen
@@ -16,7 +16,7 @@ import tech.jianshuo.fiji.core.model.BaseModel;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Table(name = "fj_resource")
-public class Resource extends BaseModel {
+public class Resource extends Model {
     private static final long serialVersionUID = -7216674797590670244L;
 
     private String name;

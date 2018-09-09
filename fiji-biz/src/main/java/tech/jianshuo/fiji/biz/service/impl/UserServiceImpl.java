@@ -2,10 +2,9 @@ package tech.jianshuo.fiji.biz.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import tech.jianshuo.fiji.biz.dao.UserDao;
+import tech.jianshuo.fiji.biz.persistence.UserDao;
 import tech.jianshuo.fiji.biz.helper.PrincipalHelper;
 import tech.jianshuo.fiji.biz.model.user.User;
 import tech.jianshuo.fiji.biz.service.UserService;

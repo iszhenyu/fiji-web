@@ -9,6 +9,6 @@ import tk.mybatis.spring.annotation.MapperScan;
  * Created on 2018-07-23
  */
 @Component
-@MapperScan("tech.jianshuo.fiji.biz.dao.mapper")
+@MapperScan("tech.jianshuo.fiji.biz.persistence.mapper")
 public class MybatisConfig {
 }

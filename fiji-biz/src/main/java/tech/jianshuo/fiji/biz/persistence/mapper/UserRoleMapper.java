@@ -1,4 +1,4 @@
-package tech.jianshuo.fiji.biz.dao.mapper;
+package tech.jianshuo.fiji.biz.persistence.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 

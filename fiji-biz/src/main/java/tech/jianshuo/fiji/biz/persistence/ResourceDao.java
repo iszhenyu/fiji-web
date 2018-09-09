@@ -1,11 +1,11 @@
-package tech.jianshuo.fiji.biz.dao;
+package tech.jianshuo.fiji.biz.persistence;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import tech.jianshuo.fiji.biz.dao.mapper.ResourceMapper;
+import tech.jianshuo.fiji.biz.persistence.mapper.ResourceMapper;
 import tech.jianshuo.fiji.biz.model.user.Resource;
-import tech.jianshuo.fiji.core.orm.BaseDao;
+import tech.jianshuo.fiji.core.orm.DelegatingDao;
 import tech.jianshuo.fiji.core.orm.BaseMapper;
 
 /**
@@ -13,7 +13,7 @@ import tech.jianshuo.fiji.core.orm.BaseMapper;
  * Created on 2018-07-21
  */
 @Component
-public class ResourceDao extends BaseDao<Resource, Long> {
+public class ResourceDao extends DelegatingDao<Resource, Long> {
 
     @Autowired
     private ResourceMapper resourceMapper;

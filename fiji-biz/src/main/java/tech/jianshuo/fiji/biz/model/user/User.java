@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import tech.jianshuo.fiji.biz.constant.UserStatus;
-import tech.jianshuo.fiji.core.model.BaseModel;
+import tech.jianshuo.fiji.biz.model.Model;
 
 /**
  * @author zhen.yu
@@ -16,7 +16,7 @@ import tech.jianshuo.fiji.core.model.BaseModel;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Table(name = "fj_user")
-public class User extends BaseModel {
+public class User extends Model {
     private static final long serialVersionUID = 3730107904024788810L;
 
     private String username;

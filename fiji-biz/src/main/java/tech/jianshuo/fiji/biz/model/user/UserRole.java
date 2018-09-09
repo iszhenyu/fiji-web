@@ -4,7 +4,7 @@ import javax.persistence.Table;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import tech.jianshuo.fiji.core.model.BaseModel;
+import tech.jianshuo.fiji.biz.model.Model;
 
 /**
  * @author yuzhen
@@ -13,7 +13,7 @@ import tech.jianshuo.fiji.core.model.BaseModel;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Table(name = "fj_user_role")
-public class UserRole extends BaseModel {
+public class UserRole extends Model {
     private static final long serialVersionUID = -1302438435305903555L;
 
     private Long userId;

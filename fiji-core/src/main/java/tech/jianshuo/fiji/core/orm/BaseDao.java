@@ -1,70 +1,31 @@
 package tech.jianshuo.fiji.core.orm;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import tech.jianshuo.fiji.core.model.BaseModel;
 
 /**
- * @author yuzhen
- * Created on 2018-07-15
+ * @author zhen.yu
+ * Created on 2018-09-09
  */
-public abstract class BaseDao<T extends BaseModel, K>  {
+public interface BaseDao<T extends BaseModel, K> {
+    
+    List<T> findByIds(Collection<K> ids);
 
-    public abstract BaseMapper<T> getMapper();
+    List<T> findAll();
 
-    public T findById(K id) {
-        return getMapper().selectByPrimaryKey(id);
-    }
+    K insert(T model);
 
-    public List<T> findByIds(Collection<K> ids) {
-        List<T> result = new ArrayList<>(ids.size());
-        for (K id: ids) {
-            result.add(findById(id));
-        }
-        return result;
-    }
+    int batchInsert(Collection<T> models);
 
-    public List<T> findAll() {
-        return getMapper().selectAll();
-    }
+    int deleteById(K id);
 
-    public T insert(T model) {
-        int num = getMapper().insert(model);
-        return num == 0 ? null : model;
-    }
+    int delete(T model);
 
-    public int batchInsert(Collection<T> models) {
-        return getMapper().insertList(new ArrayList<>(models));
-    }
+    int batchDelete(Collection<T> models);
 
-    public int deleteById(K id) {
-        return getMapper().deleteByPrimaryKey(id);
-    }
+    int update(T model);
 
-    public int delete(T model) {
-        return getMapper().delete(model);
-    }
-
-    public int batchDelete(Collection<T> models) {
-        int num = 0;
-        for (T model : models) {
-            num += delete(model);
-        }
-        return num;
-    }
-
-    public int update(T model) {
-        return getMapper().updateByPrimaryKey(model);
-    }
-
-    public int batchUpdate(Collection<T> models) {
-        int num = 0;
-        for (T model : models) {
-            num += update(model);
-        }
-        return num;
-    }
-
+    int batchUpdate(Collection<T> models);
 }
