@@ -1,6 +1,5 @@
 package tech.jianshuo.fiji.security;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.shiro.authc.credential.CredentialsMatcher;
@@ -28,6 +27,7 @@ import org.springframework.context.annotation.DependsOn;
 import tech.jianshuo.fiji.biz.service.UserService;
 import tech.jianshuo.fiji.security.cache.SpringRedisCacheManager;
 import tech.jianshuo.fiji.security.service.PasswordService;
+import tech.jianshuo.fiji.security.service.PermissionService;
 import tech.jianshuo.fiji.security.session.FijiSessionDao;
 
 /**
@@ -170,29 +170,16 @@ public class SecurityConfiguration {
 	}
 
 	@Bean
-	public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager) {
+	public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager,
+											  PermissionService permissionService) {
+		permissionService.loadAllFilterChainDefinitions();
 		SecurityFilterFactoryBean factoryBean = new SecurityFilterFactoryBean();
 		factoryBean.setSecurityManager(securityManager);
 		factoryBean.setLoginUrl("/auth/login");
 		factoryBean.setSuccessUrl("/");
 		factoryBean.setUnauthorizedUrl("/error/401");
 		//拦截器.
-		Map<String,String> filterChainDefinitionMap = new LinkedHashMap<>();
-		filterChainDefinitionMap.put("/favicon.ico", "anon");
-		filterChainDefinitionMap.put("/assets/**", "anon");
-		filterChainDefinitionMap.put("/error/**", "anon");
-		filterChainDefinitionMap.put("/user/**", "anon");
-		filterChainDefinitionMap.put("/druid/**", "anon");
-		filterChainDefinitionMap.put("/auth/login", "anon");
-		filterChainDefinitionMap.put("/auth/register", "anon");
-		filterChainDefinitionMap.put("/auth/logout", "logout");
-		filterChainDefinitionMap.put("/admin/auth/login", "anon");
-		filterChainDefinitionMap.put("/admin/auth/register", "anon");
-		filterChainDefinitionMap.put("/admin/auth/logout", "logout");
-		//配置记住我过滤器或认证通过可以访问的地址(当上次登录时，记住我以后，在下次访问/或/index时，可以直接访问，不需要登陆)
-		filterChainDefinitionMap.put("/index", "user");
-		filterChainDefinitionMap.put("/", "user");
-		filterChainDefinitionMap.put("/**", "authc");
+		Map<String,String> filterChainDefinitionMap = permissionService.loadAllFilterChainDefinitions();
 		factoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 
 		return factoryBean;
