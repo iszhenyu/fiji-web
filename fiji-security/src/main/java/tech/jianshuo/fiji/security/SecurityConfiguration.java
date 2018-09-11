@@ -17,13 +17,12 @@ import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 
+import lombok.extern.slf4j.Slf4j;
 import tech.jianshuo.fiji.biz.service.UserService;
 import tech.jianshuo.fiji.security.cache.SpringRedisCacheManager;
 import tech.jianshuo.fiji.security.service.PasswordService;
@@ -33,10 +32,9 @@ import tech.jianshuo.fiji.security.session.FijiSessionDao;
 /**
  * Created by zhen.yu on 2017/5/9.
  */
+@Slf4j
 @Configuration
 public class SecurityConfiguration {
-
-	private Logger logger = LoggerFactory.getLogger(SecurityConfiguration.class);
 
 	@Bean
 	public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
