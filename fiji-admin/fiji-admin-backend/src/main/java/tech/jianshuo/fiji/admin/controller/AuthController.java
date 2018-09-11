@@ -20,7 +20,7 @@ import tech.jianshuo.fiji.security.service.PassportService;
  * Created on 2018-09-06
  */
 @RestController
-@RequestMapping("/admin/auth")
+@RequestMapping("/admin/rest/auth")
 public class AuthController extends AdminController {
 
     @Autowired
