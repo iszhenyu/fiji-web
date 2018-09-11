@@ -182,6 +182,7 @@ public class SecurityConfiguration {
 		filterChainDefinitionMap.put("/assets/**", "anon");
 		filterChainDefinitionMap.put("/error/**", "anon");
 		filterChainDefinitionMap.put("/user/**", "anon");
+		filterChainDefinitionMap.put("/druid/**", "anon");
 		filterChainDefinitionMap.put("/auth/login", "anon");
 		filterChainDefinitionMap.put("/auth/register", "anon");
 		filterChainDefinitionMap.put("/auth/logout", "logout");

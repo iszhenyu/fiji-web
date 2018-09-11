@@ -11,7 +11,7 @@ import lombok.Data;
  * Created on 2018-07-23
  */
 @Data
-@ConfigurationProperties(prefix = "tech.jianshuo.druid")
+@ConfigurationProperties(prefix = "spring.datasource")
 public class DruidProperties {
 
     private String username;
