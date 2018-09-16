@@ -5,14 +5,13 @@ import org.springframework.stereotype.Component;
 
 import tech.jianshuo.fiji.biz.persistence.mapper.UserMapper;
 import tech.jianshuo.fiji.biz.model.user.User;
-import tech.jianshuo.fiji.core.orm.DelegatingDao;
 
 /**
  * @author yuzhen
  * Created on 2018-07-21
  */
 @Component
-public class UserDao extends DelegatingDao<User, Long> {
+public class UserDao extends BizDao<User> {
 
     @Autowired
     private UserMapper userMapper;

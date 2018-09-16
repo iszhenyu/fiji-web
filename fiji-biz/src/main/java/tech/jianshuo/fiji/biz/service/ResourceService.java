@@ -10,11 +10,14 @@ import tech.jianshuo.fiji.biz.model.user.Resource;
  */
 public interface ResourceService {
 
-    List<Resource> loadResourcesByUserId(Long userId);
+    Resource createResource(Resource resource);
+
+    List<Resource> loadByUserId(Long userId);
 
     /**
      * 获取资源的url和permission
      */
     List<Resource> loadUrlAndPermissions();
+
 
 }

@@ -1,5 +1,6 @@
 package tech.jianshuo.fiji.biz.persistence.mapper;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -18,4 +19,6 @@ public interface RoleResourceMapper extends BaseMapper<RoleResource> {
     @Select("select * from fj_role_resource where role_id=#{roleId}")
     List<RoleResource> findByRoleId(Long roleId);
 
+    @Select("select * from fj_role_resource where role_id in #{roleIds}")
+    List<RoleResource> findByRoleIds(Collection<Long> roleIds);
 }

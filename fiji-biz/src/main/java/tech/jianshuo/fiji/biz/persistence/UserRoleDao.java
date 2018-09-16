@@ -11,14 +11,13 @@ import tech.jianshuo.fiji.biz.helper.ModelHelper;
 import tech.jianshuo.fiji.biz.model.user.UserRole;
 import tech.jianshuo.fiji.biz.persistence.mapper.UserRoleMapper;
 import tech.jianshuo.fiji.common.util.CollectionUtils;
-import tech.jianshuo.fiji.core.orm.DelegatingDao;
 
 /**
  * @author zhen.yu
  * Created on 2018-09-09
  */
 @Component
-public class UserRoleDao extends DelegatingDao<UserRole, Long> {
+public class UserRoleDao extends BizDao<UserRole> {
 
     @Autowired
     private UserRoleMapper userRoleMapper;

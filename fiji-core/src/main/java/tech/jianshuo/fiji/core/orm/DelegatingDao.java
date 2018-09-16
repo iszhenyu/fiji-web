@@ -2,8 +2,11 @@ package tech.jianshuo.fiji.core.orm;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import tech.jianshuo.fiji.common.util.TimeUtils;
 import tech.jianshuo.fiji.core.model.BaseModel;
 
 /**
@@ -18,10 +21,13 @@ public abstract class DelegatingDao<T extends BaseModel<K>, K> implements BaseDa
         return getMapper().selectByPrimaryKey(id);
     }
 
-    public List<T> findByIds(Collection<K> ids) {
-        List<T> result = new ArrayList<>(ids.size());
+    public Map<K, T> findByIds(Collection<K> ids) {
+        Map<K, T> result = new HashMap<>();
         for (K id: ids) {
-            result.add(findById(id));
+            T model = findById(id);
+            if (model != null) {
+                result.put(id, findById(id));
+            }
         }
         return result;
     }
@@ -31,6 +37,11 @@ public abstract class DelegatingDao<T extends BaseModel<K>, K> implements BaseDa
     }
 
     public K insert(T model) {
+        if (model.getCreateTime() == null || model.getCreateTime() <= 0) {
+            long currentTime = TimeUtils.currentTime();
+            model.setCreateTime(currentTime);
+            model.setLastModifyTime(currentTime);
+        }
         int num = getMapper().insert(model);
         return num == 0 ? null : model.getId();
     }
@@ -39,14 +50,23 @@ public abstract class DelegatingDao<T extends BaseModel<K>, K> implements BaseDa
         return getMapper().insertList(new ArrayList<>(models));
     }
 
+    /**
+     * 物理删除
+     */
     public int deleteById(K id) {
         return getMapper().deleteByPrimaryKey(id);
     }
 
+    /**
+     * 物理删除
+     */
     public int delete(T model) {
         return getMapper().delete(model);
     }
 
+    /**
+     * 物理删除
+     */
     public int batchDelete(Collection<T> models) {
         int num = 0;
         for (T model : models) {
@@ -55,7 +75,40 @@ public abstract class DelegatingDao<T extends BaseModel<K>, K> implements BaseDa
         return num;
     }
 
+    /**
+     * 逻辑删除
+     */
+    public int logicDeleteById(K id) {
+        T model = findById(id);
+        if (model == null) {
+            return 0;
+        }
+        return logicDelete(model);
+    }
+
+    /**
+     * 逻辑删除
+     */
+    public int logicDelete(T model) {
+        long deleteTime = TimeUtils.currentTime();
+        model.setDeletedAt(deleteTime);
+        return update(model);
+    }
+
+    /**
+     * 逻辑删除
+     */
+    public int batchLogicDelete(Collection<T> models) {
+        int num = 0;
+        for (T model : models) {
+            num += logicDelete(model);
+        }
+        return num;
+    }
+
     public int update(T model) {
+        long currentTime = TimeUtils.currentTime();
+        model.setLastModifyTime(currentTime);
         return getMapper().updateByPrimaryKey(model);
     }
 

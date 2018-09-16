@@ -12,4 +12,7 @@ public class ModelHelper {
         return model.getDeletedAt() == null || model.getDeletedAt() <= 0;
     }
 
+    public static boolean isDeleted(Model model) {
+        return !isNotDeleted(model);
+    }
 }

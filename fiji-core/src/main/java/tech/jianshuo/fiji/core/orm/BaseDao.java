@@ -2,6 +2,7 @@ package tech.jianshuo.fiji.core.orm;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import tech.jianshuo.fiji.core.model.BaseModel;
 
@@ -11,7 +12,7 @@ import tech.jianshuo.fiji.core.model.BaseModel;
  */
 public interface BaseDao<T extends BaseModel, K> {
     
-    List<T> findByIds(Collection<K> ids);
+    Map<K, T> findByIds(Collection<K> ids);
 
     List<T> findAll();
 

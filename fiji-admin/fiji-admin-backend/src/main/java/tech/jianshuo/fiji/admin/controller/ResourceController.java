@@ -1,5 +1,6 @@
 package tech.jianshuo.fiji.admin.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import tech.jianshuo.fiji.biz.model.user.Resource;
+import tech.jianshuo.fiji.biz.service.ResourceService;
 import tech.jianshuo.fiji.core.vo.ResponseVo;
 
 /**
@@ -18,6 +20,9 @@ import tech.jianshuo.fiji.core.vo.ResponseVo;
 @RestController
 @RequestMapping("/admin/rest/res")
 public class ResourceController extends AdminController {
+
+    @Autowired
+    private ResourceService resourceService;
 
     @GetMapping("/{resourceId}")
     public ResponseVo get(@PathVariable long resourceId) {
