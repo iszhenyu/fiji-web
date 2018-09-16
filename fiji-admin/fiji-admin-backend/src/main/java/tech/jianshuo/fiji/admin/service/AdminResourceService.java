@@ -10,6 +10,6 @@ import tech.jianshuo.fiji.core.model.page.Pagination;
  */
 public interface AdminResourceService extends ResourceService {
 
-    Pagination<Resource> loadAllResourcesByPage(int currentPage, int pageSize);
+    Pagination<Resource> loadAllResourcesByPage(int pageNo, int pageSize);
 
 }

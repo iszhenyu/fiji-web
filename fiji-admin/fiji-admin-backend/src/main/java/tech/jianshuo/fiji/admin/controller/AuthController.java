@@ -26,7 +26,7 @@ public class AuthController extends AdminController {
     @Autowired
     private PassportService passportService;
 
-    @PostMapping(value = "register")
+    @PostMapping(value = "/register")
     public String register(@Validated RegisterForm form, BindingResult bindingResult) {
         this.validateForm(bindingResult);
         if (form.isPwdNotEqualsToRePwd()) {

@@ -10,6 +10,6 @@ import tech.jianshuo.fiji.core.model.page.Pagination;
  */
 public interface AdminRoleService extends RoleService {
 
-    Pagination<Role> loadAllRolesByPage(int currentPage, int pageSize);
+    Pagination<Role> loadAllRolesByPage(int pageNo, int pageSize);
 
 }

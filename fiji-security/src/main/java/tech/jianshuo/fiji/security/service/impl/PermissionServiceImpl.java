@@ -37,9 +37,9 @@ public class PermissionServiceImpl implements PermissionService {
         filterChainDefinitionMap.put("/auth/login", "anon");
         filterChainDefinitionMap.put("/auth/register", "anon");
         filterChainDefinitionMap.put("/auth/logout", "logout");
-        filterChainDefinitionMap.put("/admin/auth/login", "anon");
-        filterChainDefinitionMap.put("/admin/auth/register", "anon");
-        filterChainDefinitionMap.put("/admin/auth/logout", "logout");
+        filterChainDefinitionMap.put("/admin/rest/auth/login", "anon");
+        filterChainDefinitionMap.put("/admin/rest/auth/register", "anon");
+        filterChainDefinitionMap.put("/admin/rest/auth/logout", "logout");
 
         List<Resource> resources = resourceService.loadUrlAndPermissions();
         if (CollectionUtils.isNotEmpty(resources)) {

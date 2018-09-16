@@ -5,10 +5,14 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+
+import com.github.pagehelper.Page;
 
 import lombok.extern.slf4j.Slf4j;
 import tech.jianshuo.fiji.admin.service.AdminUserService;
+import tech.jianshuo.fiji.admin.util.Paginations;
 import tech.jianshuo.fiji.biz.model.user.User;
 import tech.jianshuo.fiji.biz.persistence.UserDao;
 import tech.jianshuo.fiji.biz.persistence.UserRoleDao;
@@ -21,6 +25,7 @@ import tech.jianshuo.fiji.core.model.page.Pagination;
  * Created on 2018-09-16
  */
 @Slf4j
+@Primary
 @Service
 public class AdminUserServiceImpl extends UserServiceImpl implements AdminUserService {
 
@@ -30,8 +35,9 @@ public class AdminUserServiceImpl extends UserServiceImpl implements AdminUserSe
     private UserDao userDao;
 
     @Override
-    public Pagination<User> loadAllUsersByPage(int currentPage, int pageSize) {
-        return null;
+    public Pagination<User> loadAllUsersByPage(int pageNo, int pageSize) {
+        Page<User> page = Paginations.startPage(pageNo, pageSize).doSelectPage(() -> userDao.findAll());
+        return Paginations.fromPage(page);
     }
 
     @Override

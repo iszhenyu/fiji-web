@@ -12,7 +12,7 @@ import tech.jianshuo.fiji.core.model.page.Pagination;
  */
 public interface AdminUserService extends UserService {
 
-    Pagination<User> loadAllUsersByPage(int currentPage, int pageSize);
+    Pagination<User> loadAllUsersByPage(int pageNo, int pageSize);
 
     List<User> loadUsersByRoleId(Long roleId);
 }

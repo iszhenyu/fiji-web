@@ -1,5 +1,6 @@
 package tech.jianshuo.fiji.admin.service.impl;
 
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
@@ -13,11 +14,12 @@ import tech.jianshuo.fiji.core.model.page.Pagination;
  * Created on 2018-09-16
  */
 @Slf4j
+@Primary
 @Service
 public class AdminResourceServiceImpl extends ResourceServiceImpl implements AdminResourceService {
 
     @Override
-    public Pagination<Resource> loadAllResourcesByPage(int currentPage, int pageSize) {
+    public Pagination<Resource> loadAllResourcesByPage(int pageNo, int pageSize) {
         return null;
     }
 }

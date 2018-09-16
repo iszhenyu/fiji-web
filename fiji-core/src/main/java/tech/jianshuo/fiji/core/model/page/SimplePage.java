@@ -73,6 +73,9 @@ public class SimplePage implements Pageable {
 
     @Override
     public int getTotalPage() {
+        if (totalCount < 0) {
+            return -1;
+        }
         int totalPage = totalCount / pageSize;
         if (totalCount % pageSize != 0 || totalPage == 0) {
             totalPage++;
@@ -92,11 +95,17 @@ public class SimplePage implements Pageable {
 
     @Override
     public boolean isFirstPage() {
+        if (totalCount < 0) {
+            return false;
+        }
         return pageNo <= 1;
     }
 
     @Override
     public boolean isLastPage() {
+        if (totalCount < 0) {
+            return false;
+        }
         return pageNo >= getTotalPage();
     }
 
