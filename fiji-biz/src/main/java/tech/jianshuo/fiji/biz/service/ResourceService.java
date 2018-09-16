@@ -12,12 +12,8 @@ public interface ResourceService {
 
     Resource createResource(Resource resource);
 
-    List<Resource> loadByUserId(Long userId);
+    List<Resource> loadResourcesByUserId(Long userId);
 
-    /**
-     * 获取资源的url和permission
-     */
     List<Resource> loadUrlAndPermissions();
-
 
 }

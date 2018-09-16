@@ -1,5 +1,6 @@
 package tech.jianshuo.fiji.biz.service.impl;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class RoleServiceImpl implements RoleService {
         if (CollectionUtils.isEmpty(roleIds)) {
             return Collections.emptyList();
         }
-        return roleDao.findByIds(roleIds);
+        return new ArrayList<>(roleDao.findByIds(roleIds).values());
     }
 
 }

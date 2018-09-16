@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import tech.jianshuo.fiji.biz.model.user.Resource;
-import tech.jianshuo.fiji.biz.model.user.User;
 import tech.jianshuo.fiji.biz.service.ResourceService;
 import tech.jianshuo.fiji.biz.service.UserService;
 import tech.jianshuo.fiji.common.util.CollectionUtils;
@@ -26,8 +25,6 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Autowired
     private ResourceService resourceService;
-    @Autowired
-    private UserService userService;
 
     @Override
     public Map<String, String> loadAllFilterChainDefinitions() {
@@ -62,25 +59,4 @@ public class PermissionServiceImpl implements PermissionService {
         return filterChainDefinitionMap;
     }
 
-    @Override
-    public void refreshPermissions() {
-        // TODO
-    }
-
-    @Override
-    public void refreshPermissionsOfUser(Long userId) {
-        // TODO
-    }
-
-    @Override
-    public void refreshPermissionsOfRole(Long roleId) {
-        List<User> users = userService.loadUsersByRoleId(roleId);
-        if (CollectionUtils.isEmpty(users)) {
-            return;
-        }
-
-        for (User user: users) {
-            refreshPermissionsOfUser(user.getId());
-        }
-    }
 }

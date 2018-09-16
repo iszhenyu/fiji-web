@@ -43,7 +43,7 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    public List<Resource> loadByUserId(Long userId) {
+    public List<Resource> loadResourcesByUserId(Long userId) {
         if (userId <= 0) {
             return Collections.emptyList();
         }

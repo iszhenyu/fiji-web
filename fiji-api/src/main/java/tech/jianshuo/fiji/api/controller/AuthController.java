@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import tech.jianshuo.fiji.api.form.RegisterForm;
+import tech.jianshuo.fiji.biz.model.user.User;
 import tech.jianshuo.fiji.biz.service.UserService;
 import tech.jianshuo.fiji.core.exception.ValidationException;
 import tech.jianshuo.fiji.core.vo.ResponseVo;
@@ -33,13 +34,13 @@ public class AuthController extends FijiController {
     private UserService userService;
 
     @RequestMapping(value = "register", method = RequestMethod.POST)
-    public String register(@Validated RegisterForm form, BindingResult bindingResult) {
+    public ResponseVo register(@Validated RegisterForm form, BindingResult bindingResult) {
         this.validateForm(bindingResult);
         if (form.isPwdNotEqualsToRePwd()) {
             throw new ValidationException("两次密码不一致");
         }
-        securityService.registerUser(form.getUsername(), form.getPassword());
-        return "注册成功";
+        User user = securityService.registerUser(form.getUsername(), form.getPassword());
+        return ResponseVo.success(user);
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
