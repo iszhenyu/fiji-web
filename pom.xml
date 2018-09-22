@@ -32,6 +32,9 @@
         <module>fiji-core</module>
         <module>fiji-common</module>
         <module>fiji-front</module>
+        <module>fiji-admin</module>
+        <module>fiji-admin/fiji-admin-backend</module>
+        <module>fiji-admin/fiji-admin-front</module>
     </modules>
 
     <dependencies>
