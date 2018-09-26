@@ -25,7 +25,7 @@ spring:
     name: fiji
     url: jdbc:mysql://127.0.0.1:3306/xiaomianshi?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&useSSL=true
     username: root
-    password: 3013689
+    password: jianshuo#
     driver-class-name: com.mysql.jdbc.Driver
     ###################以下为druid增加的配置###########################
     type: com.alibaba.druid.pool.DruidDataSource
