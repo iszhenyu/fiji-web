@@ -21,7 +21,7 @@ import tech.jianshuo.fiji.security.service.PassportService;
  */
 @RestController
 @RequestMapping("/admin/rest/auth")
-public class AuthController extends AdminController {
+public class AuthController extends AdminBaseController {
 
     @Autowired
     private PassportService passportService;

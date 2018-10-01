@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import tech.jianshuo.fiji.admin.service.AdminUserService;
+import tech.jianshuo.fiji.biz.model.admin.AdminUser;
 import tech.jianshuo.fiji.biz.model.user.User;
 import tech.jianshuo.fiji.core.model.page.Pagination;
 import tech.jianshuo.fiji.core.vo.ResponseVo;
@@ -20,16 +21,16 @@ import tech.jianshuo.fiji.core.vo.ResponseVo;
  * Created on 2018-09-09
  */
 @RestController
-@RequestMapping("/admin/rest/user")
-public class UserController extends AdminController {
+@RequestMapping("/admin/rest/admin_ser")
+public class AdminUserController extends AdminBaseController {
 
     @Autowired
-    private AdminUserService userService;
+    private AdminUserService adminUserService;
 
     @GetMapping("")
     public ResponseVo getByPage(@RequestParam(name = "pageNo", defaultValue = "1") int pageNo,
                                 @RequestParam(name = "pageSize", defaultValue = "10") int pageSize) {
-        Pagination<User> userPagination = userService.loadAllUsersByPage(pageNo, pageSize);
+        Pagination<AdminUser> userPagination = adminUserService.loadAllUsersByPage(pageNo, pageSize);
         return ResponseVo.success(userPagination);
     }
 

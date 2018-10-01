@@ -4,7 +4,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import tech.jianshuo.fiji.biz.model.admin.AdminUser;
-import tech.jianshuo.fiji.biz.model.user.User;
 import tech.jianshuo.fiji.core.orm.BaseMapper;
 
 /**
@@ -15,15 +14,15 @@ import tech.jianshuo.fiji.core.orm.BaseMapper;
 public interface AdminUserMapper extends BaseMapper<AdminUser> {
 
     @Select("select * from fj_admin_user where username=#{username}")
-    User findByUsername(String username);
+    AdminUser findByUsername(String username);
 
     @Select("select * from fj_admin_user where mobile=#{mobile}")
-    User findByMobile(String mobile);
+    AdminUser findByMobile(String mobile);
 
     @Select("select * from fj_admin_user where email=#{email}")
-    User findByEmail(String email);
+    AdminUser findByEmail(String email);
 
     @Update("UPDATE fj_admin_user SET mobile=#{mobile} WHERE id=#{id}")
-    void updateMobile(User user);
+    void updateMobile(AdminUser user);
 
 }

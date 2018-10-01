@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.Page;
@@ -13,11 +13,12 @@ import com.github.pagehelper.Page;
 import lombok.extern.slf4j.Slf4j;
 import tech.jianshuo.fiji.admin.service.AdminUserService;
 import tech.jianshuo.fiji.admin.util.Paginations;
-import tech.jianshuo.fiji.biz.model.user.User;
-import tech.jianshuo.fiji.biz.persistence.UserDao;
+import tech.jianshuo.fiji.biz.helper.PrincipalHelper;
+import tech.jianshuo.fiji.biz.model.admin.AdminUser;
+import tech.jianshuo.fiji.biz.persistence.AdminUserDao;
 import tech.jianshuo.fiji.biz.persistence.AdminUserRoleDao;
-import tech.jianshuo.fiji.biz.service.impl.UserServiceImpl;
 import tech.jianshuo.fiji.common.util.CollectionUtils;
+import tech.jianshuo.fiji.core.exception.ValidationException;
 import tech.jianshuo.fiji.core.model.page.Pagination;
 
 /**
@@ -25,27 +26,63 @@ import tech.jianshuo.fiji.core.model.page.Pagination;
  * Created on 2018-09-16
  */
 @Slf4j
-@Primary
 @Service
-public class AdminUserServiceImpl extends UserServiceImpl implements AdminUserService {
+public class AdminUserServiceImpl implements AdminUserService {
 
     @Autowired
-    private AdminUserRoleDao userRoleDao;
+    private AdminUserDao adminUserDao;
     @Autowired
-    private UserDao userDao;
+    private AdminUserRoleDao adminUserRoleDao;
 
     @Override
-    public Pagination<User> loadAllUsersByPage(int pageNo, int pageSize) {
-        Page<User> page = Paginations.startPage(pageNo, pageSize).doSelectPage(() -> userDao.findAll());
+    public Pagination<AdminUser> loadAllUsersByPage(int pageNo, int pageSize) {
+        Page<AdminUser> page = Paginations.startPage(pageNo, pageSize).doSelectPage(() -> adminUserDao.findAll());
         return Paginations.fromPage(page);
     }
 
     @Override
-    public List<User> loadUsersByRoleId(Long roleId) {
-        List<Long> userIds = userRoleDao.findUserIdsByRoleId(roleId);
+    public List<AdminUser> loadUsersByRoleId(Long roleId) {
+        List<Long> userIds = adminUserRoleDao.findUserIdsByRoleId(roleId);
         if (CollectionUtils.isEmpty(userIds)) {
             return Collections.emptyList();
         }
-        return new ArrayList<>(userDao.findByIds(userIds).values());
+        return new ArrayList<>(adminUserDao.findByIds(userIds).values());
+    }
+
+    @Override
+    public AdminUser loadUserByPrincipal(String principal) {
+        if (StringUtils.isBlank(principal)) {
+            return null;
+        }
+        if (PrincipalHelper.isMobile(principal)) {
+            return adminUserDao.findByMobile(principal);
+        } else if (PrincipalHelper.isEmail(principal)) {
+            return adminUserDao.findByEmail(principal);
+        }
+        return adminUserDao.findByUsername(principal);
+    }
+
+    @Override
+    public AdminUser createUser(AdminUser user) {
+        String principal = getPrincipal(user);
+        AdminUser existUser = loadUserByPrincipal(principal);
+        if (existUser != null) {
+            throw new ValidationException("用户已存在");
+        }
+        adminUserDao.insert(user);
+        return user;
+    }
+
+    private String getPrincipal(AdminUser user) {
+        if (StringUtils.isNotBlank(user.getUsername())) {
+            return user.getUsername();
+        }
+        if (StringUtils.isNotBlank(user.getMobile())) {
+            return user.getMobile();
+        }
+        if (StringUtils.isNotBlank(user.getEmail())) {
+            return user.getEmail();
+        }
+        return null;
     }
 }

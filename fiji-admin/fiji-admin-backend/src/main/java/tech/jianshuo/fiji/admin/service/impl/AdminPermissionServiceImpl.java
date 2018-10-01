@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
 import tech.jianshuo.fiji.admin.service.AdminPermissionService;
 import tech.jianshuo.fiji.admin.service.AdminUserService;
-import tech.jianshuo.fiji.biz.model.user.User;
+import tech.jianshuo.fiji.biz.model.admin.AdminUser;
 import tech.jianshuo.fiji.common.util.CollectionUtils;
 
 /**
@@ -20,7 +20,7 @@ import tech.jianshuo.fiji.common.util.CollectionUtils;
 public class AdminPermissionServiceImpl implements AdminPermissionService {
 
     @Autowired
-    private AdminUserService userService;
+    private AdminUserService adminUserService;
 
     @Override
     public void refreshPermissions() {
@@ -34,12 +34,12 @@ public class AdminPermissionServiceImpl implements AdminPermissionService {
 
     @Override
     public void refreshPermissionsOfRole(Long roleId) {
-        List<User> users = userService.loadUsersByRoleId(roleId);
+        List<AdminUser> users = adminUserService.loadUsersByRoleId(roleId);
         if (CollectionUtils.isEmpty(users)) {
             return;
         }
 
-        for (User user: users) {
+        for (AdminUser user: users) {
             refreshPermissionsOfUser(user.getId());
         }
     }
