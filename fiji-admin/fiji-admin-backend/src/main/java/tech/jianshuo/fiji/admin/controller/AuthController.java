@@ -27,13 +27,13 @@ public class AuthController extends AdminBaseController {
     private AdminPassportService adminPassportService;
 
     @PostMapping(value = "/register")
-    public String register(@Validated RegisterForm form, BindingResult bindingResult) {
+    public ResponseVo register(@Validated RegisterForm form, BindingResult bindingResult) {
         this.validateForm(bindingResult);
         if (form.isPwdNotEqualsToRePwd()) {
             throw new ValidationException("两次密码不一致");
         }
-        adminPassportService.registerUser(form.getUsername(), form.getPassword());
-        return "注册成功";
+        AdminUser user = adminPassportService.registerUser(form.getUsername(), form.getPassword());
+        return ResponseVo.success(user);
     }
 
     @PostMapping(value = "/login")

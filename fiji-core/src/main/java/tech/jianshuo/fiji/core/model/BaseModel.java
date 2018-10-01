@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -22,8 +23,13 @@ public class BaseModel<K> implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private K id;
-    private Long deletedAt = 0L; // 逻辑删除标识
-    private Long createTime;     // 创建时间
-    private Long lastModifyTime; // 修改时间
+
+    /**
+     * 逻辑删除标识
+     */
+    @JsonIgnore
+    private Long deletedAt = 0L;
+    private Long createTime;
+    private Long lastModifyTime;
 
 }

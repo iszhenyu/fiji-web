@@ -6,12 +6,15 @@ import lombok.EqualsAndHashCode;
 import tech.jianshuo.fiji.biz.constant.UserStatus;
 import tech.jianshuo.fiji.biz.model.Model;
 
+import javax.persistence.Table;
+
 /**
  * @author zhen.yu
  * @since 2018/7/1
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
+@Table(name = "fj_admin_user")
 public class AdminUser extends Model {
     private static final long serialVersionUID = 3730107904024788810L;
 
