@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import tech.jianshuo.fiji.admin.service.AdminRoleService;
-import tech.jianshuo.fiji.biz.model.user.Role;
+import tech.jianshuo.fiji.biz.model.admin.AdminRole;
 import tech.jianshuo.fiji.biz.service.impl.RoleServiceImpl;
 import tech.jianshuo.fiji.core.model.page.Pagination;
 
@@ -19,7 +19,7 @@ import tech.jianshuo.fiji.core.model.page.Pagination;
 public class AdminRoleServiceImpl extends RoleServiceImpl implements AdminRoleService {
 
     @Override
-    public Pagination<Role> loadAllRolesByPage(int pageNo, int pageSize) {
+    public Pagination<AdminRole> loadAllRolesByPage(int pageNo, int pageSize) {
         return null;
     }
 }

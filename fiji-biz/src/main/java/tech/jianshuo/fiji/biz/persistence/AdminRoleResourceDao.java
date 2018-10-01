@@ -13,8 +13,8 @@ import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
 import tech.jianshuo.fiji.biz.helper.ModelHelper;
-import tech.jianshuo.fiji.biz.model.user.RoleResource;
-import tech.jianshuo.fiji.biz.persistence.mapper.RoleResourceMapper;
+import tech.jianshuo.fiji.biz.model.admin.AdminRoleResource;
+import tech.jianshuo.fiji.biz.persistence.mapper.admin.AdminRoleResourceMapper;
 import tech.jianshuo.fiji.common.util.CollectionUtils;
 
 /**
@@ -23,34 +23,34 @@ import tech.jianshuo.fiji.common.util.CollectionUtils;
  */
 @Slf4j
 @Component
-public class RoleResourceDao extends BizDao<RoleResource> {
+public class AdminRoleResourceDao extends BizDao<AdminRoleResource> {
 
     @Autowired
-    private RoleResourceMapper roleResourceMapper;
+    private AdminRoleResourceMapper adminRoleResourceMapper;
 
     @Override
-    public RoleResourceMapper getMapper() {
-        return roleResourceMapper;
+    public AdminRoleResourceMapper getMapper() {
+        return adminRoleResourceMapper;
     }
 
     public List<Long> findResourceIdsByRoleId(Long roleId) {
-        List<RoleResource> roleResources = roleResourceMapper.findByRoleId(roleId);
-        if (CollectionUtils.isEmpty(roleResources)) {
+        List<AdminRoleResource> adminRoleResources = adminRoleResourceMapper.findByRoleId(roleId);
+        if (CollectionUtils.isEmpty(adminRoleResources)) {
             return Collections.emptyList();
         }
-        return roleResources.stream()
+        return adminRoleResources.stream()
                 .filter(ModelHelper::isNotDeleted)
-                .map(RoleResource::getResourcesId)
+                .map(AdminRoleResource::getResourcesId)
                 .collect(Collectors.toList());
     }
 
     public Map<Long, List<Long>> findResourceIdsByRoleIds(Collection<Long> roleIds) {
-        List<RoleResource> roleResources = roleResourceMapper.findByRoleIds(roleIds);
-        if (CollectionUtils.isEmpty(roleResources)) {
+        List<AdminRoleResource> adminRoleResources = adminRoleResourceMapper.findByRoleIds(roleIds);
+        if (CollectionUtils.isEmpty(adminRoleResources)) {
             return Collections.emptyMap();
         }
         Map<Long, List<Long>> result = new HashMap<>();
-        for (RoleResource rr: roleResources) {
+        for (AdminRoleResource rr: adminRoleResources) {
             if (ModelHelper.isDeleted(rr)) {
                 continue;
             }

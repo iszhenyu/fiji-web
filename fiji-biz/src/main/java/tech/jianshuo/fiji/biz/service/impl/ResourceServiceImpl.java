@@ -11,10 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
-import tech.jianshuo.fiji.biz.model.user.Resource;
-import tech.jianshuo.fiji.biz.model.user.Role;
-import tech.jianshuo.fiji.biz.persistence.ResourceDao;
-import tech.jianshuo.fiji.biz.persistence.RoleResourceDao;
+import tech.jianshuo.fiji.biz.model.admin.AdminResource;
+import tech.jianshuo.fiji.biz.model.admin.AdminRole;
+import tech.jianshuo.fiji.biz.persistence.AdminResourceDao;
+import tech.jianshuo.fiji.biz.persistence.AdminRoleResourceDao;
 import tech.jianshuo.fiji.biz.service.ResourceService;
 import tech.jianshuo.fiji.biz.service.RoleService;
 import tech.jianshuo.fiji.common.util.CollectionUtils;
@@ -29,31 +29,31 @@ import tech.jianshuo.fiji.common.util.MapUtils;
 public class ResourceServiceImpl implements ResourceService {
 
     @Autowired
-    private ResourceDao resourceDao;
+    private AdminResourceDao resourceDao;
     @Autowired
-    private RoleResourceDao roleResourceDao;
+    private AdminRoleResourceDao roleResourceDao;
     @Autowired
     private RoleService roleService;
 
     @Override
-    public Resource createResource(Resource resource) {
-        Long id = resourceDao.insert(resource);
-        resource.setId(id);
-        return resource;
+    public AdminResource createResource(AdminResource adminResource) {
+        Long id = resourceDao.insert(adminResource);
+        adminResource.setId(id);
+        return adminResource;
     }
 
     @Override
-    public List<Resource> loadResourcesByUserId(Long userId) {
+    public List<AdminResource> loadResourcesByUserId(Long userId) {
         if (userId <= 0) {
             return Collections.emptyList();
         }
-        List<Role> roles = roleService.loadRolesByUserId(userId);
-        if (CollectionUtils.isEmpty(roles)) {
+        List<AdminRole> adminRoles = roleService.loadRolesByUserId(userId);
+        if (CollectionUtils.isEmpty(adminRoles)) {
             return Collections.emptyList();
         }
-        List<Long> roleIds = roles.stream()
+        List<Long> roleIds = adminRoles.stream()
                 .filter(Objects::nonNull)
-                .map(Role::getId)
+                .map(AdminRole::getId)
                 .collect(Collectors.toList());
         Map<Long, List<Long>> roleResourceMap = roleResourceDao.findResourceIdsByRoleIds(roleIds);
         if (MapUtils.isEmpty(roleResourceMap)) {
@@ -68,7 +68,7 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    public List<Resource> loadUrlAndPermissions() {
+    public List<AdminResource> loadUrlAndPermissions() {
         // TODO
         return null;
     }

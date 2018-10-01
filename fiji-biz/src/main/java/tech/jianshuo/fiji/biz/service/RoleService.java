@@ -2,7 +2,7 @@ package tech.jianshuo.fiji.biz.service;
 
 import java.util.List;
 
-import tech.jianshuo.fiji.biz.model.user.Role;
+import tech.jianshuo.fiji.biz.model.admin.AdminRole;
 
 /**
  * @author zhen.yu
@@ -10,6 +10,6 @@ import tech.jianshuo.fiji.biz.model.user.Role;
  */
 public interface RoleService {
 
-    List<Role> loadRolesByUserId(Long userId);
+    List<AdminRole> loadRolesByUserId(Long userId);
 
 }

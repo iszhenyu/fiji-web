@@ -9,9 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
-import tech.jianshuo.fiji.biz.model.user.Resource;
+import tech.jianshuo.fiji.biz.model.admin.AdminResource;
 import tech.jianshuo.fiji.biz.service.ResourceService;
-import tech.jianshuo.fiji.biz.service.UserService;
 import tech.jianshuo.fiji.common.util.CollectionUtils;
 import tech.jianshuo.fiji.security.service.PermissionService;
 
@@ -41,9 +40,9 @@ public class PermissionServiceImpl implements PermissionService {
         filterChainDefinitionMap.put("/admin/rest/auth/register", "anon");
         filterChainDefinitionMap.put("/admin/rest/auth/logout", "logout");
 
-        List<Resource> resources = resourceService.loadUrlAndPermissions();
-        if (CollectionUtils.isNotEmpty(resources)) {
-            resources.stream()
+        List<AdminResource> adminResources = resourceService.loadUrlAndPermissions();
+        if (CollectionUtils.isNotEmpty(adminResources)) {
+            adminResources.stream()
                     .filter(r -> StringUtils.isNotBlank(r.getUrl()) && StringUtils.isNotBlank(r.getPermission()))
                     .forEach(resource -> {
                         String permission = "perms[" + resource.getPermission() + "]";

@@ -2,7 +2,7 @@ package tech.jianshuo.fiji.biz.service;
 
 import java.util.List;
 
-import tech.jianshuo.fiji.biz.model.user.Resource;
+import tech.jianshuo.fiji.biz.model.admin.AdminResource;
 
 /**
  * @author zhen.yu
@@ -10,10 +10,10 @@ import tech.jianshuo.fiji.biz.model.user.Resource;
  */
 public interface ResourceService {
 
-    Resource createResource(Resource resource);
+    AdminResource createResource(AdminResource adminResource);
 
-    List<Resource> loadResourcesByUserId(Long userId);
+    List<AdminResource> loadResourcesByUserId(Long userId);
 
-    List<Resource> loadUrlAndPermissions();
+    List<AdminResource> loadUrlAndPermissions();
 
 }

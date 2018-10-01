@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import tech.jianshuo.fiji.biz.model.user.Role;
+import tech.jianshuo.fiji.biz.model.admin.AdminRole;
 import tech.jianshuo.fiji.core.vo.ResponseVo;
 
 /**
@@ -25,12 +25,12 @@ public class RoleController extends AdminController {
     }
 
     @PostMapping
-    public ResponseVo add(Role role) {
+    public ResponseVo add(AdminRole adminRole) {
         return ResponseVo.success();
     }
 
     @PutMapping
-    public ResponseVo update(Role role) {
+    public ResponseVo update(AdminRole adminRole) {
         return ResponseVo.success();
     }
 

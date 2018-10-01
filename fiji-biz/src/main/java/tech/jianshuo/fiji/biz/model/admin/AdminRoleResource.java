@@ -1,6 +1,4 @@
-package tech.jianshuo.fiji.biz.model.user;
-
-import javax.persistence.Table;
+package tech.jianshuo.fiji.biz.model.admin;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -12,8 +10,7 @@ import tech.jianshuo.fiji.biz.model.Model;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Table(name = "fj_role_resource")
-public class RoleResource extends Model {
+public class AdminRoleResource extends Model {
     private static final long serialVersionUID = -7191052008691998075L;
 
     private Long roleId;

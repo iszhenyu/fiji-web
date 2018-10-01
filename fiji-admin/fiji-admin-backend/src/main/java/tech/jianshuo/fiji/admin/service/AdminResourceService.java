@@ -1,6 +1,6 @@
 package tech.jianshuo.fiji.admin.service;
 
-import tech.jianshuo.fiji.biz.model.user.Resource;
+import tech.jianshuo.fiji.biz.model.admin.AdminResource;
 import tech.jianshuo.fiji.biz.service.ResourceService;
 import tech.jianshuo.fiji.core.model.page.Pagination;
 
@@ -10,6 +10,6 @@ import tech.jianshuo.fiji.core.model.page.Pagination;
  */
 public interface AdminResourceService extends ResourceService {
 
-    Pagination<Resource> loadAllResourcesByPage(int pageNo, int pageSize);
+    Pagination<AdminResource> loadAllResourcesByPage(int pageNo, int pageSize);
 
 }

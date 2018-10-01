@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
-import tech.jianshuo.fiji.biz.model.user.Role;
-import tech.jianshuo.fiji.biz.persistence.RoleDao;
-import tech.jianshuo.fiji.biz.persistence.UserRoleDao;
+import tech.jianshuo.fiji.biz.model.admin.AdminRole;
+import tech.jianshuo.fiji.biz.persistence.AdminRoleDao;
+import tech.jianshuo.fiji.biz.persistence.AdminUserRoleDao;
 import tech.jianshuo.fiji.biz.service.RoleService;
 import tech.jianshuo.fiji.common.util.CollectionUtils;
 
@@ -23,12 +23,12 @@ import tech.jianshuo.fiji.common.util.CollectionUtils;
 public class RoleServiceImpl implements RoleService {
 
     @Autowired
-    private RoleDao roleDao;
+    private AdminRoleDao roleDao;
     @Autowired
-    private UserRoleDao userRoleDao;
+    private AdminUserRoleDao userRoleDao;
 
     @Override
-    public List<Role> loadRolesByUserId(Long userId) {
+    public List<AdminRole> loadRolesByUserId(Long userId) {
         List<Long> roleIds = userRoleDao.findRoleIdsByUserId(userId);
         if (CollectionUtils.isEmpty(roleIds)) {
             return Collections.emptyList();

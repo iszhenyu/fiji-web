@@ -1,4 +1,4 @@
-package tech.jianshuo.fiji.biz.model.user;
+package tech.jianshuo.fiji.biz.model.admin;
 
 import javax.persistence.Table;
 
@@ -12,8 +12,7 @@ import tech.jianshuo.fiji.biz.model.Model;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Table(name = "fj_user_role")
-public class UserRole extends Model {
+public class AdminUserRole extends Model {
     private static final long serialVersionUID = -1302438435305903555L;
 
     private Long userId;

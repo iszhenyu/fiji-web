@@ -1,7 +1,6 @@
-package tech.jianshuo.fiji.biz.model.user;
+package tech.jianshuo.fiji.biz.model.admin;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import tech.jianshuo.fiji.biz.constant.UserStatus;
@@ -13,7 +12,7 @@ import tech.jianshuo.fiji.biz.model.Model;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class User extends Model {
+public class AdminUser extends Model {
     private static final long serialVersionUID = 3730107904024788810L;
 
     private String username;

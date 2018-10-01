@@ -15,7 +15,7 @@ import tech.jianshuo.fiji.admin.service.AdminUserService;
 import tech.jianshuo.fiji.admin.util.Paginations;
 import tech.jianshuo.fiji.biz.model.user.User;
 import tech.jianshuo.fiji.biz.persistence.UserDao;
-import tech.jianshuo.fiji.biz.persistence.UserRoleDao;
+import tech.jianshuo.fiji.biz.persistence.AdminUserRoleDao;
 import tech.jianshuo.fiji.biz.service.impl.UserServiceImpl;
 import tech.jianshuo.fiji.common.util.CollectionUtils;
 import tech.jianshuo.fiji.core.model.page.Pagination;
@@ -30,7 +30,7 @@ import tech.jianshuo.fiji.core.model.page.Pagination;
 public class AdminUserServiceImpl extends UserServiceImpl implements AdminUserService {
 
     @Autowired
-    private UserRoleDao userRoleDao;
+    private AdminUserRoleDao userRoleDao;
     @Autowired
     private UserDao userDao;
 

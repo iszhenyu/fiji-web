@@ -1,8 +1,7 @@
-package tech.jianshuo.fiji.biz.model.user;
+package tech.jianshuo.fiji.biz.model.admin;
 
 import java.util.List;
 
-import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import lombok.Data;
@@ -15,8 +14,7 @@ import tech.jianshuo.fiji.biz.model.Model;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Table(name = "fj_resource")
-public class Resource extends Model {
+public class AdminResource extends Model {
     private static final long serialVersionUID = -7216674797590670244L;
 
     private String name;
@@ -32,8 +30,8 @@ public class Resource extends Model {
     @Transient
     private String checked;
     @Transient
-    private Resource parent;
+    private AdminResource parent;
     @Transient
-    private List<Resource> nodes;
+    private List<AdminResource> nodes;
 
 }

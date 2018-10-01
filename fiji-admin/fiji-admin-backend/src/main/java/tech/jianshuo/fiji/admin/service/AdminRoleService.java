@@ -1,6 +1,6 @@
 package tech.jianshuo.fiji.admin.service;
 
-import tech.jianshuo.fiji.biz.model.user.Role;
+import tech.jianshuo.fiji.biz.model.admin.AdminRole;
 import tech.jianshuo.fiji.biz.service.RoleService;
 import tech.jianshuo.fiji.core.model.page.Pagination;
 
@@ -10,6 +10,6 @@ import tech.jianshuo.fiji.core.model.page.Pagination;
  */
 public interface AdminRoleService extends RoleService {
 
-    Pagination<Role> loadAllRolesByPage(int pageNo, int pageSize);
+    Pagination<AdminRole> loadAllRolesByPage(int pageNo, int pageSize);
 
 }

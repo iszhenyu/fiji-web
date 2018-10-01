@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import tech.jianshuo.fiji.biz.helper.ModelHelper;
-import tech.jianshuo.fiji.biz.model.user.UserRole;
-import tech.jianshuo.fiji.biz.persistence.mapper.UserRoleMapper;
+import tech.jianshuo.fiji.biz.model.admin.AdminUserRole;
+import tech.jianshuo.fiji.biz.persistence.mapper.admin.AdminUserRoleMapper;
 import tech.jianshuo.fiji.common.util.CollectionUtils;
 
 /**
@@ -17,52 +17,52 @@ import tech.jianshuo.fiji.common.util.CollectionUtils;
  * Created on 2018-09-09
  */
 @Component
-public class UserRoleDao extends BizDao<UserRole> {
+public class AdminUserRoleDao extends BizDao<AdminUserRole> {
 
     @Autowired
-    private UserRoleMapper userRoleMapper;
+    private AdminUserRoleMapper adminUserRoleMapper;
 
     @Override
-    public UserRoleMapper getMapper() {
-        return userRoleMapper;
+    public AdminUserRoleMapper getMapper() {
+        return adminUserRoleMapper;
     }
 
     public List<Long> findUserIdsByRoleId(Long roleId) {
-        List<UserRole> userRoles = getMapper().findByRoleId(roleId);
+        List<AdminUserRole> userRoles = getMapper().findByRoleId(roleId);
         if (CollectionUtils.isEmpty(userRoles)) {
             return Collections.emptyList();
         }
         return userRoles.stream()
                 .filter(ModelHelper::isNotDeleted)
-                .map(UserRole::getUserId)
+                .map(AdminUserRole::getUserId)
                 .collect(Collectors.toList());
     }
 
     public List<Long> findUserIdsByRoleIdIncludeDeleted(Long roleId) {
-        List<UserRole> userRoles = getMapper().findByRoleId(roleId);
+        List<AdminUserRole> userRoles = getMapper().findByRoleId(roleId);
         if (CollectionUtils.isEmpty(userRoles)) {
             return Collections.emptyList();
         }
-        return userRoles.stream().map(UserRole::getUserId).collect(Collectors.toList());
+        return userRoles.stream().map(AdminUserRole::getUserId).collect(Collectors.toList());
     }
 
     public List<Long> findRoleIdsByUserId(Long userId) {
-        List<UserRole> userRoles = getMapper().findByUserId(userId);
+        List<AdminUserRole> userRoles = getMapper().findByUserId(userId);
         if (CollectionUtils.isEmpty(userRoles)) {
             return Collections.emptyList();
         }
         return userRoles.stream()
                 .filter(ModelHelper::isNotDeleted)
-                .map(UserRole::getRoleId)
+                .map(AdminUserRole::getRoleId)
                 .collect(Collectors.toList());
     }
 
     public List<Long> findRoleIdsByUserIdIncludeDeleted(Long userId) {
-        List<UserRole> userRoles = getMapper().findByUserId(userId);
+        List<AdminUserRole> userRoles = getMapper().findByUserId(userId);
         if (CollectionUtils.isEmpty(userRoles)) {
             return Collections.emptyList();
         }
-        return userRoles.stream().map(UserRole::getRoleId).collect(Collectors.toList());
+        return userRoles.stream().map(AdminUserRole::getRoleId).collect(Collectors.toList());
     }
 
 }

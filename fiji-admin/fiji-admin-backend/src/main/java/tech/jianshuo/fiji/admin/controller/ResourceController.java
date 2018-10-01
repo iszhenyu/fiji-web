@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import tech.jianshuo.fiji.biz.model.user.Resource;
+import tech.jianshuo.fiji.biz.model.admin.AdminResource;
 import tech.jianshuo.fiji.biz.service.ResourceService;
 import tech.jianshuo.fiji.core.vo.ResponseVo;
 
@@ -30,12 +30,12 @@ public class ResourceController extends AdminController {
     }
 
     @PostMapping
-    public ResponseVo add(Resource resource) {
+    public ResponseVo add(AdminResource adminResource) {
         return ResponseVo.success();
     }
 
     @PutMapping
-    public ResponseVo update(Resource resource) {
+    public ResponseVo update(AdminResource adminResource) {
         return ResponseVo.success();
     }
 

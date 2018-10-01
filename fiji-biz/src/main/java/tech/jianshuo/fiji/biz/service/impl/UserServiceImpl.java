@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import tech.jianshuo.fiji.biz.persistence.UserDao;
 import tech.jianshuo.fiji.biz.helper.PrincipalHelper;
 import tech.jianshuo.fiji.biz.model.user.User;
-import tech.jianshuo.fiji.biz.persistence.UserRoleDao;
+import tech.jianshuo.fiji.biz.persistence.AdminUserRoleDao;
 import tech.jianshuo.fiji.biz.service.UserService;
 import tech.jianshuo.fiji.core.exception.ValidationException;
 
@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
     @Autowired
-    private UserRoleDao userRoleDao;
+    private AdminUserRoleDao userRoleDao;
 
     @Override
     public User loadUserByPrincipal(String principal) {
