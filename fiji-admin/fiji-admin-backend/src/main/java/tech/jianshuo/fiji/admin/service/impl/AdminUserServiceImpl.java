@@ -8,18 +8,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.github.pagehelper.Page;
-
 import lombok.extern.slf4j.Slf4j;
 import tech.jianshuo.fiji.admin.service.AdminUserService;
-import tech.jianshuo.fiji.admin.util.Paginations;
 import tech.jianshuo.fiji.biz.helper.PrincipalHelper;
 import tech.jianshuo.fiji.biz.model.admin.AdminUser;
 import tech.jianshuo.fiji.biz.persistence.AdminUserDao;
 import tech.jianshuo.fiji.biz.persistence.AdminUserRoleDao;
 import tech.jianshuo.fiji.common.util.CollectionUtils;
 import tech.jianshuo.fiji.core.exception.ValidationException;
-import tech.jianshuo.fiji.core.model.page.Pagination;
 
 /**
  * @author zhen.yu
@@ -35,13 +31,12 @@ public class AdminUserServiceImpl implements AdminUserService {
     private AdminUserRoleDao adminUserRoleDao;
 
     @Override
-    public Pagination<AdminUser> loadAllUsersByPage(int pageNo, int pageSize) {
-        Page<AdminUser> page = Paginations.startPage(pageNo, pageSize).doSelectPage(() -> adminUserDao.findAll());
-        return Paginations.fromPage(page);
+    public AdminUser loadAdminUserById(Long userId) {
+        return adminUserDao.findById(userId);
     }
 
     @Override
-    public List<AdminUser> loadUsersByRoleId(Long roleId) {
+    public List<AdminUser> loadAdminUsersByRoleId(Long roleId) {
         List<Long> userIds = adminUserRoleDao.findUserIdsByRoleId(roleId);
         if (CollectionUtils.isEmpty(userIds)) {
             return Collections.emptyList();
@@ -50,7 +45,7 @@ public class AdminUserServiceImpl implements AdminUserService {
     }
 
     @Override
-    public AdminUser loadUserByPrincipal(String principal) {
+    public AdminUser loadAdminUserByPrincipal(String principal) {
         if (StringUtils.isBlank(principal)) {
             return null;
         }
@@ -63,9 +58,9 @@ public class AdminUserServiceImpl implements AdminUserService {
     }
 
     @Override
-    public AdminUser createUser(AdminUser user) {
+    public AdminUser createAdminUser(AdminUser user) {
         String principal = getPrincipal(user);
-        AdminUser existUser = loadUserByPrincipal(principal);
+        AdminUser existUser = loadAdminUserByPrincipal(principal);
         if (existUser != null) {
             throw new ValidationException("用户已存在");
         }

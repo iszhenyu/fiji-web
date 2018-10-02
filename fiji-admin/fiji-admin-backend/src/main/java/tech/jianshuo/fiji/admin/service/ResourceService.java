@@ -9,7 +9,7 @@ import java.util.List;
  * @author zhen.yu
  * Created on 2018-09-16
  */
-public interface AdminResourceService {
+public interface ResourceService {
 
     Pagination<AdminResource> loadAllResourcesByPage(int pageNo, int pageSize);
 

@@ -9,7 +9,7 @@ import java.util.List;
  * @author zhen.yu
  * Created on 2018-09-16
  */
-public interface AdminRoleService {
+public interface RoleService {
 
     Pagination<AdminRole> loadAllRolesByPage(int pageNo, int pageSize);
 

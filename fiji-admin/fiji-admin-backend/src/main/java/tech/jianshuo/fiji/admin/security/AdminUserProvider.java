@@ -21,7 +21,7 @@ public class AdminUserProvider implements UserProvider {
 
     @Override
     public SecurityUser provideUser(String principal) {
-        AdminUser user = adminUserService.loadUserByPrincipal(principal);
+        AdminUser user = adminUserService.loadAdminUserByPrincipal(principal);
         if (user == null) {
             return null;
         }

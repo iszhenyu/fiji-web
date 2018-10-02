@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
-import tech.jianshuo.fiji.admin.service.AdminResourceService;
-import tech.jianshuo.fiji.admin.service.AdminRoleService;
+import tech.jianshuo.fiji.admin.service.ResourceService;
+import tech.jianshuo.fiji.admin.service.RoleService;
 import tech.jianshuo.fiji.biz.model.admin.AdminResource;
 import tech.jianshuo.fiji.biz.model.admin.AdminRole;
 import tech.jianshuo.fiji.biz.persistence.AdminResourceDao;
@@ -23,14 +23,14 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
-public class AdminResourceServiceImpl implements AdminResourceService {
+public class ResourceServiceImpl implements ResourceService {
 
     @Autowired
     private AdminResourceDao adminResourceDao;
     @Autowired
     private AdminRoleResourceDao adminRoleResourceDao;
     @Autowired
-    private AdminRoleService adminRoleService;
+    private RoleService roleService;
 
     @Override
     public Pagination<AdminResource> loadAllResourcesByPage(int pageNo, int pageSize) {
@@ -42,7 +42,7 @@ public class AdminResourceServiceImpl implements AdminResourceService {
         if (userId <= 0) {
             return Collections.emptyList();
         }
-        List<AdminRole> adminRoles = adminRoleService.loadRolesByUserId(userId);
+        List<AdminRole> adminRoles = roleService.loadRolesByUserId(userId);
         if (CollectionUtils.isEmpty(adminRoles)) {
             return Collections.emptyList();
         }

@@ -4,7 +4,7 @@ package tech.jianshuo.fiji.admin.service;
  * @author zhen.yu
  * Created on 2018-09-16
  */
-public interface AdminPermissionService {
+public interface PermissionService {
 
     /**
      * 重新加载权限

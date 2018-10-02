@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import tech.jianshuo.fiji.admin.service.AdminResourceService;
+import tech.jianshuo.fiji.admin.service.ResourceService;
 import tech.jianshuo.fiji.biz.model.admin.AdminResource;
 import tech.jianshuo.fiji.core.vo.ResponseVo;
 
@@ -22,7 +22,7 @@ import tech.jianshuo.fiji.core.vo.ResponseVo;
 public class ResourceController extends BaseAdminController {
 
     @Autowired
-    private AdminResourceService resourceService;
+    private ResourceService resourceService;
 
     @GetMapping("/{resourceId}")
     public ResponseVo get(@PathVariable long resourceId) {

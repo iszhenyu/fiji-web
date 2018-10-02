@@ -1,9 +1,7 @@
 package tech.jianshuo.fiji.admin.controller;
 
-import javax.security.auth.Subject;
 import javax.validation.constraints.NotEmpty;
 
-import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -19,8 +17,6 @@ import tech.jianshuo.fiji.core.exception.ValidationException;
 import tech.jianshuo.fiji.core.vo.ResponseVo;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author zhen.yu
@@ -31,7 +27,7 @@ import java.util.Map;
 public class AuthController extends BaseAdminController {
 
     @Autowired
-    private AdminPassportService adminPassportService;
+    private AdminPassportService passportService;
 
     @PostMapping(value = "/register")
     public ResponseVo register(@Validated RegisterForm form, BindingResult bindingResult) {
@@ -39,21 +35,21 @@ public class AuthController extends BaseAdminController {
         if (form.isPwdNotEqualsToRePwd()) {
             throw new ValidationException("两次密码不一致");
         }
-        AdminUser user = adminPassportService.registerUser(form.getUsername(), form.getPassword());
+        AdminUser user = passportService.registerUser(form.getUsername(), form.getPassword());
         return ResponseVo.success(user);
     }
 
     @PostMapping(value = "/login")
     public ResponseVo login(@NotEmpty(message = "用户名不能为空") String username,
                             @NotEmpty(message = "密码不能为空") String password) {
-        AdminUser user = adminPassportService.loginWithRememberMe(username, password);
-        Serializable tokenId = adminPassportService.loadLoginedToken();
+        AdminUser user = passportService.loginWithRememberMe(username, password);
+        Serializable tokenId = passportService.loadLoginedToken();
         return ResponseVo.success(LoginVo.fromAdminUserAndToken(user, tokenId));
     }
 
     @PostMapping("/logout")
     public ResponseVo logout() {
-        adminPassportService.logoutUser();
+        passportService.logoutUser();
         return ResponseVo.success();
     }
 

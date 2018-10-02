@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
-import tech.jianshuo.fiji.admin.service.AdminRoleService;
+import tech.jianshuo.fiji.admin.service.RoleService;
 import tech.jianshuo.fiji.biz.model.admin.AdminRole;
 import tech.jianshuo.fiji.biz.persistence.AdminRoleDao;
 import tech.jianshuo.fiji.biz.persistence.AdminUserRoleDao;
@@ -23,7 +23,7 @@ import java.util.List;
 @Slf4j
 @Primary
 @Service
-public class AdminRoleServiceImpl implements AdminRoleService {
+public class RoleServiceImpl implements RoleService {
 
     @Autowired
     private AdminRoleDao adminRoleDao;

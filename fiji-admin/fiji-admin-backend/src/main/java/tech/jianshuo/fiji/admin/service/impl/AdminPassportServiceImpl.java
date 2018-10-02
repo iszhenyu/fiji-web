@@ -41,7 +41,7 @@ public class AdminPassportServiceImpl implements AdminPassportService {
         } catch (AuthenticationException e) {
             throw new ValidationException("用户名或密码错误");
         }
-        AdminUser user = adminUserService.loadUserByPrincipal(principal);
+        AdminUser user = adminUserService.loadAdminUserByPrincipal(principal);
         return updateUserLastLoginInfo(user);
     }
 
@@ -76,7 +76,7 @@ public class AdminPassportServiceImpl implements AdminPassportService {
             builder.setUsername(principal);
         }
         builder.setPassword(credential);
-        return adminUserService.createUser(builder.build());
+        return adminUserService.createAdminUser(builder.build());
     }
 
     private class UserBuilder {

@@ -7,13 +7,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import tech.jianshuo.fiji.admin.service.AdminUserService;
 import tech.jianshuo.fiji.biz.model.admin.AdminUser;
 import tech.jianshuo.fiji.biz.model.user.User;
-import tech.jianshuo.fiji.core.model.page.Pagination;
+import tech.jianshuo.fiji.core.exception.NotFoundException;
 import tech.jianshuo.fiji.core.vo.ResponseVo;
 
 /**
@@ -21,22 +20,19 @@ import tech.jianshuo.fiji.core.vo.ResponseVo;
  * Created on 2018-09-09
  */
 @RestController
-@RequestMapping("/admin/rest/admin_ser")
+@RequestMapping("/admin/rest")
 public class AdminUserController extends BaseAdminController {
 
     @Autowired
     private AdminUserService adminUserService;
 
-    @GetMapping("")
-    public ResponseVo getByPage(@RequestParam(name = "pageNo", defaultValue = "1") int pageNo,
-                                @RequestParam(name = "pageSize", defaultValue = "10") int pageSize) {
-        Pagination<AdminUser> userPagination = adminUserService.loadAllUsersByPage(pageNo, pageSize);
-        return ResponseVo.success(userPagination);
-    }
-
-    @GetMapping("/{userId}")
+    @GetMapping("/admin_user/{userId}")
     public ResponseVo get(@PathVariable long userId) {
-        return ResponseVo.success();
+        AdminUser user = adminUserService.loadAdminUserById(userId);
+        if (user == null) {
+            throw new NotFoundException("用户不存在");
+        }
+        return ResponseVo.success(user);
     }
 
     @PostMapping
@@ -49,7 +45,7 @@ public class AdminUserController extends BaseAdminController {
         return ResponseVo.success();
     }
 
-    @DeleteMapping("/{userId}")
+    @DeleteMapping("/admin_user/{userId}")
     public ResponseVo delete(@PathVariable long userId) {
         return ResponseVo.success();
     }
