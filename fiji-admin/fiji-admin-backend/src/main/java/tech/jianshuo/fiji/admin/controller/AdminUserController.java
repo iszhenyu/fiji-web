@@ -22,7 +22,7 @@ import tech.jianshuo.fiji.core.vo.ResponseVo;
  */
 @RestController
 @RequestMapping("/admin/rest/admin_ser")
-public class AdminUserController extends AdminBaseController {
+public class AdminUserController extends BaseAdminController {
 
     @Autowired
     private AdminUserService adminUserService;

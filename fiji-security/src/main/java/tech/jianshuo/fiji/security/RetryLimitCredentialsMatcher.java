@@ -14,7 +14,8 @@ import org.apache.shiro.util.ByteSource;
 import tech.jianshuo.fiji.security.service.PasswordService;
 
 /**
- * Created by zhen.yu on 2017/3/13.
+ * @author zhenyu
+ * Created on 2017/3/13.
  */
 public class RetryLimitCredentialsMatcher extends SimpleCredentialsMatcher {
 

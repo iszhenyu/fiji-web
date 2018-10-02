@@ -13,7 +13,7 @@ import tech.jianshuo.fiji.core.exception.ValidationException;
  * @author zhen.yu
  * Created on 2018-09-06
  */
-public class AdminBaseController {
+public abstract class BaseAdminController {
     protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
     protected void validateForm(BindingResult bindingResult) {

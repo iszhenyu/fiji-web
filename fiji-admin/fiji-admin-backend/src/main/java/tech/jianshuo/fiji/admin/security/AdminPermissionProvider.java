@@ -1,32 +1,27 @@
-package tech.jianshuo.fiji.security.service.impl;
+package tech.jianshuo.fiji.admin.security;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+import tech.jianshuo.fiji.security.provider.PermissionProvider;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.springframework.stereotype.Service;
-
-import lombok.extern.slf4j.Slf4j;
-import tech.jianshuo.fiji.security.service.PermissionService;
-
 /**
- * @author zhen.yu
- * Created on 2018-09-09
+ * @author zhenyu
+ * @date 2018-10-02
  */
 @Slf4j
-@Service
-public class PermissionServiceImpl implements PermissionService {
+@Component
+public class AdminPermissionProvider implements PermissionProvider {
 
     @Override
-    public Map<String, String> loadAllFilterChainDefinitions() {
+    public Map<String, String> providePermissions() {
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         filterChainDefinitionMap.put("/favicon.ico", "anon");
         filterChainDefinitionMap.put("/assets/**", "anon");
         filterChainDefinitionMap.put("/error/**", "anon");
-        filterChainDefinitionMap.put("/user/**", "anon");
         filterChainDefinitionMap.put("/druid/**", "anon");
-        filterChainDefinitionMap.put("/auth/login", "anon");
-        filterChainDefinitionMap.put("/auth/register", "anon");
-        filterChainDefinitionMap.put("/auth/logout", "logout");
         filterChainDefinitionMap.put("/admin/rest/auth/login", "anon");
         filterChainDefinitionMap.put("/admin/rest/auth/register", "anon");
         filterChainDefinitionMap.put("/admin/rest/auth/logout", "logout");
@@ -41,12 +36,11 @@ public class PermissionServiceImpl implements PermissionService {
 //                    });
 //        }
 
-        //配置记住我过滤器或认证通过可以访问的地址(当上次登录时，记住我以后，在下次访问/或/index时，可以直接访问，不需要登陆)
+        // 配置记住我过滤器或认证通过可以访问的地址(当上次登录时，记住我以后，在下次访问/或/index时，可以直接访问，不需要登陆)
         filterChainDefinitionMap.put("/index", "user");
         filterChainDefinitionMap.put("/", "user");
         filterChainDefinitionMap.put("/**", "authc");
 
         return filterChainDefinitionMap;
     }
-
 }

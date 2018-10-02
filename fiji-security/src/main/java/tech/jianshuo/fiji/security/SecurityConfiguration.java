@@ -23,10 +23,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 
 import lombok.extern.slf4j.Slf4j;
-import tech.jianshuo.fiji.biz.service.UserService;
 import tech.jianshuo.fiji.security.cache.SpringRedisCacheManager;
+import tech.jianshuo.fiji.security.provider.PermissionProvider;
+import tech.jianshuo.fiji.security.provider.UserProvider;
 import tech.jianshuo.fiji.security.service.PasswordService;
-import tech.jianshuo.fiji.security.service.PermissionService;
 import tech.jianshuo.fiji.security.session.FijiSessionDao;
 
 /**
@@ -82,10 +82,10 @@ public class SecurityConfiguration {
 	}
 
 	@Bean
-	public SecurityRealm shiroRealm(UserService userService,
+	public SecurityRealm shiroRealm(UserProvider userService,
 									CredentialsMatcher credentialsMatcher) {
 		SecurityRealm realm = new SecurityRealm();
-		realm.setUserService(userService);
+		realm.setUserProvider(userService);
 		realm.setCredentialsMatcher(credentialsMatcher);
 		return realm;
 	}
@@ -169,15 +169,15 @@ public class SecurityConfiguration {
 
 	@Bean
 	public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager,
-											  PermissionService permissionService) {
-		permissionService.loadAllFilterChainDefinitions();
+											  PermissionProvider permissionProvider) {
+		permissionProvider.providePermissions();
 		SecurityFilterFactoryBean factoryBean = new SecurityFilterFactoryBean();
 		factoryBean.setSecurityManager(securityManager);
 		factoryBean.setLoginUrl("/auth/login");
 		factoryBean.setSuccessUrl("/");
 		factoryBean.setUnauthorizedUrl("/error/401");
 		//拦截器.
-		Map<String,String> filterChainDefinitionMap = permissionService.loadAllFilterChainDefinitions();
+		Map<String, String> filterChainDefinitionMap = permissionProvider.providePermissions();
 		factoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 
 		return factoryBean;

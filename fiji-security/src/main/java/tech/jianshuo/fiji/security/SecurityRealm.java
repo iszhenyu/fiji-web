@@ -11,19 +11,19 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
-
-import tech.jianshuo.fiji.biz.model.user.User;
-import tech.jianshuo.fiji.biz.service.UserService;
+import tech.jianshuo.fiji.security.provider.SecurityUser;
+import tech.jianshuo.fiji.security.provider.UserProvider;
 
 /**
- * Created by xiaoz on 2017/5/9.
+ * @author zhenyu
+ * Created on 2017/5/9
  */
 public class SecurityRealm extends AuthorizingRealm {
 
-	private UserService userService;
+	private UserProvider userProvider;
 
-	void setUserService(UserService userService) {
-		this.userService = userService;
+	void setUserProvider(UserProvider userProvider) {
+		this.userProvider = userProvider;
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class SecurityRealm extends AuthorizingRealm {
 			throw new AccountException("Null usernames are not allowed by this realm.");
 		}
 
-		User user = userService.loadUserByPrincipal(username.trim());
+		SecurityUser user = userProvider.provideUser(username.trim());
 		if (user == null) {
 			throw new UnknownAccountException("No account found for user [" + username + "]");
 		}

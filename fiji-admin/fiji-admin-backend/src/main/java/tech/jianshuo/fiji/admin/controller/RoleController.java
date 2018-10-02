@@ -17,7 +17,7 @@ import tech.jianshuo.fiji.core.vo.ResponseVo;
  */
 @RestController
 @RequestMapping("/admin/rest/role")
-public class RoleController extends AdminBaseController {
+public class RoleController extends BaseAdminController {
 
     @GetMapping("/{roleId}")
     public ResponseVo get(@PathVariable long roleId) {

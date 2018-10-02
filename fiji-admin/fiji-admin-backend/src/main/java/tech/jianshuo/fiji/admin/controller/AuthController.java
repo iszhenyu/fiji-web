@@ -21,7 +21,7 @@ import tech.jianshuo.fiji.core.vo.ResponseVo;
  */
 @RestController
 @RequestMapping("/admin/rest/auth")
-public class AuthController extends AdminBaseController {
+public class AuthController extends BaseAdminController {
 
     @Autowired
     private AdminPassportService adminPassportService;

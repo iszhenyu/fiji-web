@@ -19,7 +19,7 @@ import tech.jianshuo.fiji.core.vo.ResponseVo;
  */
 @RestController
 @RequestMapping("/admin/rest/res")
-public class ResourceController extends AdminBaseController {
+public class ResourceController extends BaseAdminController {
 
     @Autowired
     private AdminResourceService resourceService;
