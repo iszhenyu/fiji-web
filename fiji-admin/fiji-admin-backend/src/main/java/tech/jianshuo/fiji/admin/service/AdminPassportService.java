@@ -2,6 +2,8 @@ package tech.jianshuo.fiji.admin.service;
 
 import tech.jianshuo.fiji.biz.model.admin.AdminUser;
 
+import java.io.Serializable;
+
 public interface AdminPassportService {
 
     default AdminUser loginWithRememberMe(String principal, String credential) {
@@ -9,6 +11,8 @@ public interface AdminPassportService {
     }
 
     AdminUser login(String principal, String credential, boolean rememberMe);
+
+    Serializable loadLoginedToken();
 
     /**
      * 更新用户最后一次登录的状态信息

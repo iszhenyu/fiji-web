@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,8 @@ import tech.jianshuo.fiji.biz.model.admin.AdminUser;
 import tech.jianshuo.fiji.common.util.TimeUtils;
 import tech.jianshuo.fiji.core.exception.ValidationException;
 import tech.jianshuo.fiji.security.service.PasswordService;
+
+import java.io.Serializable;
 
 @Slf4j
 @Service
@@ -48,6 +51,16 @@ public class AdminPassportServiceImpl implements AdminPassportService {
             // TODO
         }
         return user;
+    }
+
+    @Override
+    public Serializable loadLoginedToken() {
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession(false);
+        if (session == null) {
+            return null;
+        }
+        return session.getId();
     }
 
     @Override
@@ -106,6 +119,10 @@ public class AdminPassportServiceImpl implements AdminPassportService {
 
     @Override
     public void logoutUser() {
-        SecurityUtils.getSubject().logout();
+        Subject subject = SecurityUtils.getSubject();
+        if (subject.isAuthenticated()) {
+            throw new ValidationException("已经退出登录");
+        }
+        subject.logout();
     }
 }

@@ -19,7 +19,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by zhen.yu on 2017/5/9.
+ * @author zhenyu
+ * Created on 2017/5/9.
  */
 public class SecurityFilterFactoryBean extends ShiroFilterFactoryBean {
 
@@ -46,14 +47,14 @@ public class SecurityFilterFactoryBean extends ShiroFilterFactoryBean {
 	}
 
 	private static class IgnoreSpecifyExtFilter extends AbstractShiroFilter {
-		private static final Set<String> ignoreExt;
+		private static final Set<String> IGNORE_EXT;
 		static {
-			ignoreExt = new HashSet<>();
-			ignoreExt.add(".jpg");
-			ignoreExt.add(".png");
-			ignoreExt.add(".gif");
-			ignoreExt.add(".js");
-			ignoreExt.add(".css");
+			IGNORE_EXT = new HashSet<>();
+			IGNORE_EXT.add(".jpg");
+			IGNORE_EXT.add(".png");
+			IGNORE_EXT.add(".gif");
+			IGNORE_EXT.add(".js");
+			IGNORE_EXT.add(".css");
 		}
 
 		IgnoreSpecifyExtFilter(WebSecurityManager webSecurityManager, FilterChainResolver filterChainResolver) {
@@ -75,7 +76,7 @@ public class SecurityFilterFactoryBean extends ShiroFilterFactoryBean {
 			int lastDotIdx;
 			if ((lastDotIdx = uri.lastIndexOf(".")) > 0) {
 				String ext = uri.substring(lastDotIdx);
-				if (ignoreExt.contains(ext)) {
+				if (IGNORE_EXT.contains(ext)) {
 					shouldFilter = false;
 				}
 			}

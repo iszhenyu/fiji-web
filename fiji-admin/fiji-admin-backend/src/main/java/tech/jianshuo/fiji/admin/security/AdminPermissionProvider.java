@@ -24,7 +24,7 @@ public class AdminPermissionProvider implements PermissionProvider {
         filterChainDefinitionMap.put("/druid/**", "anon");
         filterChainDefinitionMap.put("/admin/rest/auth/login", "anon");
         filterChainDefinitionMap.put("/admin/rest/auth/register", "anon");
-        filterChainDefinitionMap.put("/admin/rest/auth/logout", "logout");
+        filterChainDefinitionMap.put("/admin/rest/auth/logout", "anon");
 
 //        List<AdminResource> adminResources = resourceService.loadUrlAndPermissions();
 //        if (CollectionUtils.isNotEmpty(adminResources)) {
@@ -36,9 +36,6 @@ public class AdminPermissionProvider implements PermissionProvider {
 //                    });
 //        }
 
-        // 配置记住我过滤器或认证通过可以访问的地址(当上次登录时，记住我以后，在下次访问/或/index时，可以直接访问，不需要登陆)
-        filterChainDefinitionMap.put("/index", "user");
-        filterChainDefinitionMap.put("/", "user");
         filterChainDefinitionMap.put("/**", "authc");
 
         return filterChainDefinitionMap;
