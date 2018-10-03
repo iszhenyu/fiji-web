@@ -16,9 +16,9 @@ public interface Const {
 
     String DES3_KEY = "9964DYByKL967c3308imytCB";
 
-    String default_logo = "img/logo.jpg";
+    String DEFAULT_LOGO = "img/logo.jpg";
 
-    String userAgent = "Mozilla";
+    String USER_AGENT = "Mozilla";
 
     String LAST_REFERER = "LAST_REFERER";
 

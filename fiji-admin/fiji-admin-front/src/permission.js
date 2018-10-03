@@ -2,7 +2,7 @@ import router from './router'
 import store from './store'
 import NProgress from 'nprogress' // Progress 进度条
 import 'nprogress/nprogress.css' // Progress 进度条样式
-import {getToken} from '@/utils/auth' // 验权
+import {getToken, getIdentityId} from '@/utils/auth' // 验权
 const whiteList = ['/login', '/404'] //白名单,不需要登录的路由
 
 router.beforeEach((to, from, next) => {
@@ -13,10 +13,10 @@ router.beforeEach((to, from, next) => {
     if (to.path === '/login') {
       next({path: '/'})
       NProgress.done() // 结束Progress
-    // } else if (!store.getters.role) {
-    //   store.dispatch('GetInfo').then(() => {
-    //     next({...to})
-    //   })
+    } else if (!store.getters.role) {
+      store.dispatch('admin_user/getInfo', getIdentityId()).then(() => {
+        next({...to})
+      })
     } else {
       next()
     }

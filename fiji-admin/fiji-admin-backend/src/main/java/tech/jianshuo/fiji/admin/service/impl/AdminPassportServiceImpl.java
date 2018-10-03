@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tech.jianshuo.fiji.admin.service.AdminPassportService;
 import tech.jianshuo.fiji.admin.service.AdminUserService;
+import tech.jianshuo.fiji.biz.constant.UserStatus;
 import tech.jianshuo.fiji.biz.helper.PrincipalHelper;
 import tech.jianshuo.fiji.biz.model.admin.AdminUser;
 import tech.jianshuo.fiji.common.util.TimeUtils;
@@ -110,6 +111,7 @@ public class AdminPassportServiceImpl implements AdminPassportService {
             user.setSalt(salt);
             String encryptedPassword = passwordService.encryptPassword(password, salt);
             user.setPassword(encryptedPassword);
+            user.setStatus(UserStatus.NORMAL);
             user.setDeletedAt(0L);
             user.setCreateTime(TimeUtils.currentTime());
             user.setLastModifyTime(TimeUtils.currentTime());

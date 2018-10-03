@@ -27,6 +27,10 @@ public class ResponseVo {
         return new ResponseVo().fillFailure(message);
     }
 
+    public static ResponseVo fail(String message, int errorCode) {
+        return new ResponseVo().fillFailure(message, errorCode);
+    }
+
     public ResponseVo fillSuccess() {
         this.meta = new Meta(true, OK);
         return this;

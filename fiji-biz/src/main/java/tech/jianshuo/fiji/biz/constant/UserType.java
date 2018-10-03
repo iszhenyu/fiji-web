@@ -8,6 +8,9 @@ import java.util.Map;
  * Created on 2018-09-10
  */
 public enum UserType {
+    /**
+     * 未指定用户类别
+     */
     UNKNOWN("未知"),
     ROOT("超级管理员"),
     ADMIN("管理员"),

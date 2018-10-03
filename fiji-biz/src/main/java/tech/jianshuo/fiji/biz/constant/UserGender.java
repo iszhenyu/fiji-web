@@ -8,8 +8,17 @@ import java.util.Map;
  * Created on 2018-09-10
  */
 public enum UserGender {
+    /**
+     * 未知
+     */
     UNKNOWN(-1, ""),
+    /**
+     * 男
+     */
     MALE(1, "男"),
+    /**
+     * 女
+     */
     FEMALE(0, "女")
     ;
 

@@ -26,7 +26,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(FijiException.class)
     public ResponseEntity<ResponseVo> handleFijiException(FijiException e) {
-        ResponseVo vo = ResponseVo.fail(e.getShowMessage());
+        ResponseVo vo = ResponseVo.fail(e.getShowMessage(), e.getStatus().value());
         return new ResponseEntity<>(vo, e.getStatus());
     }
 
