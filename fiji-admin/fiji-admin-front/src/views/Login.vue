@@ -15,7 +15,7 @@
           <svg-icon icon-class="password"></svg-icon>
         </span>
         <el-input type="password" @keyup.enter.native="handleLogin" v-model="loginForm.password"
-                  autoComplete="on"></el-input>
+                  autoComplete="on"/>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" style="width:100%;" :loading="loading" @click.native.prevent="handleLogin">
@@ -48,11 +48,7 @@
             this.loading = true
             this.$store.dispatch('user/login', this.loginForm).then(data => {
               this.loading = false
-              if ("success" === data.result) {
-                this.$router.push({path: '/'})
-              } else {
-                this.$message.error("账号/密码错误");
-              }
+              this.$router.push({path: '/'})
             }).catch(() => {
               this.loading = false
             })

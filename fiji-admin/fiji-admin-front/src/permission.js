@@ -13,10 +13,10 @@ router.beforeEach((to, from, next) => {
     if (to.path === '/login') {
       next({path: '/'})
       NProgress.done() // 结束Progress
-    } else if (!store.getters.role) {
-      store.dispatch('GetInfo').then(() => {
-        next({...to})
-      })
+    // } else if (!store.getters.role) {
+    //   store.dispatch('GetInfo').then(() => {
+    //     next({...to})
+    //   })
     } else {
       next()
     }

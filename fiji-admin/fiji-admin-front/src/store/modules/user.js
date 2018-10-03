@@ -1,13 +1,13 @@
-import {removeToken, setToken} from '@/utils/auth'
+import {removeToken, setToken, removeIdentityId, setIdentityId} from '@/utils/auth'
 import store from '../../store'
 import router from '../../router'
 import {login, logout} from '@/api/auth'
-import {getUserInfo} from '@/api/user'
+import {getUserInfo} from '@/api/admin_user'
 
 const state = {
-  nickname: '',
+  username: '',
   userId: '',
-  avatar: 'https://www.gravatar.com/avatar/6560ed55e62396e40b34aac1e5041028',
+  avatarUrl: 'https://www.gravatar.com/avatar/6560ed55e62396e40b34aac1e5041028',
   role: '',
   menus: [],
   permissions: []
@@ -15,15 +15,17 @@ const state = {
 
 const mutations = {
   SET_USER: (state, userInfo) => {
-    state.nickname = userInfo.nickname
+    state.username = userInfo.username
     state.userId = userInfo.userId
+    state.avatarUrl = userInfo.avatarUrl
     state.role = userInfo.roleName
     state.menus = userInfo.menuList
     state.permissions = userInfo.permissionList
   },
   RESET_USER: (state) => {
-    state.nickname = ''
+    state.username = ''
     state.userId = ''
+    state.avatarUrl = ''
     state.role = ''
     state.menus = []
     state.permissions = []
@@ -35,10 +37,11 @@ const actions = {
   login ({commit, state}, loginForm) {
     return new Promise((resolve, reject) => {
       login(loginForm.username, loginForm.password).then(data => {
-        if (data.meta.success) {
-          // cookie中保存前端登录状态
-          setToken()
-        }
+        // cookie中保存前端登录状态
+        setToken(data.token)
+        setIdentityId(data.userId)
+
+        commit('SET_USER', data)
         resolve(data)
       }).catch(err => {
         reject(err)
@@ -46,13 +49,11 @@ const actions = {
     })
   },
   // 获取用户信息
-  getInfo ({commit, state}) {
+  getInfo ({commit, state}, userId) {
     return new Promise((resolve, reject) => {
       getUserInfo().then(data => {
         // 储存用户信息
         commit('SET_USER', data.userPermission)
-        // cookie保存登录状态,仅靠vuex保存的话,页面刷新就会丢失登录状态
-        setToken()
         // 生成路由
         let userPermission = data.userPermission
         store.dispatch('GenerateRoutes', userPermission).then(() => {
