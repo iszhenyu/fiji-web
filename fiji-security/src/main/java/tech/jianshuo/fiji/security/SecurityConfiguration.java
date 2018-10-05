@@ -170,12 +170,8 @@ public class SecurityConfiguration {
 	@Bean
 	public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager,
 											  PermissionProvider permissionProvider) {
-		permissionProvider.providePermissions();
 		SecurityFilterFactoryBean factoryBean = new SecurityFilterFactoryBean();
 		factoryBean.setSecurityManager(securityManager);
-		factoryBean.setLoginUrl("/auth/login");
-		factoryBean.setSuccessUrl("/");
-		factoryBean.setUnauthorizedUrl("/error/401");
 		//拦截器.
 		Map<String, String> filterChainDefinitionMap = permissionProvider.providePermissions();
 		factoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
