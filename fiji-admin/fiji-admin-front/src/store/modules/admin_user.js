@@ -8,7 +8,7 @@ const state = {
   username: '',
   userId: '',
   avatarUrl: 'https://www.gravatar.com/avatar/6560ed55e62396e40b34aac1e5041028',
-  role: '',
+  roles: '',
   menus: [],
   permissions: []
 }
@@ -18,15 +18,15 @@ const mutations = {
     state.username = userInfo.username
     state.userId = userInfo.userId
     state.avatarUrl = userInfo.avatarUrl
-    state.role = userInfo.roleName
-    state.menus = userInfo.menuList
+    state.roles = userInfo.roles
+    state.menus = userInfo.menus
     state.permissions = userInfo.permissionList
   },
   RESET_USER: (state) => {
     state.username = ''
     state.userId = ''
     state.avatarUrl = ''
-    state.role = ''
+    state.roles = []
     state.menus = []
     state.permissions = []
   }
@@ -55,8 +55,7 @@ const actions = {
         // 储存用户信息
         commit('SET_USER', data)
         // 生成路由
-        let userPermission = data.permissions
-        store.dispatch('permission/GenerateRoutes', userPermission).then(() => {
+        store.dispatch('permission/GenerateRoutes', data).then(() => {
           // 生成该用户的新路由json操作完毕之后,调用vue-router的动态新增路由方法,将新路由添加
           router.addRoutes(store.getters.addRouters)
         })

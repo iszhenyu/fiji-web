@@ -2,6 +2,7 @@ package tech.jianshuo.fiji.biz.model.admin;
 
 import java.util.List;
 
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import lombok.Data;
@@ -15,6 +16,7 @@ import tech.jianshuo.fiji.biz.model.Model;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
+@Table(name = "fj_admin_resource")
 public class AdminResource extends Model {
     private static final long serialVersionUID = -7216674797590670244L;
 

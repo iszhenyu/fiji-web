@@ -14,6 +14,10 @@ function hasPermission (menus, route) {
   }
 }
 
+function hasRole(roles, role) {
+  return roles.indexOf(role) > -1
+}
+
 /**
  * 递归过滤异步路由表，返回符合用户菜单权限的路由表
  * @param asyncRouterMap
@@ -49,20 +53,17 @@ const mutations = {
 
 const actions = {
   GenerateRoutes ({commit}, userPermission) {
-    // 生成路由
     return new Promise(resolve => {
-      // roles是后台传过来的角色数组,比如['管理员','文章']
-      const role = userPermission.roleName
-      const menus = userPermission.menuList
-      // 声明 该角色可用的路由
+      const roleList = userPermission.roles
+      const menuList = userPermission.menus
       let accessedRouters
-      if (role === 'admin') {
+      if (hasRole(roleList, 'admin')) {
         // 如果角色里包含'管理员',那么所有的路由都可以用
         // 其实管理员也拥有全部菜单,这里主要是利用角色判断,节省加载时间
         accessedRouters = asyncRouterMap
       } else {
         // 否则需要通过以下方法来筛选出本角色可用的路由
-        accessedRouters = filterAsyncRouter(asyncRouterMap, menus)
+        accessedRouters = filterAsyncRouter(asyncRouterMap, menuList)
       }
       // 执行设置路由的方法
       commit('SET_ROUTERS', accessedRouters)

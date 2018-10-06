@@ -13,6 +13,7 @@ import tech.jianshuo.fiji.biz.model.Model;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
+@Table(name = "fj_admin_role")
 public class AdminRole extends Model {
     private static final long serialVersionUID = -1740905784713031285L;
 

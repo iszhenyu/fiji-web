@@ -7,32 +7,35 @@ import store from '@/store'
 // 创建axios实例
 const service = axios.create({
   baseURL: process.env.BASE_API,
-  timeout: 5000,
+  timeout: 10000,
   /**
    * `validateStatus` 定义对于给定的HTTP 响应状态码是 resolve 或 reject  promise 。
    * 如果 `validateStatus` 返回 `true` (或者设置为 `null` 或 `undefined`)，promise 将被 resolve; 否则，promise 将被 rejecte
    */
   validateStatus: function (status) {
     return true
-  }
+  },
+  withCredentials: true   //跨域
 })
 
 // request拦截器
-service.interceptors.request.use(config => {
-  // 采用表单的格式提交数据，默认是json格式
-  if (config.method === 'post') {
-    config.data = Qs.stringify(config.data)
-    config.headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
+service.interceptors.request.use(
+  config => {
+    // 采用表单的格式提交数据，默认是json格式
+    if (config.method === 'post') {
+      config.data = Qs.stringify(config.data)
+      config.headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
+    }
+    if (store.getters.token) {
+      config.headers['FJ-Token'] = getToken() // 让每个请求携带token
+    }
+    return config
+  },
+  error => {
+    console.error(error)
+    Promise.reject(error)
   }
-  if (store.getters.token) {
-    config.headers['X-Token'] = getToken() // 让每个请求携带token
-  }
-  return config
-}, error => {
-  // Do something with request error
-  console.error(error) // for debug
-  Promise.reject(error)
-})
+)
 
 // respone拦截器
 service.interceptors.response.use(
