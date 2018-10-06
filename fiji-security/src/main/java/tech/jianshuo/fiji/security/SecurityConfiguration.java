@@ -1,5 +1,6 @@
 package tech.jianshuo.fiji.security;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.shiro.authc.credential.CredentialsMatcher;
@@ -28,6 +29,8 @@ import tech.jianshuo.fiji.security.provider.PermissionProvider;
 import tech.jianshuo.fiji.security.provider.UserProvider;
 import tech.jianshuo.fiji.security.service.PasswordService;
 import tech.jianshuo.fiji.security.session.FijiSessionDao;
+
+import javax.servlet.Filter;
 
 /**
  * Created by zhen.yu on 2017/5/9.
@@ -82,8 +85,7 @@ public class SecurityConfiguration {
 	}
 
 	@Bean
-	public SecurityRealm shiroRealm(UserProvider userService,
-									CredentialsMatcher credentialsMatcher) {
+	public SecurityRealm shiroRealm(UserProvider userService, CredentialsMatcher credentialsMatcher) {
 		SecurityRealm realm = new SecurityRealm();
 		realm.setUserProvider(userService);
 		realm.setCredentialsMatcher(credentialsMatcher);
@@ -157,10 +159,6 @@ public class SecurityConfiguration {
 	@Bean
 	public CookieRememberMeManager rememberMeManager() {
 		CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
-		//rememberme cookie加密的密钥 建议每个项目都不一样 默认AES算法 密钥长度（128 256 512 位），通过以下代码可以获取
-		//KeyGenerator keygen = KeyGenerator.getInstance("AES");
-		//SecretKey deskey = keygen.generateKey();
-		//System.out.println(Base64.encodeToString(deskey.getEncoded()));
 		byte[] cipherKey = Base64.decode("rPNqM6uKFCyaL10AK51UkQ==");
 		cookieRememberMeManager.setCipherKey(cipherKey);
 		cookieRememberMeManager.setCookie(rememberMeCookie());
@@ -172,6 +170,12 @@ public class SecurityConfiguration {
 											  PermissionProvider permissionProvider) {
 		SecurityFilterFactoryBean factoryBean = new SecurityFilterFactoryBean();
 		factoryBean.setSecurityManager(securityManager);
+
+		Map<String, Filter> customFilters = new HashMap<>();
+
+		customFilters.put("authc", new FijiSecurityFilter());
+		factoryBean.setFilters(customFilters);
+
 		//拦截器.
 		Map<String, String> filterChainDefinitionMap = permissionProvider.providePermissions();
 		factoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);

@@ -65,10 +65,20 @@ public class GlobalExceptionHandler {
      */
     @ResponseBody
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler({RuntimeException.class})
+    @ExceptionHandler(RuntimeException.class)
     public ResponseVo handleRuntimeException(RuntimeException e) {
         logger.error("系统内部出错", e);
         return ResponseVo.fail(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase());
     }
 
+    /**
+     * 500 - Internal Server Error
+     */
+    @ResponseBody
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(Exception.class)
+    public ResponseVo handleException(Exception e) {
+        logger.error("系统内部出错", e);
+        return ResponseVo.fail(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase());
+    }
 }

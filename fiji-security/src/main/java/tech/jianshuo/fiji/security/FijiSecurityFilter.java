@@ -4,9 +4,13 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.CollectionUtils;
 import org.apache.shiro.web.filter.PathMatchingFilter;
+import org.apache.shiro.web.util.WebUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Set;
 
 /**
@@ -15,7 +19,7 @@ import java.util.Set;
  */
 public class FijiSecurityFilter extends PathMatchingFilter {
 
-    protected Subject getSubject(ServletRequest request, ServletResponse response) {
+    private Subject getSubject(ServletRequest request, ServletResponse response) {
         return SecurityUtils.getSubject();
     }
 
@@ -27,7 +31,7 @@ public class FijiSecurityFilter extends PathMatchingFilter {
      * @return true 代表允许访问
      * @throws Exception any exception
      */
-    protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
+    private boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
         Subject subject = getSubject(request, response);
         // 是否登录
         if (!subject.isAuthenticated()) {
@@ -45,9 +49,31 @@ public class FijiSecurityFilter extends PathMatchingFilter {
         return subject.hasAllRoles(roles);
     }
 
+    private void sendChallenge(ServletRequest request, ServletResponse response) throws Exception {
+        HttpServletResponse httpResponse = WebUtils.toHttp(response);
+        httpResponse.setCharacterEncoding("UTF-8");
+        httpResponse.setContentType("application/json; charset=utf-8");
+        httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        httpResponse.getWriter().write(errorMessage().toString());
+    }
+
+    private JSONObject errorMessage() throws JSONException {
+        JSONObject object = new JSONObject();
+        JSONObject meta = new JSONObject();
+        meta.put("message", "Unauthorized");
+        meta.put("success", false);
+        meta.put("code", 401);
+        object.put("meta", meta);
+        return object;
+    }
+
     @Override
     public boolean onPreHandle(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
-        return isAccessAllowed(request, response, mappedValue);
+        boolean isAllow = isAccessAllowed(request, response, mappedValue);
+        if (!isAllow) {
+            sendChallenge(request, response);
+        }
+        return isAllow;
     }
 
 }
