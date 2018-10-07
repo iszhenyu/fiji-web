@@ -23,7 +23,7 @@ import tech.jianshuo.fiji.common.util.CollectionUtils;
  */
 @Slf4j
 @Component
-public class AdminRoleResourceDao extends BizDao<AdminRoleResource> {
+public class AdminRoleResourceDao extends AbstractBizDao<AdminRoleResource> {
 
     @Autowired
     private AdminRoleResourceMapper adminRoleResourceMapper;

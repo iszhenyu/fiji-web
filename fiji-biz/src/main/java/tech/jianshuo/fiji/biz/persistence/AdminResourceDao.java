@@ -11,7 +11,7 @@ import tech.jianshuo.fiji.biz.model.admin.AdminResource;
  * Created on 2018-07-21
  */
 @Component
-public class AdminResourceDao extends BizDao<AdminResource> {
+public class AdminResourceDao extends AbstractBizDao<AdminResource> {
 
     @Autowired
     private AdminResourceMapper adminResourceMapper;

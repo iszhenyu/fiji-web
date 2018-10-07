@@ -3,6 +3,10 @@ package tech.jianshuo.fiji.admin.service.impl;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.github.pagehelper.Page;
 import org.apache.commons.lang3.StringUtils;
@@ -13,7 +17,9 @@ import lombok.extern.slf4j.Slf4j;
 import tech.jianshuo.fiji.admin.service.AdminUserService;
 import tech.jianshuo.fiji.admin.util.Paginations;
 import tech.jianshuo.fiji.biz.helper.PrincipalHelper;
+import tech.jianshuo.fiji.biz.model.admin.AdminRole;
 import tech.jianshuo.fiji.biz.model.admin.AdminUser;
+import tech.jianshuo.fiji.biz.persistence.AdminRoleDao;
 import tech.jianshuo.fiji.biz.persistence.AdminUserDao;
 import tech.jianshuo.fiji.biz.persistence.AdminUserRoleDao;
 import tech.jianshuo.fiji.common.util.CollectionUtils;
@@ -32,10 +38,28 @@ public class AdminUserServiceImpl implements AdminUserService {
     private AdminUserDao adminUserDao;
     @Autowired
     private AdminUserRoleDao adminUserRoleDao;
+    @Autowired
+    private AdminRoleDao adminRoleDao;
 
     @Override
-    public Pagination<AdminUser> loadAllAdminUsersByPage(int pageNo, int pageSize) {
+    public Pagination<AdminUser> loadAllAdminUsersWithRolesByPage(int pageNo, int pageSize) {
         Page<AdminUser> page = Paginations.startPage(pageNo, pageSize).doSelectPage(() -> adminUserDao.findAll());
+        List<AdminUser> adminUsers = page.getResult();
+        if (CollectionUtils.isNotEmpty(adminUsers)) {
+            List<Long> adminUserIds = adminUsers.stream().map(AdminUser::getId).collect(Collectors.toList());
+            Map<Long, List<Long>> userId2RoleIds = adminUserRoleDao.findRoleIdsByUserIds(adminUserIds);
+            Set<Long> roleIds = userId2RoleIds.values().stream().flatMap(List::stream).collect(Collectors.toSet());
+            Map<Long, AdminRole> roleMap = adminRoleDao.findByIds(roleIds);
+            adminUsers.forEach(user -> {
+                if (userId2RoleIds.containsKey(user.getId())) {
+                    List<AdminRole> roles = userId2RoleIds.get(user.getId()).stream()
+                            .map(roleMap::get)
+                            .filter(Objects::nonNull)
+                            .collect(Collectors.toList());
+                    user.setRoles(roles);
+                }
+            });
+        }
         return Paginations.fromPage(page);
     }
 

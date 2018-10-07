@@ -1,13 +1,18 @@
 package tech.jianshuo.fiji.biz.persistence;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import tech.jianshuo.fiji.biz.helper.ModelHelper;
+import tech.jianshuo.fiji.biz.model.admin.AdminRole;
 import tech.jianshuo.fiji.biz.model.admin.AdminUserRole;
 import tech.jianshuo.fiji.biz.persistence.mapper.admin.AdminUserRoleMapper;
 import tech.jianshuo.fiji.common.util.CollectionUtils;
@@ -17,7 +22,7 @@ import tech.jianshuo.fiji.common.util.CollectionUtils;
  * Created on 2018-09-09
  */
 @Component
-public class AdminUserRoleDao extends BizDao<AdminUserRole> {
+public class AdminUserRoleDao extends AbstractBizDao<AdminUserRole> {
 
     @Autowired
     private AdminUserRoleMapper adminUserRoleMapper;
@@ -55,6 +60,20 @@ public class AdminUserRoleDao extends BizDao<AdminUserRole> {
                 .filter(ModelHelper::isNotDeleted)
                 .map(AdminUserRole::getRoleId)
                 .collect(Collectors.toList());
+    }
+
+    public Map<Long, List<Long>> findRoleIdsByUserIds(Collection<Long> userIds) {
+        List<Long> uniqueUserIds = userIds.stream().distinct().collect(Collectors.toList());
+        List<AdminUserRole> userRoles = getMapper().findByUserIds(uniqueUserIds);
+        if (CollectionUtils.isEmpty(userRoles)) {
+            return Collections.emptyMap();
+        }
+        Map<Long, List<AdminUserRole>> result = userRoles.stream()
+                .collect(Collectors.groupingBy(AdminUserRole::getUserId));
+        return result.entrySet().stream().collect(Collectors.toMap(
+                Map.Entry::getKey,
+                e -> e.getValue().stream().map(AdminUserRole::getRoleId).collect(Collectors.toList())
+        ));
     }
 
     public List<Long> findRoleIdsByUserIdIncludeDeleted(Long userId) {

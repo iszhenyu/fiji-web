@@ -20,8 +20,9 @@
       <el-table-column align="center" label="用户名" prop="username" style="width: 60px;"></el-table-column>
       <el-table-column align="center" label="角色" width="100">
         <template slot-scope="scope">
-          <el-tag type="success" v-text="scope.row.roleName" v-if="scope.row.roleId===1"></el-tag>
-          <el-tag type="primary" v-text="scope.row.roleName" v-else></el-tag>
+          <el-tag v-for="role in scope.row.roles" :key="role.name" v-text="role.name"
+                  style="margin-right: 3px;"
+                  type="primary"></el-tag>
         </template>
       </el-table-column>
       <el-table-column align="center" label="创建时间" prop="createTime" width="170"></el-table-column>

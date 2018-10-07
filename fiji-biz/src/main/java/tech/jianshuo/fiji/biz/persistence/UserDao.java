@@ -11,7 +11,7 @@ import tech.jianshuo.fiji.biz.model.user.User;
  * Created on 2018-07-21
  */
 @Component
-public class UserDao extends BizDao<User> {
+public class UserDao extends AbstractBizDao<User> {
 
     @Autowired
     private UserMapper userMapper;

@@ -3,6 +3,7 @@ package tech.jianshuo.fiji.biz.persistence.mapper.admin;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import tech.jianshuo.fiji.biz.model.admin.AdminUserRole;
@@ -20,5 +21,7 @@ public interface AdminUserRoleMapper extends BaseMapper<AdminUserRole> {
 
     @Select("select * from fj_admin_user_role where user_id=#{userId}")
     List<AdminUserRole> findByUserId(Long userId);
+
+    List<AdminUserRole> findByUserIds(@Param("userIds") List<Long> userIds);
 
 }

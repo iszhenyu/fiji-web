@@ -11,7 +11,7 @@ import tech.jianshuo.fiji.biz.persistence.mapper.admin.AdminRoleMapper;
  * Created on 2018-07-21
  */
 @Component
-public class AdminRoleDao extends BizDao<AdminRole> {
+public class AdminRoleDao extends AbstractBizDao<AdminRole> {
 
     @Autowired
     private AdminRoleMapper adminRoleMapper;

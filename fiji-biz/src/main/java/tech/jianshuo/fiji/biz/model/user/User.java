@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import tech.jianshuo.fiji.biz.constant.UserGender;
 import tech.jianshuo.fiji.biz.constant.UserStatus;
 import tech.jianshuo.fiji.biz.model.Model;
 
@@ -23,7 +24,8 @@ public class User extends Model {
     private String salt;
     private String email;
     private String mobile;
-
+    private String nickname;
+    private UserGender gender;
     private String avatarUrl;
     private String introduction;
     private UserStatus status;

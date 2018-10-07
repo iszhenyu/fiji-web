@@ -39,7 +39,7 @@ public class AdminUserController extends BaseAdminController {
     @GetMapping("/admin_users")
     public ResponseVo getByPage(@RequestParam(name = "pageNo", defaultValue = "1") int pageNo,
                                 @RequestParam(name = "pageSize", defaultValue = "10") int pageSize) {
-        Pagination<AdminUser> userPagination = adminUserService.loadAllAdminUsersByPage(pageNo, pageSize);
+        Pagination<AdminUser> userPagination = adminUserService.loadAllAdminUsersWithRolesByPage(pageNo, pageSize);
         return ResponseVo.success(userPagination);
     }
 

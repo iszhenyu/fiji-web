@@ -10,7 +10,7 @@ import tech.jianshuo.fiji.biz.persistence.mapper.admin.AdminUserMapper;
  * Created on 2018-07-21
  */
 @Component
-public class AdminUserDao extends BizDao<AdminUser> {
+public class AdminUserDao extends AbstractBizDao<AdminUser> {
 
     @Autowired
     private AdminUserMapper userMapper;

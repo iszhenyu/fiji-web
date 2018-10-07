@@ -7,6 +7,8 @@ import tech.jianshuo.fiji.biz.constant.UserStatus;
 import tech.jianshuo.fiji.biz.model.Model;
 
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import java.util.List;
 
 /**
  * @author zhen.yu
@@ -31,4 +33,6 @@ public class AdminUser extends Model {
     private String introduction;
     private UserStatus status;
 
+    @Transient
+    private List<AdminRole> roles;
 }

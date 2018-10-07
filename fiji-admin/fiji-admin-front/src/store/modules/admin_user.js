@@ -83,6 +83,7 @@ const actions = {
     return new Promise(resolve => {
       commit('RESET_USER')
       removeToken()
+      removeIdentityId()
       resolve()
     })
   }

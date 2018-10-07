@@ -11,7 +11,7 @@ import tech.jianshuo.fiji.core.model.page.Pagination;
  */
 public interface AdminUserService {
 
-    Pagination<AdminUser> loadAllAdminUsersByPage(int pageNo, int pageSize);
+    Pagination<AdminUser> loadAllAdminUsersWithRolesByPage(int pageNo, int pageSize);
 
     AdminUser loadAdminUserById(Long userId);
 
