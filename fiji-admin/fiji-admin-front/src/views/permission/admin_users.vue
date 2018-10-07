@@ -63,7 +63,7 @@
           </el-input>
         </el-form-item>
         <el-form-item label="角色" required>
-          <el-select v-model="tempUser.roleId" placeholder="请选择">
+          <el-select v-model="tempUser.roleIds" multiple placeholder="请选择">
             <el-option
               v-for="item in roles"
               :key="item.id"
@@ -109,7 +109,7 @@
           username: '',
           password: '',
           nickname: '',
-          roleId: '',
+          roleIds: [],
           userId: ''
         }
       }
@@ -178,10 +178,12 @@
       },
       showUpdate($index) {
         let user = this.list[$index];
+        let roleIds = []
+        user.roles.forEach(function(item){roleIds.push(item.id)})
         this.tempUser.username = user.username;
         this.tempUser.nickname = user.nickname;
-        this.tempUser.roleId = user.roleId;
         this.tempUser.userId = user.userId;
+        this.tempUser.roleIds = roleIds;
         this.tempUser.deleteStatus = '1';
         this.tempUser.password = '';
         this.dialogStatus = "update"
