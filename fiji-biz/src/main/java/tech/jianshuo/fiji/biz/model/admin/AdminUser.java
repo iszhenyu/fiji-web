@@ -23,6 +23,7 @@ public class AdminUser extends Model {
     private String password;
     @JsonIgnore
     private String salt;
+    private String nickname;
     private String email;
     private String mobile;
 

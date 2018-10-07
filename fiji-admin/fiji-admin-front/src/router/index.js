@@ -54,16 +54,16 @@ export const asyncRouterMap = [
     meta: {title: '后台用户权限', icon: 'table'},
     children: [
       {
-        path: 'admin_user',
+        path: 'admin_users',
         name: '用户列表',
-        component: _import('admin_user/user'),
+        component: _import('permission/admin_users'),
         meta: {title: '后台用户列表', icon: 'user'},
-        menu: 'user'
+        menu: 'admin_user'
       },
       {
-        path: 'role',
+        path: 'roles',
         name: '权限管理',
-        component: _import('admin_user/role'),
+        component: _import('permission/roles'),
         meta: {title: '后台角色列表', icon: 'password'},
         menu: 'role'
       },

@@ -3,12 +3,15 @@ package tech.jianshuo.fiji.admin.service;
 import java.util.List;
 
 import tech.jianshuo.fiji.biz.model.admin.AdminUser;
+import tech.jianshuo.fiji.core.model.page.Pagination;
 
 /**
  * @author zhen.yu
  * Created on 2018-09-16
  */
 public interface AdminUserService {
+
+    Pagination<AdminUser> loadAllAdminUsersByPage(int pageNo, int pageSize);
 
     AdminUser loadAdminUserById(Long userId);
 

@@ -5,16 +5,16 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import tech.jianshuo.fiji.admin.service.AdminUserService;
 import tech.jianshuo.fiji.admin.service.RoleService;
 import tech.jianshuo.fiji.biz.model.admin.AdminRole;
 import tech.jianshuo.fiji.biz.model.admin.AdminUser;
-import tech.jianshuo.fiji.biz.model.user.User;
 import tech.jianshuo.fiji.core.exception.NotFoundException;
+import tech.jianshuo.fiji.core.model.page.Pagination;
 import tech.jianshuo.fiji.core.vo.ResponseVo;
 
 import java.util.ArrayList;
@@ -36,6 +36,13 @@ public class AdminUserController extends BaseAdminController {
     @Autowired
     private RoleService roleService;
 
+    @GetMapping("/admin_users")
+    public ResponseVo getByPage(@RequestParam(name = "pageNo", defaultValue = "1") int pageNo,
+                                @RequestParam(name = "pageSize", defaultValue = "10") int pageSize) {
+        Pagination<AdminUser> userPagination = adminUserService.loadAllAdminUsersByPage(pageNo, pageSize);
+        return ResponseVo.success(userPagination);
+    }
+
     @GetMapping("/admin_user/{userId}")
     public ResponseVo get(@PathVariable long userId) {
         AdminUser user = adminUserService.loadAdminUserById(userId);
@@ -51,16 +58,27 @@ public class AdminUserController extends BaseAdminController {
         menus.add("user");
         menus.add("article");
         result.put("menus", menus);
+        List<String> permissions = new ArrayList<>();
+        permissions.add("article:list");
+        permissions.add("article:add");
+        permissions.add("article:update");
+        permissions.add("admin_user:list");
+        permissions.add("admin_user:add");
+        permissions.add("admin_user:update");
+        permissions.add("role:list");
+        permissions.add("role:add");
+        permissions.add("role:update");
+        result.put("permissions", permissions);
         return ResponseVo.success(result);
     }
 
-    @PostMapping
-    public ResponseVo add(User user) {
+    @PostMapping("/admin_user/add")
+    public ResponseVo add(AdminUser user) {
         return ResponseVo.success();
     }
 
-    @PutMapping
-    public ResponseVo update(User user) {
+    @PostMapping("/admin_user/update")
+    public ResponseVo update(AdminUser user) {
         return ResponseVo.success();
     }
 

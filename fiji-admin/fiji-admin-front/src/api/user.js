@@ -1,8 +1,8 @@
 import {default as api} from '@/api'
 
-export function getUserInfo () {
+export function getUserInfo (userId) {
   return api({
-    url: 'user/info',
+    url: '/user/' + userId,
     method: 'get'
   })
 }

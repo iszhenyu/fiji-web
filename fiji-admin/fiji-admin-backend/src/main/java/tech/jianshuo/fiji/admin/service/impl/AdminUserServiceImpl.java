@@ -4,18 +4,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.github.pagehelper.Page;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import tech.jianshuo.fiji.admin.service.AdminUserService;
+import tech.jianshuo.fiji.admin.util.Paginations;
 import tech.jianshuo.fiji.biz.helper.PrincipalHelper;
 import tech.jianshuo.fiji.biz.model.admin.AdminUser;
 import tech.jianshuo.fiji.biz.persistence.AdminUserDao;
 import tech.jianshuo.fiji.biz.persistence.AdminUserRoleDao;
 import tech.jianshuo.fiji.common.util.CollectionUtils;
 import tech.jianshuo.fiji.core.exception.ValidationException;
+import tech.jianshuo.fiji.core.model.page.Pagination;
 
 /**
  * @author zhen.yu
@@ -29,6 +32,12 @@ public class AdminUserServiceImpl implements AdminUserService {
     private AdminUserDao adminUserDao;
     @Autowired
     private AdminUserRoleDao adminUserRoleDao;
+
+    @Override
+    public Pagination<AdminUser> loadAllAdminUsersByPage(int pageNo, int pageSize) {
+        Page<AdminUser> page = Paginations.startPage(pageNo, pageSize).doSelectPage(() -> adminUserDao.findAll());
+        return Paginations.fromPage(page);
+    }
 
     @Override
     public AdminUser loadAdminUserById(Long userId) {

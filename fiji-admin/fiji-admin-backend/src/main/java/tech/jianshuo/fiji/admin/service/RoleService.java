@@ -13,6 +13,8 @@ public interface RoleService {
 
     Pagination<AdminRole> loadAllRolesByPage(int pageNo, int pageSize);
 
+    List<AdminRole> loadAllRoles();
+
     List<AdminRole> loadRolesByUserId(Long userId);
 
 }

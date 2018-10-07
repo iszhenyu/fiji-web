@@ -2,7 +2,7 @@ import {default as api} from '@/api'
 
 export function login (username, password) {
   return api({
-    url: 'auth/login',
+    url: '/auth/login',
     method: 'post',
     data: {
       username: username,
@@ -13,7 +13,7 @@ export function login (username, password) {
 
 export function logout () {
   return api({
-    url: 'auth/logout',
+    url: '/auth/logout',
     method: 'post'
   })
 }

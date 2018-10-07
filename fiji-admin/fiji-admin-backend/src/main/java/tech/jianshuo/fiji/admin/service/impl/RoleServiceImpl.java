@@ -36,6 +36,11 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    public List<AdminRole> loadAllRoles() {
+        return adminRoleDao.findAll();
+    }
+
+    @Override
     public List<AdminRole> loadRolesByUserId(Long userId) {
         List<Long> roleIds = adminUserRoleDao.findRoleIdsByUserId(userId);
         if (CollectionUtils.isEmpty(roleIds)) {

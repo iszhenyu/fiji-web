@@ -20,7 +20,7 @@ const mutations = {
     state.avatarUrl = userInfo.avatarUrl
     state.roles = userInfo.roles
     state.menus = userInfo.menus
-    state.permissions = userInfo.permissionList
+    state.permissions = userInfo.permissions
   },
   RESET_USER: (state) => {
     state.username = ''
