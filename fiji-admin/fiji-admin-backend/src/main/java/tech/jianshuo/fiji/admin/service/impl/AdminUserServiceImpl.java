@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
 import tech.jianshuo.fiji.admin.service.AdminUserService;
 import tech.jianshuo.fiji.admin.util.Paginations;
 import tech.jianshuo.fiji.biz.constant.UserStatus;
@@ -99,6 +100,7 @@ public class AdminUserServiceImpl implements AdminUserService {
     }
 
     @Override
+    @Transactional
     public AdminUser createAdminUser(AdminUser user, Long[] roleIds) {
         checkUniqueField(user);
         checkRoleIds(roleIds);
