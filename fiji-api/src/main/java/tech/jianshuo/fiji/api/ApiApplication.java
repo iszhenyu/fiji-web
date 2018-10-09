@@ -1,20 +1,19 @@
-package tech.jianshuo.fiji.view;
+package tech.jianshuo.fiji.api;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 /**
- * @author zhen.yu
- * @since 2018/7/20
+ * @author zhenyu
+ * @date 2018-10-09
  */
 @SpringBootApplication(scanBasePackages = "tech.jianshuo.fiji")
-public class FijiApplication extends SpringBootServletInitializer {
+public class ApiApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
         new SpringApplicationBuilder()
-                .sources(FijiApplication.class)
+                .sources(ApiApplication.class)
                 .run(args);
     }
-
 }

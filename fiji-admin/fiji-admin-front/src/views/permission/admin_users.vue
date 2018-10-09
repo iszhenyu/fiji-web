@@ -72,7 +72,7 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="昵称" required>
+        <el-form-item label="昵称">
           <el-input type="text" v-model="tempUser.nickname">
           </el-input>
         </el-form-item>
@@ -171,7 +171,7 @@
         this.tempUser.username = "";
         this.tempUser.password = "";
         this.tempUser.nickname = "";
-        this.tempUser.roleId = "";
+        this.tempUser.roleIds = [];
         this.tempUser.userId = "";
         this.dialogStatus = "create"
         this.dialogFormVisible = true
@@ -191,8 +191,8 @@
       },
       createUser() {
         //添加新用户
-        this.api({
-          url: "/user/addUser",
+        this.$http({
+          url: "/admin_user/add",
           method: "post",
           data: this.tempUser
         }).then(() => {

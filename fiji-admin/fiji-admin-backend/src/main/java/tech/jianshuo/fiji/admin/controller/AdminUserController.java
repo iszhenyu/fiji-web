@@ -1,6 +1,9 @@
 package tech.jianshuo.fiji.admin.controller;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,11 +12,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import tech.jianshuo.fiji.admin.form.AdminUserForm;
+import tech.jianshuo.fiji.admin.form.RegisterForm;
 import tech.jianshuo.fiji.admin.service.AdminUserService;
 import tech.jianshuo.fiji.admin.service.RoleService;
 import tech.jianshuo.fiji.biz.model.admin.AdminRole;
 import tech.jianshuo.fiji.biz.model.admin.AdminUser;
+import tech.jianshuo.fiji.common.util.NumberUtils;
 import tech.jianshuo.fiji.core.exception.NotFoundException;
+import tech.jianshuo.fiji.core.exception.ValidationException;
 import tech.jianshuo.fiji.core.model.page.Pagination;
 import tech.jianshuo.fiji.core.vo.ResponseVo;
 
@@ -73,8 +80,19 @@ public class AdminUserController extends BaseAdminController {
     }
 
     @PostMapping("/admin_user/add")
-    public ResponseVo add(AdminUser user) {
-        return ResponseVo.success();
+    public ResponseVo add(@Validated AdminUserForm form, BindingResult bindingResult) {
+        this.validateForm(bindingResult);
+        if (NumberUtils.isPositiveNumber(form.getUserId())) {
+            throw new ValidationException("该用户已经存在");
+        }
+        if (StringUtils.isBlank(form.getPassword())) {
+            throw new ValidationException("用户密码不能为空");
+        }
+        if (form.getRoleIds() == null || form.getRoleIds().length == 0) {
+            throw new ValidationException("用户角色不能为空");
+        }
+        AdminUser created = adminUserService.createAdminUser(form.getAdminUser(), form.getRoleIds());
+        return ResponseVo.success(created);
     }
 
     @PostMapping("/admin_user/update")

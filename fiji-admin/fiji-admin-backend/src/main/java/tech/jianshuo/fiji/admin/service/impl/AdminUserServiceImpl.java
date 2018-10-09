@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.github.pagehelper.Page;
 import org.apache.commons.lang3.StringUtils;
@@ -16,15 +17,19 @@ import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
 import tech.jianshuo.fiji.admin.service.AdminUserService;
 import tech.jianshuo.fiji.admin.util.Paginations;
+import tech.jianshuo.fiji.biz.constant.UserStatus;
 import tech.jianshuo.fiji.biz.helper.PrincipalHelper;
 import tech.jianshuo.fiji.biz.model.admin.AdminRole;
 import tech.jianshuo.fiji.biz.model.admin.AdminUser;
+import tech.jianshuo.fiji.biz.model.admin.AdminUserRole;
 import tech.jianshuo.fiji.biz.persistence.AdminRoleDao;
 import tech.jianshuo.fiji.biz.persistence.AdminUserDao;
 import tech.jianshuo.fiji.biz.persistence.AdminUserRoleDao;
 import tech.jianshuo.fiji.common.util.CollectionUtils;
+import tech.jianshuo.fiji.common.util.TimeUtils;
 import tech.jianshuo.fiji.core.exception.ValidationException;
 import tech.jianshuo.fiji.core.model.page.Pagination;
+import tech.jianshuo.fiji.security.service.PasswordService;
 
 /**
  * @author zhen.yu
@@ -40,6 +45,9 @@ public class AdminUserServiceImpl implements AdminUserService {
     private AdminUserRoleDao adminUserRoleDao;
     @Autowired
     private AdminRoleDao adminRoleDao;
+
+    @Autowired
+    private PasswordService passwordService;
 
     @Override
     public Pagination<AdminUser> loadAllAdminUsersWithRolesByPage(int pageNo, int pageSize) {
@@ -91,26 +99,67 @@ public class AdminUserServiceImpl implements AdminUserService {
     }
 
     @Override
-    public AdminUser createAdminUser(AdminUser user) {
-        String principal = getPrincipal(user);
-        AdminUser existUser = loadAdminUserByPrincipal(principal);
-        if (existUser != null) {
-            throw new ValidationException("用户已存在");
-        }
+    public AdminUser createAdminUser(AdminUser user, Long[] roleIds) {
+        checkUniqueField(user);
+        checkRoleIds(roleIds);
+
+        String salt = passwordService.generateSalt();
+        user.setSalt(salt);
+        String encryptedPassword = passwordService.encryptPassword(user.getPassword(), salt);
+        user.setPassword(encryptedPassword);
+        user.setStatus(UserStatus.NORMAL);
+        user.setDeletedAt(0L);
+        long current = TimeUtils.currentTime();
+        user.setCreateTime(current);
+        user.setLastModifyTime(current);
+
         adminUserDao.insert(user);
+
+        for (Long roleId: roleIds) {
+            AdminUserRole userRole = newAdminUserRole(user.getId(), roleId);
+            adminUserRoleDao.insert(userRole);
+        }
         return user;
     }
 
-    private String getPrincipal(AdminUser user) {
-        if (StringUtils.isNotBlank(user.getUsername())) {
-            return user.getUsername();
-        }
-        if (StringUtils.isNotBlank(user.getMobile())) {
-            return user.getMobile();
-        }
-        if (StringUtils.isNotBlank(user.getEmail())) {
-            return user.getEmail();
-        }
-        return null;
+    private AdminUserRole newAdminUserRole(Long userId, Long roleId) {
+        AdminUserRole userRole = new AdminUserRole();
+        userRole.setUserId(userId);
+        userRole.setRoleId(roleId);
+        userRole.setDeletedAt(0L);
+        long current = TimeUtils.currentTime();
+        userRole.setCreateTime(current);
+        userRole.setLastModifyTime(current);
+        return userRole;
     }
+
+    private void checkUniqueField(AdminUser user) {
+        if (StringUtils.isNoneBlank(user.getUsername())) {
+            AdminUser exists = adminUserDao.findByUsername(user.getUsername());
+            if (exists != null) {
+                throw new ValidationException("用户名已经存在");
+            }
+        }
+        if (StringUtils.isNoneBlank(user.getMobile())) {
+            AdminUser exists = adminUserDao.findByMobile(user.getMobile());
+            if (exists != null) {
+                throw new ValidationException("手机号已经存在");
+            }
+        }
+        if (StringUtils.isNoneBlank(user.getEmail())) {
+            AdminUser exists = adminUserDao.findByEmail(user.getEmail());
+            if (exists != null) {
+                throw new ValidationException("邮箱已经存在");
+            }
+        }
+    }
+
+    private void checkRoleIds(Long[] roleIds) {
+        List<Long> uniqueRoleIds = Stream.of(roleIds).distinct().collect(Collectors.toList());
+        Map<Long, AdminRole> roleMap = adminRoleDao.findByIds(uniqueRoleIds);
+        if (uniqueRoleIds.size() != roleMap.size()) {
+            throw new ValidationException("角色不存在");
+        }
+    }
+
 }

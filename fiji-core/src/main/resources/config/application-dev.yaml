@@ -15,8 +15,6 @@ server:
     port-header: X-Forwarded-Port
     basedir: /var/tmp/website-app
 spring:
-  thymeleaf:
-      cache: false
   jackson:
     date-format: "yyyy-MM-dd HH:mm:ss"
 #    property-naming-strategy: CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES

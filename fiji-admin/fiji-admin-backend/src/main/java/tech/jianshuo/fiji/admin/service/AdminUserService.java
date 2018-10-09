@@ -32,7 +32,8 @@ public interface AdminUserService {
     /**
      * 新增用户
      * @param user 用户
+     * @param roleIds 用户的角色ID
      * @return AdminUser
      */
-    AdminUser createAdminUser(AdminUser user);
+    AdminUser createAdminUser(AdminUser user, Long[] roleIds);
 }
