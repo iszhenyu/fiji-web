@@ -110,4 +110,4 @@ pagehelper:
     params: count=countSql
 #  config-location: classpath:mybatis/mybatis-config.xml
 logging:
-  config: classpath:log/logback-spring.xml
+  config: classpath:log/logback.xml

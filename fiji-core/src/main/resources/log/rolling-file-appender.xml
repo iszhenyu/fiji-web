@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<!--
-File appender logback configuration provided for import, equivalent to the programmatic
-initialization performed by Boot
--->
-
 <included>
 	<appender name="ROLLING-FILE"
-		class="ch.qos.logback.core.rolling.RollingFileAppender">
+			  class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<encoder>
 			<pattern>${FILE_LOG_PATTERN}</pattern>
 		</encoder>
 		<file>${LOG_PATH}/fiji.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>${LOG_PATH}/fiji.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- 把每一天的日志归档到一个文件中 -->
+			<fileNamePattern>${LOG_PATH}/fiji-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- 只保留最近30天的日志，以防止日志填满整个磁盘空间 -->
 			<maxHistory>30</maxHistory>
+            <!-- 指定日志文件的上限大小，到达该值后，会删除旧的日志 -->
+            <totalSizeCap>1GB</totalSizeCap>
 		</rollingPolicy>
 	</appender>
 </included>
