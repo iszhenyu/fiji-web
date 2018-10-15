@@ -23,7 +23,7 @@
     </typeHandlers>
 
     <mappers>
-        <package name="tech/jianshuo/fiji/biz/persistence/mapper/*.xml"/>
+        <package name="tech.jianshuo.fiji.biz.persistence.mapper"/>
     </mappers>
 
 </configuration>
