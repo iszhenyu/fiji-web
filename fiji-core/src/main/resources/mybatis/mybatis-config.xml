@@ -8,7 +8,7 @@
     <settings>
         <setting name="cacheEnabled" value="true"/>
         <setting name="lazyLoadingEnabled" value="true"/>
-        <setting name="defaultStatementTimeout" value="25"/>
+        <setting name="defaultStatementTimeout" value="30"/>
         <setting name="defaultFetchSize" value="100"/>
         <setting name="mapUnderscoreToCamelCase" value="true"/>
         <setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString"/>
@@ -23,7 +23,7 @@
     </typeHandlers>
 
     <mappers>
-        <package name="mapper/*.xml"/>
+        <package name="tech/jianshuo/fiji/biz/persistence/mapper/*.xml"/>
     </mappers>
 
 </configuration>

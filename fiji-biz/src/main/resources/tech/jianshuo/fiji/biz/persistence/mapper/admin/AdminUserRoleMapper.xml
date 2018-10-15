@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- Mybatis内部通过namespace值将接口和xml关联 -->
 <mapper namespace="tech.jianshuo.fiji.biz.persistence.mapper.admin.AdminUserRoleMapper">
 
     <select id="findByUserIds" resultType="AdminUserRole">

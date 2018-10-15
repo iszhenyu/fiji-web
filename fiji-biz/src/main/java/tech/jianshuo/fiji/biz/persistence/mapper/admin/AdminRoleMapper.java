@@ -5,6 +5,8 @@ import org.apache.ibatis.annotations.Mapper;
 import tech.jianshuo.fiji.biz.model.admin.AdminRole;
 import tech.jianshuo.fiji.core.orm.BaseMapper;
 
+import java.util.List;
+
 /**
  * @author zhen.yu
  * @since 2018/7/21
@@ -12,4 +14,5 @@ import tech.jianshuo.fiji.core.orm.BaseMapper;
 @Mapper
 public interface AdminRoleMapper extends BaseMapper<AdminRole> {
 
+    List<AdminRole> findRolesByUserId(long userId);
 }
