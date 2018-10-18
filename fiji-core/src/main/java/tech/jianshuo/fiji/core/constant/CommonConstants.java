@@ -1,4 +1,4 @@
-package tech.jianshuo.fiji.common.constant;
+package tech.jianshuo.fiji.core.constant;
 
 /**
  * @author zhen.yu

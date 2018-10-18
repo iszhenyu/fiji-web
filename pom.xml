@@ -25,11 +25,11 @@
     </properties>
 
     <modules>
+        <module>fiji-component</module>
         <module>fiji-api</module>
         <module>fiji-security</module>
         <module>fiji-biz</module>
         <module>fiji-core</module>
-        <module>fiji-common</module>
         <module>fiji-front</module>
         <module>fiji-admin</module>
     </modules>
@@ -58,19 +58,24 @@
         </dependency>
     </dependencies>
 
-    <repositories>
-        <repository>
-            <id>spring-releases</id>
-            <name>Spring Releases</name>
-            <url>https://repo.spring.io/libs-release</url>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>spring-releases</id>
-            <name>Spring Releases</name>
-            <url>https://repo.spring.io/libs-release</url>
-        </pluginRepository>
-    </pluginRepositories>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>tech.jianshuo</groupId>
+                <artifactId>fiji-datasource</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>tech.jianshuo</groupId>
+                <artifactId>fiji-datasource-actuator</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>tech.jianshuo</groupId>
+                <artifactId>fiji-util</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 </project>

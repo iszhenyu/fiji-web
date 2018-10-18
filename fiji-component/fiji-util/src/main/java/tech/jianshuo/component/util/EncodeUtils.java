@@ -1,13 +1,10 @@
-package tech.jianshuo.fiji.common.util;
+package tech.jianshuo.component.util;
 
-import java.io.UnsupportedEncodingException;
-import java.util.Base64;
-
-import org.apache.commons.codec.binary.Hex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import tech.jianshuo.fiji.common.constant.CommonConstants;
+import java.io.UnsupportedEncodingException;
+import java.util.Base64;
 
 /**
  * @author zhen.yu

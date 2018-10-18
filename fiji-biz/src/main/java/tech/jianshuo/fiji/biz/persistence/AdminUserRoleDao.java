@@ -1,9 +1,7 @@
 package tech.jianshuo.fiji.biz.persistence;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -11,11 +9,10 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import tech.jianshuo.component.util.CollectionUtils;
 import tech.jianshuo.fiji.biz.helper.ModelHelper;
-import tech.jianshuo.fiji.biz.model.admin.AdminRole;
 import tech.jianshuo.fiji.biz.model.admin.AdminUserRole;
 import tech.jianshuo.fiji.biz.persistence.mapper.admin.AdminUserRoleMapper;
-import tech.jianshuo.fiji.common.util.CollectionUtils;
 
 /**
  * @author zhen.yu

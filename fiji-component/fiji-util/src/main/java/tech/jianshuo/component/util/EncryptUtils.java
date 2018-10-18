@@ -1,6 +1,4 @@
-package tech.jianshuo.fiji.common.util;
-
-import java.security.Key;
+package tech.jianshuo.component.util;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
@@ -8,6 +6,7 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESedeKeySpec;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+import java.security.Key;
 
 /**
  */

@@ -7,10 +7,10 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import tech.jianshuo.component.util.TimeUtils;
 import tech.jianshuo.fiji.biz.helper.PrincipalHelper;
 import tech.jianshuo.fiji.biz.model.user.User;
 import tech.jianshuo.fiji.biz.service.UserService;
-import tech.jianshuo.fiji.common.util.TimeUtils;
 import tech.jianshuo.fiji.core.exception.ValidationException;
 import tech.jianshuo.fiji.security.service.PasswordService;
 import tech.jianshuo.fiji.security.service.PassportService;

@@ -4,14 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
+import tech.jianshuo.component.util.CollectionUtils;
+import tech.jianshuo.component.util.MapUtils;
 import tech.jianshuo.fiji.admin.service.ResourceService;
 import tech.jianshuo.fiji.admin.service.RoleService;
 import tech.jianshuo.fiji.biz.model.admin.AdminResource;
 import tech.jianshuo.fiji.biz.model.admin.AdminRole;
 import tech.jianshuo.fiji.biz.persistence.AdminResourceDao;
 import tech.jianshuo.fiji.biz.persistence.AdminRoleResourceDao;
-import tech.jianshuo.fiji.common.util.CollectionUtils;
-import tech.jianshuo.fiji.common.util.MapUtils;
 import tech.jianshuo.fiji.core.model.page.Pagination;
 
 import java.util.*;

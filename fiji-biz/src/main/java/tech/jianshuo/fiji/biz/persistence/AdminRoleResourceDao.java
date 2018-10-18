@@ -12,10 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
+import tech.jianshuo.component.util.CollectionUtils;
 import tech.jianshuo.fiji.biz.helper.ModelHelper;
 import tech.jianshuo.fiji.biz.model.admin.AdminRoleResource;
 import tech.jianshuo.fiji.biz.persistence.mapper.admin.AdminRoleResourceMapper;
-import tech.jianshuo.fiji.common.util.CollectionUtils;
 
 /**
  * @author zhen.yu

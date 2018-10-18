@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
+import tech.jianshuo.component.util.CollectionUtils;
+import tech.jianshuo.component.util.TimeUtils;
 import tech.jianshuo.fiji.admin.service.AdminUserService;
 import tech.jianshuo.fiji.admin.util.Paginations;
 import tech.jianshuo.fiji.biz.constant.UserStatus;
@@ -26,8 +28,6 @@ import tech.jianshuo.fiji.biz.model.admin.AdminUserRole;
 import tech.jianshuo.fiji.biz.persistence.AdminRoleDao;
 import tech.jianshuo.fiji.biz.persistence.AdminUserDao;
 import tech.jianshuo.fiji.biz.persistence.AdminUserRoleDao;
-import tech.jianshuo.fiji.common.util.CollectionUtils;
-import tech.jianshuo.fiji.common.util.TimeUtils;
 import tech.jianshuo.fiji.core.exception.ValidationException;
 import tech.jianshuo.fiji.core.model.page.Pagination;
 import tech.jianshuo.fiji.security.service.PasswordService;

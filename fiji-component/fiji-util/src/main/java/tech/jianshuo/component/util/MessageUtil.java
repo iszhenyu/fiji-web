@@ -1,11 +1,11 @@
-package tech.jianshuo.fiji.common.util;
+package tech.jianshuo.component.util;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.apache.commons.lang3.StringUtils;
 
 /**
  *  MessageUtil

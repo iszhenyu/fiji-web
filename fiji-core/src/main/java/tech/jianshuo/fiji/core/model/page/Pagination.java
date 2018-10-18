@@ -1,9 +1,9 @@
 package tech.jianshuo.fiji.core.model.page;
 
+import tech.jianshuo.component.util.CollectionUtils;
+
 import java.io.Serializable;
 import java.util.List;
-
-import tech.jianshuo.fiji.common.util.CollectionUtils;
 
 /**
  * @author zhen.yu

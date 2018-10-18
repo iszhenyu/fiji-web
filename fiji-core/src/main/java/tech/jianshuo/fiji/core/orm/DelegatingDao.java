@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import tech.jianshuo.fiji.common.util.TimeUtils;
+import tech.jianshuo.component.util.TimeUtils;
 import tech.jianshuo.fiji.core.model.BaseModel;
 
 /**

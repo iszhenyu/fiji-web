@@ -5,7 +5,7 @@ import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.stereotype.Service;
 
-import tech.jianshuo.fiji.common.util.RandomUtils;
+import tech.jianshuo.component.util.RandomUtils;
 import tech.jianshuo.fiji.security.SecurityConstants;
 import tech.jianshuo.fiji.security.service.PasswordService;
 

@@ -1,14 +1,13 @@
-package tech.jianshuo.fiji.common.util;
-
-import java.security.MessageDigest;
-
-import javax.crypto.Mac;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
+package tech.jianshuo.component.util;
 
 import org.apache.commons.codec.binary.Hex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.crypto.Mac;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+import java.security.MessageDigest;
 
 /**
  * @author zhen.yu

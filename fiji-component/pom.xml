@@ -15,6 +15,7 @@
     <modules>
         <module>fiji-datasource</module>
         <module>fiji-datasource-actuator</module>
+        <module>fiji-util</module>
     </modules>
 
 </project>

@@ -12,13 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import tech.jianshuo.component.util.NumberUtils;
 import tech.jianshuo.fiji.admin.form.AdminUserForm;
-import tech.jianshuo.fiji.admin.form.RegisterForm;
 import tech.jianshuo.fiji.admin.service.AdminUserService;
 import tech.jianshuo.fiji.admin.service.RoleService;
 import tech.jianshuo.fiji.biz.model.admin.AdminRole;
 import tech.jianshuo.fiji.biz.model.admin.AdminUser;
-import tech.jianshuo.fiji.common.util.NumberUtils;
 import tech.jianshuo.fiji.core.exception.NotFoundException;
 import tech.jianshuo.fiji.core.exception.ValidationException;
 import tech.jianshuo.fiji.core.model.page.Pagination;

@@ -1,4 +1,4 @@
-package tech.jianshuo.fiji.common.util;
+package tech.jianshuo.component.util;
 
 import java.security.SecureRandom;
 import java.util.List;

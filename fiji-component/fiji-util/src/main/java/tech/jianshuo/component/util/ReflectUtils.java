@@ -1,4 +1,6 @@
-package tech.jianshuo.fiji.common.util;
+package tech.jianshuo.component.util;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -7,8 +9,6 @@ import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author zhen.yu

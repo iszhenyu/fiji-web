@@ -1,15 +1,14 @@
-package tech.jianshuo.fiji.common.util;
-
-import java.util.Objects;
-import java.util.stream.Stream;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+package tech.jianshuo.component.util;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 /**
  * @author zhen.yu

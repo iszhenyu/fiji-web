@@ -15,8 +15,7 @@
     <dependencies>
         <dependency>
             <groupId>tech.jianshuo</groupId>
-            <artifactId>fiji-common</artifactId>
-            <version>${fiji.version}</version>
+            <artifactId>fiji-util</artifactId>
         </dependency>
 
         <!-- datasource -->

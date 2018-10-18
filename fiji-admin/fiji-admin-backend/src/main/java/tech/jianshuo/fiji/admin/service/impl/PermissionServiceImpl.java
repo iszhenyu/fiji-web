@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
+import tech.jianshuo.component.util.CollectionUtils;
 import tech.jianshuo.fiji.admin.service.PermissionService;
 import tech.jianshuo.fiji.admin.service.AdminUserService;
 import tech.jianshuo.fiji.biz.model.admin.AdminUser;
-import tech.jianshuo.fiji.common.util.CollectionUtils;
 
 /**
  * @author zhen.yu

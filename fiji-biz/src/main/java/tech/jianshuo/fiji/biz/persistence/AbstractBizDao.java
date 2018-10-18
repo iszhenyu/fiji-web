@@ -3,9 +3,9 @@ package tech.jianshuo.fiji.biz.persistence;
 import java.util.Collections;
 import java.util.List;
 
+import tech.jianshuo.component.util.CollectionUtils;
 import tech.jianshuo.fiji.biz.helper.ModelHelper;
 import tech.jianshuo.fiji.biz.model.Model;
-import tech.jianshuo.fiji.common.util.CollectionUtils;
 import tech.jianshuo.fiji.core.orm.DelegatingDao;
 
 /**
