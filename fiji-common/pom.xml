@@ -4,14 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>fiji-common</artifactId>
-    <version>${fiji.version}</version>
-
     <parent>
         <groupId>tech.jianshuo</groupId>
         <artifactId>fiji-web</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
+
+    <artifactId>fiji-common</artifactId>
 
     <dependencies>
         <dependency>
@@ -26,11 +25,6 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>26.0-jre</version>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>1.2.49</version>
         </dependency>
     </dependencies>
 

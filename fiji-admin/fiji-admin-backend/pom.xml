@@ -10,6 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>fiji-admin-backend</artifactId>
+    <packaging>jar</packaging>
 
     <properties>
         <docker.image.prefix>springboot</docker.image.prefix>
@@ -25,6 +26,18 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.5</version>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>
             <!-- Docker maven plugin -->
             <plugin>
                 <groupId>com.spotify</groupId>

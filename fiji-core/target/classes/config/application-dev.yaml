@@ -88,6 +88,67 @@ spring:
         max-wait: -1
         max-idle: 8
         min-idle: 0
+mysql:
+  datasource:
+    readSize: 2
+    type: com.alibaba.druid.pool.DruidDataSource
+    write:
+      url: jdbc:mysql://127.0.0.1:3306/jianshuo_ai?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&useSSL=true
+      username: root
+      password: jianshuo#
+      driver-class-name: com.mysql.jdbc.Driver
+      minIdle: 5
+      maxActive: 100
+      initialSize: 10
+      maxWait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: select 'x'
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      maxPoolPreparedStatementPerConnectionSize: 50
+      removeAbandoned: true
+      filters: stat
+    read01:
+      url: jdbc:mysql://127.0.0.1:3306/test_01?useUnicode=true&amp;characterEncoding=utf-8
+      username: root
+      password: root
+      driver-class-name: com.mysql.jdbc.Driver
+      minIdle: 5
+      maxActive: 100
+      initialSize: 10
+      maxWait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: select 'x'
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      maxPoolPreparedStatementPerConnectionSize: 50
+      removeAbandoned: true
+      filters: stat
+    read02:
+      url: jdbc:mysql://127.0.0.1:3306/test_02?useUnicode=true&amp;characterEncoding=utf-8
+      username: root
+      password: root
+      driver-class-name: com.mysql.jdbc.Driver
+      minIdle: 5
+      maxActive: 100
+      initialSize: 10
+      maxWait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: select 'x'
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      maxPoolPreparedStatementPerConnectionSize: 50
+      removeAbandoned: true
+      filters: stat
 mybatis:
   config-location: classpath:mybatis/mybatis-config.xml
 mapper:

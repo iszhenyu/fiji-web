@@ -6,11 +6,7 @@ import org.junit.runner.RunWith;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import tech.jianshuo.fiji.admin.AdminApplication;
-import tech.jianshuo.fiji.biz.persistence.mapper.admin.AdminRoleMapper;
-import tech.jianshuo.fiji.biz.persistence.mapper.admin.AdminUserMapper;
 import tech.jianshuo.fiji.biz.persistence.mapper.admin.AdminUserRoleMapper;
 
 import java.util.Collections;

@@ -1,6 +1,5 @@
 package tech.jianshuo.fiji.common.util;
 
-import com.alibaba.fastjson.JSON;
 
 /**
  * @author zhen.yu
@@ -16,11 +15,13 @@ public class JsonUtils {
     }
 
     public static String toJson(Object obj) {
-        return JSON.toJSONString(obj);
+//        return JSON.toJSONString(obj);
+        return null;
     }
 
     public static <T> T fromJson(String jsonStr, Class<T> clazz) {
-        return JSON.parseObject(jsonStr, clazz);
+//        return JSON.parseObject(jsonStr, clazz);
+        return null;
     }
 
 }

@@ -5,12 +5,12 @@ import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.CollectionUtils;
 import org.apache.shiro.web.filter.PathMatchingFilter;
 import org.apache.shiro.web.util.WebUtils;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -57,9 +57,9 @@ public class FijiSecurityFilter extends PathMatchingFilter {
         httpResponse.getWriter().write(errorMessage().toString());
     }
 
-    private JSONObject errorMessage() throws JSONException {
-        JSONObject object = new JSONObject();
-        JSONObject meta = new JSONObject();
+    private Map<String, Object> errorMessage() {
+        Map<String, Object> object = new HashMap<>();
+        Map<String, Object> meta = new HashMap<>();
         meta.put("message", "Unauthorized");
         meta.put("success", false);
         meta.put("code", 401);

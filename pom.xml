@@ -32,8 +32,6 @@
         <module>fiji-common</module>
         <module>fiji-front</module>
         <module>fiji-admin</module>
-        <module>fiji-admin/fiji-admin-backend</module>
-        <module>fiji-admin/fiji-admin-front</module>
     </modules>
 
     <dependencies>
@@ -59,15 +57,6 @@
             <optional>true</optional>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 
     <repositories>
         <repository>
