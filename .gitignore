@@ -28,8 +28,8 @@
 hs_err_pid*
 
 .idea
-node_modules/
-target/
-bin/
+*node_modules/
+*target/
+*bin/
 *.iml
 package-lock.json
