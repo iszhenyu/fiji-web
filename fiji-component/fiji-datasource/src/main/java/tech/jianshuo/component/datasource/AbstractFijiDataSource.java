@@ -3,6 +3,7 @@ package tech.jianshuo.component.datasource;
 import com.alibaba.druid.filter.Filter;
 import com.alibaba.druid.filter.FilterAdapter;
 import com.alibaba.druid.filter.config.ConfigFilter;
+import com.alibaba.druid.filter.encoding.CharsetParameter;
 import com.alibaba.druid.pool.DruidDataSource;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.ObjectProvider;
@@ -10,9 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import tech.jianshuo.component.datasource.properties.DruidDataSourceProperties;
-import tech.jianshuo.component.util.CollectionUtils;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -21,7 +22,7 @@ import java.util.Objects;
  * @date 2018-10-18
  */
 @ConfigurationProperties(prefix = DruidConstants.DRUID_DATA_SOURCE_PREFIX)
-public class AbstractFijiDataSource extends DruidDataSource {
+public abstract class AbstractFijiDataSource extends DruidDataSource {
     private static final long serialVersionUID = 2109786850351486762L;
 
     @Autowired
@@ -36,7 +37,7 @@ public class AbstractFijiDataSource extends DruidDataSource {
     @PostConstruct
     public void initDruidParentProperties() {
         initDataSourceProperties();
-        initConfigFilterProperties();
+        initConnectionProperties();
         initFilters();
     }
 
@@ -55,31 +56,39 @@ public class AbstractFijiDataSource extends DruidDataSource {
         }
     }
 
-    private void initConfigFilterProperties() {
-        DruidDataSourceProperties.DruidConfigFilterProperties configFilterProperties = druidDataSourceProperties.getConfig();
-        if (configFilterProperties.isEnabled()) {
-            StringBuilder builder = new StringBuilder();
+    private void initConnectionProperties() {
+        StringBuilder builder = new StringBuilder();
+        // 解析 config-filter 的配置
+        DruidDataSourceProperties.DruidConfigFilterProperties configProperties = druidDataSourceProperties.getConfig();
+        if (configProperties.isEnabled()) {
             builder.append(ConfigFilter.CONFIG_DECRYPT).append("=").append("true").append(";");
-            if (!StringUtils.isEmpty(configFilterProperties.getKey())) {
-                builder.append(ConfigFilter.CONFIG_KEY).append("=").append(configFilterProperties.getKey());
-                builder.append(";");
+            if (!StringUtils.isEmpty(configProperties.getKey())) {
+                builder.append(ConfigFilter.CONFIG_KEY).append("=").append(configProperties.getKey()).append(";");
             }
-            if (!StringUtils.isEmpty(configFilterProperties.getFile())) {
-                builder.append(ConfigFilter.CONFIG_FILE).append("=").append(configFilterProperties.getFile());
+            if (!StringUtils.isEmpty(configProperties.getFile())) {
+                builder.append(ConfigFilter.CONFIG_FILE).append("=").append(configProperties.getFile()).append(";");
             }
+        }
+        // 解析 encoding-filter 的配置
+        DruidDataSourceProperties.DruidEncodingFilterProperties encodingProperties = druidDataSourceProperties.getEncoding();
+        if (encodingProperties.isEnabled()) {
+            if (!StringUtils.isEmpty(encodingProperties.getClientEncoding())) {
+                builder.append(CharsetParameter.CLIENTENCODINGKEY).append("=").append(encodingProperties.getClientEncoding()).append(";");
+            }
+            if (!StringUtils.isEmpty(encodingProperties.getServerEncoding())) {
+                builder.append(CharsetParameter.SERVERENCODINGKEY).append("=").append(encodingProperties.getServerEncoding()).append(";");
+            }
+        }
+        if (builder.length() > 0) {
             super.setConnectionProperties(builder.toString());
         }
     }
 
     private void initFilters() {
         List<Filter> proxyFilters = super.getProxyFilters();
-        List<FilterAdapter> adapters = druidFilters.getIfAvailable();
-        if (CollectionUtils.isNotEmpty(adapters)) {
-            adapters.stream()
-                    .filter(Objects::nonNull)
-                    .filter(filter -> !proxyFilters.contains(filter))
-                    .forEach(proxyFilters::add);
-        }
-
+        druidFilters.getIfAvailable(ArrayList::new).stream()
+                .filter(Objects::nonNull)
+                .filter(filter -> !proxyFilters.contains(filter))
+                .forEach(proxyFilters::add);
     }
 }

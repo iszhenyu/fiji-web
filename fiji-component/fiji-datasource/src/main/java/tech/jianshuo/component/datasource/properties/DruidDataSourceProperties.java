@@ -19,7 +19,12 @@ import java.util.Map;
 @ConfigurationProperties(prefix = DruidConstants.DRUID_DATA_SOURCE_PREFIX)
 public class DruidDataSourceProperties {
 
-    Map<String, DruidDataSource> dataSources = new HashMap<>(16);
+    /** druid 数据源 */
+    Map<String, DruidDataSource> dataSources = new HashMap<>();
+
+    /** druid encoding-filter 配置 */
+    @NestedConfigurationProperty
+    DruidEncodingFilterProperties encoding = new DruidEncodingFilterProperties();
 
     /** druid config-filter 配置 */
     @NestedConfigurationProperty
@@ -36,6 +41,17 @@ public class DruidDataSourceProperties {
     /** druid aop-stat 配置 */
     @NestedConfigurationProperty
     DruidAopStatProperties aopStat = new DruidAopStatProperties();
+
+    @Getter
+    @Setter
+    public static class DruidEncodingFilterProperties {
+        /** 是否开启 druid encoding-filter，默认否 */
+        private boolean enabled;
+        /** 客户端编码 */
+        private String clientEncoding;
+        /** 服务端编码 */
+        private String serverEncoding;
+    }
 
     @Getter
     @Setter

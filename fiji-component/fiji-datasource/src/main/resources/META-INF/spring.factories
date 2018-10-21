@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  tech.jianshuo.component.datasource.DruidAutoConfiguration,\
+  tech.jianshuo.component.datasource.DruidDataSourceInitializerAutoConfiguration
