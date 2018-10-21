@@ -1,7 +1,11 @@
 package tech.jianshuo.component.datasource;
 
-import com.alibaba.druid.pool.DruidDataSource;
-import lombok.extern.slf4j.Slf4j;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.ObjectProvider;
@@ -17,14 +21,12 @@ import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.context.annotation.ImportSelector;
 import org.springframework.core.env.Environment;
 import org.springframework.core.type.AnnotationMetadata;
-import tech.jianshuo.component.datasource.util.CharMatcher;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Stream;
+import com.alibaba.druid.pool.DruidDataSource;
 
-import static java.util.Collections.emptyMap;
+import lombok.extern.slf4j.Slf4j;
+import tech.jianshuo.component.util.CharUtils;
+import tech.jianshuo.component.util.MapUtils;
 
 /**
  * @author zhenyu
@@ -67,7 +69,7 @@ public class DruidDataSourceConfiguration {
         public void registerBeanDefinitions(AnnotationMetadata metadata, BeanDefinitionRegistry registry) {
             this.dataSources.keySet().forEach(dataSourceName -> {
                 // 注册 BeanDefinition
-                String camelName = CharMatcher.separatedToCamel().apply(dataSourceName);
+                String camelName = CharUtils.separatedToCamel().apply(dataSourceName);
                 registry.registerBeanDefinition(camelName, genericDruidBeanDefinition());
                 // 注册以 DataSource 为后缀的别名
                 if (!StringUtils.endsWithIgnoreCase(camelName, DATA_SOURCE_BEAN_SUFFIX)) {
@@ -88,16 +90,10 @@ public class DruidDataSourceConfiguration {
                 .getBeanDefinition();
     }
 
-    private static Map<String, Object> bindDataSources(Environment environment) {
-        return Binder.get(environment)
-                .bind(MULTI_DATA_SOURCES_PREFIX, Bindable.mapOf(String.class, Object.class))
-                .orElse(emptyMap());
-    }
-
     /**
      * DruidDataSource 的 Bean 处理器，将各数据源的自定义配置绑定到 Bean
      */
-    static class DruidDataSourceBeanPostProcessor implements BeanPostProcessor, EnvironmentAware {
+    private static class DruidDataSourceBeanPostProcessor implements BeanPostProcessor, EnvironmentAware {
 
         private final List<DruidDataSourceCustomizer> customizers;
         private Environment environment;
@@ -125,7 +121,7 @@ public class DruidDataSourceConfiguration {
                 DruidDataSource druidDataSource = (DruidDataSource) bean;
                 druidDataSource.setName(beanName);
                 // 将 'spring.datasource.druid.data-sources.${name}' 的配置绑定到 Bean
-                if (!dataSources.isEmpty()) {
+                if (MapUtils.isNotEmpty(dataSources)) {
                     Binder.get(environment)
                             .bind(MULTI_DATA_SOURCES_PREFIX + "." + beanName, Bindable.ofInstance(druidDataSource));
                 }
@@ -152,9 +148,7 @@ public class DruidDataSourceConfiguration {
 
         @Override
         public void setEnvironment(Environment environment) {
-            this.dataSources = Binder.get(environment)
-                    .bind(MULTI_DATA_SOURCES_PREFIX, Bindable.mapOf(String.class, Object.class))
-                    .orElse(emptyMap());
+            this.dataSources = bindDataSources(environment);
         }
 
         @Override
@@ -164,5 +158,11 @@ public class DruidDataSourceConfiguration {
             return imposts.build().map(Class::getName).toArray(String[]::new);
         }
 
+    }
+
+    private static Map<String, Object> bindDataSources(Environment environment) {
+        return Binder.get(environment)
+                .bind(MULTI_DATA_SOURCES_PREFIX, Bindable.mapOf(String.class, Object.class))
+                .orElse(Collections.emptyMap());
     }
 }

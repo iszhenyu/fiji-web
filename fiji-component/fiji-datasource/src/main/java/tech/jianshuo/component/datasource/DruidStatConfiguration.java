@@ -1,8 +1,7 @@
 package tech.jianshuo.component.datasource;
 
-import com.alibaba.druid.support.http.WebStatFilter;
-import com.alibaba.druid.support.spring.stat.DruidStatInterceptor;
-import lombok.extern.slf4j.Slf4j;
+import javax.servlet.Filter;
+
 import org.aopalliance.aop.Advice;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.aop.support.RegexpMethodPointcutAdvisor;
@@ -14,12 +13,13 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.StringUtils;
+
+import com.alibaba.druid.support.http.WebStatFilter;
+import com.alibaba.druid.support.spring.stat.DruidStatInterceptor;
+
+import lombok.extern.slf4j.Slf4j;
+
 import tech.jianshuo.component.datasource.properties.DruidDataSourceProperties;
-
-import javax.servlet.Filter;
-
-import static tech.jianshuo.component.datasource.DruidConstants.DRUID_AOP_STAT_PREFIX;
-import static tech.jianshuo.component.datasource.DruidConstants.DRUID_WEB_STAT_PREFIX;
 
 /**
  * Druid 监控配置
@@ -35,7 +35,7 @@ public class DruidStatConfiguration {
      */
     @Configuration
     @ConditionalOnClass(Advice.class)
-    @ConditionalOnProperty(prefix = DRUID_AOP_STAT_PREFIX, name = "enabled", havingValue = "true")
+    @ConditionalOnProperty(prefix = DruidConstants.DRUID_AOP_STAT_PREFIX, name = "enabled", havingValue = "true")
     public static class DruidAopStatConfiguration {
 
         @Value("${spring.aop.proxy-target-class:false}")
@@ -71,7 +71,7 @@ public class DruidStatConfiguration {
     @Configuration
     @ConditionalOnWebApplication
     @ConditionalOnClass(Filter.class)
-    @ConditionalOnProperty(prefix = DRUID_WEB_STAT_PREFIX, name = "enabled", havingValue = "true")
+    @ConditionalOnProperty(prefix = DruidConstants.DRUID_WEB_STAT_PREFIX, name = "enabled", havingValue = "true")
     public static class DruidWebStatConfiguration {
 
         @Bean

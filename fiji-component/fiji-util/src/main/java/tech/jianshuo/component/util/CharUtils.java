@@ -1,14 +1,15 @@
-package tech.jianshuo.component.datasource.util;
-
-import org.springframework.util.StringUtils;
+package tech.jianshuo.component.util;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.springframework.util.StringUtils;
+
 /**
- * CharMatcher
+ * @author zhenyu
+ * Created on 2018-10-21
  */
-public final class CharMatcher {
+public class CharUtils {
 
     public static Manipulation none() {
         return Manipulation.NONE;
@@ -22,7 +23,7 @@ public final class CharMatcher {
         return Manipulation.CAMELCASE_TO_HYPHEN;
     }
 
-    public static enum Manipulation {
+    public enum Manipulation {
 
         /**
          * none
@@ -151,5 +152,4 @@ public final class CharMatcher {
         }
 
     }
-
 }

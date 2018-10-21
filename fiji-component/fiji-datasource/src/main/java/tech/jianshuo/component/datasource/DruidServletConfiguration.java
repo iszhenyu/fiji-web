@@ -1,7 +1,7 @@
 package tech.jianshuo.component.datasource;
 
-import com.alibaba.druid.support.http.StatViewServlet;
-import lombok.extern.slf4j.Slf4j;
+import javax.servlet.Servlet;
+
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
@@ -9,22 +9,22 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.StringUtils;
+
+import com.alibaba.druid.support.http.StatViewServlet;
+
+import lombok.extern.slf4j.Slf4j;
+
 import tech.jianshuo.component.datasource.properties.DruidDataSourceProperties;
-
-import javax.servlet.Servlet;
-
-import static tech.jianshuo.component.datasource.DruidConstants.DRUID_STAT_VIEW_SERVLET_PREFIX;
 
 /**
  * Druid Servlet 配置
- *
  * @author zhenyu
  */
 @Slf4j
 @Configuration
 @ConditionalOnWebApplication
 @ConditionalOnClass(Servlet.class)
-@ConditionalOnProperty(prefix = DRUID_STAT_VIEW_SERVLET_PREFIX, name = "enabled", havingValue = "true")
+@ConditionalOnProperty(prefix = DruidConstants.DRUID_STAT_VIEW_SERVLET_PREFIX, name = "enabled", havingValue = "true")
 public class DruidServletConfiguration {
 
     /**
