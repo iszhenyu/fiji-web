@@ -25,6 +25,10 @@
             <artifactId>fiji-datasource</artifactId>
         </dependency>
         <dependency>
+            <groupId>tech.jianshuo</groupId>
+            <artifactId>fiji-datasource-actuator</artifactId>
+        </dependency>
+        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>${mysql-connector}</version>
