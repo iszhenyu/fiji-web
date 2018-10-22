@@ -4,6 +4,7 @@ import com.alibaba.druid.pool.DruidDataSource;
 
 /**
  * DruidDataSource 的回调接口，可以在 DruidDataSource 初始化之前对其进行自定义
+ * @author zhenyu
  */
 public interface DruidDataSourceCustomizer {
 

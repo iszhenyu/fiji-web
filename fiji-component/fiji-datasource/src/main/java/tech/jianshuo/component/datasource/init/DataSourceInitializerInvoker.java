@@ -1,6 +1,10 @@
 package tech.jianshuo.component.datasource.init;
 
-import com.alibaba.druid.pool.DruidDataSource;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.sql.DataSource;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -10,9 +14,9 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceSchemaCreatedEvent;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 
-import javax.sql.DataSource;
-import java.util.ArrayList;
-import java.util.List;
+import com.alibaba.druid.pool.DruidDataSource;
+
+import tech.jianshuo.component.util.CollectionUtils;
 
 /**
  * Bean to handle {@link DataSource} initialization by running {@literal schema-*.sql} on
@@ -47,11 +51,11 @@ public class DataSourceInitializerInvoker
 
     @Override
     public void afterPropertiesSet() {
-        DataSourceInitializer initializer = getDataSourceInitializer();
-        if (initializer != null) {
+        ensureDataSourceInitializer();
+        if (this.dataSourceInitializer != null) {
             boolean schemaCreated = this.dataSourceInitializer.createSchema();
             if (schemaCreated) {
-                initialize(initializer);
+                initialize(this.dataSourceInitializer);
             }
         }
     }
@@ -63,7 +67,7 @@ public class DataSourceInitializerInvoker
                     .forEach(this.applicationContext::publishEvent);
             // The listener might not be registered yet, so don't rely on it.
             if (!this.initialized) {
-                this.dataSourceInitializer.initSchema();
+                initializer.initSchema();
                 this.initialized = true;
             }
         } catch (IllegalStateException ex) {
@@ -74,23 +78,20 @@ public class DataSourceInitializerInvoker
 
     @Override
     public void onApplicationEvent(DataSourceSchemaCreatedEvent event) {
-        // NOTE the event can happen more than once and
-        // the event datasource is not used here
-        DataSourceInitializer initializer = getDataSourceInitializer();
-        if (!this.initialized && initializer != null) {
-            initializer.initSchema();
+        ensureDataSourceInitializer();
+        if (!this.initialized && this.dataSourceInitializer != null) {
+            this.dataSourceInitializer.initSchema();
             this.initialized = true;
         }
     }
 
-    private DataSourceInitializer getDataSourceInitializer() {
+    private void ensureDataSourceInitializer() {
         if (this.dataSourceInitializer == null) {
             List<DruidDataSource> dataSources = this.dataSources;
-            if (!dataSources.isEmpty()) {
+            if (CollectionUtils.isNotEmpty(dataSources)) {
                 this.dataSourceInitializer = new DataSourceInitializer(dataSources, this.properties, this.applicationContext);
             }
         }
-        return this.dataSourceInitializer;
     }
 
 }

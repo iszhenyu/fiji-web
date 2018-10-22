@@ -16,6 +16,8 @@ import tech.jianshuo.component.datasource.init.DataSourceInitializerInvoker;
  * 但是这样一来，Spring Boot 在数据源初始化时执行 SQL 的特性会被移除，此类是为了保留该特性
  * <p>
  * 同时增加了可以在多个数据源执行 SQL 的功能
+ *
+ * @author zhenyu
  */
 @Configuration
 @Import(DataSourceInitializerInvoker.class)
