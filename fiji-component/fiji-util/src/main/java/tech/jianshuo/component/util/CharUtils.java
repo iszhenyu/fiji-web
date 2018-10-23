@@ -3,7 +3,7 @@ package tech.jianshuo.component.util;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.springframework.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author zhenyu

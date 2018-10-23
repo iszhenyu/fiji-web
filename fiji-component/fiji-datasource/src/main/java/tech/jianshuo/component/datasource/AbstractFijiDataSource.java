@@ -24,7 +24,7 @@ import tech.jianshuo.component.datasource.properties.DruidDataSourceProperties;
  * @author zhenyu
  * @date 2018-10-18
  */
-@ConfigurationProperties(prefix = DruidConstants.DRUID_DATA_SOURCE_PREFIX)
+@ConfigurationProperties(prefix = DruidConstants.DATA_SOURCE_PREFIX)
 public abstract class AbstractFijiDataSource extends DruidDataSource {
     private static final long serialVersionUID = 2109786850351486762L;
 
