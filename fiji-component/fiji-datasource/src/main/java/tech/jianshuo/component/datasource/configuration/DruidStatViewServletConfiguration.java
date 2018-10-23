@@ -1,4 +1,4 @@
-package tech.jianshuo.component.datasource;
+package tech.jianshuo.component.datasource.configuration;
 
 import javax.servlet.Servlet;
 
@@ -14,41 +14,45 @@ import com.alibaba.druid.support.http.StatViewServlet;
 
 import lombok.extern.slf4j.Slf4j;
 
+import tech.jianshuo.component.datasource.DruidConstants;
 import tech.jianshuo.component.datasource.properties.DruidDataSourceProperties;
 
 /**
- * Druid Servlet 配置
+ * Druid 提供了一个 StatViewServlet 用于展示 Druid 的统计信息
+ * 这个 StatViewServlet 的用途包括：
+ *   1. 提供监控信息展示的 HTML 页面
+ *   2. 提供监控信息的 JSON API
+ *
  * @author zhenyu
  */
 @Slf4j
 @Configuration
 @ConditionalOnWebApplication
 @ConditionalOnClass(Servlet.class)
-@ConditionalOnProperty(prefix = DruidConstants.DRUID_STAT_VIEW_SERVLET_PREFIX, name = "enabled", havingValue = "true")
-public class DruidServletConfiguration {
+@ConditionalOnProperty(
+        prefix = DruidConstants.DRUID_STAT_VIEW_SERVLET_PREFIX,
+        name = "enabled",
+        havingValue = "true",
+        matchIfMissing = true
+)
+public class DruidStatViewServletConfiguration {
 
-    /**
-     * Druid 提供了一个 StatViewServlet 用于展示 Druid 的统计信息
-     * 这个 StatViewServlet 的用途包括：
-     *   1. 提供监控信息展示的 HTML 页面
-     *   2. 提供监控信息的 JSON API
-     */
     @Bean
     public ServletRegistrationBean druidStatViewServlet(DruidDataSourceProperties druidProperties) {
         log.info("druid stat-view-servlet init...");
         DruidDataSourceProperties.DruidStatViewServletProperties properties = druidProperties.getStatViewServlet();
         ServletRegistrationBean<StatViewServlet> registration = new ServletRegistrationBean<>(new StatViewServlet());
-        registration.addUrlMappings(properties.getUrlMappings());
-        if (!StringUtils.isEmpty(properties.getLoginUsername())) {
+        registration.addUrlMappings(properties.getUrlPattern());
+        if (properties.getLoginUsername() != null) {
             registration.addInitParameter("loginUsername", properties.getLoginUsername());
         }
-        if (!StringUtils.isEmpty(properties.getLoginPassword())) {
+        if (properties.getLoginPassword() != null) {
             registration.addInitParameter("loginPassword", properties.getLoginPassword());
         }
-        if (!StringUtils.isEmpty(properties.getAllow())) {
+        if (properties.getAllow() != null) {
             registration.addInitParameter("allow", properties.getAllow());
         }
-        if (!StringUtils.isEmpty(properties.getDeny())) {
+        if (properties.getDeny() != null) {
             registration.addInitParameter("deny", properties.getDeny());
         }
         registration.addInitParameter("resetEnable", Boolean.toString(properties.isResetEnable()));

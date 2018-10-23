@@ -1,4 +1,4 @@
-package tech.jianshuo.component.datasource;
+package tech.jianshuo.component.datasource.configuration;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,6 +25,8 @@ import org.springframework.core.type.AnnotationMetadata;
 import com.alibaba.druid.pool.DruidDataSource;
 
 import lombok.extern.slf4j.Slf4j;
+import tech.jianshuo.component.datasource.DruidDataSourceCustomizer;
+import tech.jianshuo.component.datasource.DruidDataSourceWrapper;
 import tech.jianshuo.component.util.CharUtils;
 import tech.jianshuo.component.util.MapUtils;
 
@@ -84,7 +86,7 @@ public class DruidDataSourceConfiguration {
      * 构造 BeanDefinition，通过 FijiDruidDataSource 实现继承 'spring.datasource.druid' 的配置
      */
     private static BeanDefinition genericDruidBeanDefinition() {
-        return BeanDefinitionBuilder.genericBeanDefinition(FijiDataSource.class)
+        return BeanDefinitionBuilder.genericBeanDefinition(DruidDataSourceWrapper.class)
                 .setInitMethodName("init")
                 .setDestroyMethodName("close")
                 .getBeanDefinition();

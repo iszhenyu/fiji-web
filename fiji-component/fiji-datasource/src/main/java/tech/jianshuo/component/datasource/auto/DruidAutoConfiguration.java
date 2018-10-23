@@ -1,4 +1,4 @@
-package tech.jianshuo.component.datasource;
+package tech.jianshuo.component.datasource.auto;
 
 import static tech.jianshuo.component.datasource.DruidConstants.DRUID_COMMONS_LOG_FILTER_PREFIX;
 import static tech.jianshuo.component.datasource.DruidConstants.DRUID_CONFIG_FILTER_PREFIX;
@@ -32,6 +32,11 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+
+import tech.jianshuo.component.datasource.configuration.DruidAopStatConfiguration;
+import tech.jianshuo.component.datasource.configuration.DruidDataSourceConfiguration;
+import tech.jianshuo.component.datasource.configuration.DruidStatViewServletConfiguration;
+import tech.jianshuo.component.datasource.configuration.DruidWebStatConfiguration;
 import tech.jianshuo.component.datasource.properties.DruidDataSourceProperties;
 
 /**
@@ -43,7 +48,12 @@ import tech.jianshuo.component.datasource.properties.DruidDataSourceProperties;
 @ConditionalOnClass(DruidDataSource.class)
 @AutoConfigureBefore(DataSourceAutoConfiguration.class)
 @EnableConfigurationProperties({DataSourceProperties.class, DruidDataSourceProperties.class})
-@Import({DruidDataSourceConfiguration.class, DruidServletConfiguration.class, DruidStatConfiguration.class})
+@Import({
+        DruidDataSourceConfiguration.class,
+        DruidStatViewServletConfiguration.class,
+        DruidAopStatConfiguration.class,
+        DruidWebStatConfiguration.class
+})
 public class DruidAutoConfiguration {
 
     /**

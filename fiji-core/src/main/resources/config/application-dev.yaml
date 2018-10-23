@@ -28,27 +28,48 @@ spring:
     password: jianshuo#
     driver-class-name: com.mysql.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
-    initialSize: 5
-    minIdle: 5
-    maxActive: 20
-    maxWait: 60000
-    timeBetweenEvictionRunsMillis: 60000
-    minEvictableIdleTimeMillis: 300000
-    validationQuery: select 'x'
-    testWhileIdle: true
-    testOnBorrow: false
-    testOnReturn: false
-    poolPreparedStatements: false
-    maxPoolPreparedStatementPerConnectionSize: -1
-    filters: stat,wall,log4j
     druid:
+      initialSize: 5
+      minIdle: 5
+      maxActive: 20
+      maxWait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: select 'x'
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: false
+      maxPoolPreparedStatementPerConnectionSize: -1
       filter:
+        # 默认开启，当前已开启
+        stat:
+          log-slow-sql: true
+          slow-sql-millis: 1000
+        # 默认关闭，需手动开启，当前已开启
         slf4j:
           enabled: true
-          statement-create-after-log-enabled: false
-          statement-close-after-log-enabled: false
-          result-set-open-after-log-enabled: false
-          result-set-close-after-log-enabled: false
+          data-source-log-enabled: false
+          connection-log-enabled: false
+          statement-log-enabled: false
+          result-set-log-enabled: false
+        # 默认关闭，需手动开启，当前已关闭
+        wall:
+          enabled: false
+        # 默认关闭，需手动开启，当前已关闭
+        config:
+          enabled: false
+      # 默认关闭，需手动开启，当前已关闭
+      web-stat:
+        enabled: false
+      # 默认关闭，需手动开启，当前已关闭
+      aop-stat:
+        enabled: false
+      # 默认关闭，需手动开启，当前已关闭
+      stat-view-servlet:
+        enabled: false
+  transaction:
+    rollback-on-commit-failure: true
   http:
     encoding:
       charset: UTF-8

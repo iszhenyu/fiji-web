@@ -1,4 +1,4 @@
-package tech.jianshuo.component.datasource;
+package tech.jianshuo.component.datasource.auto;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;

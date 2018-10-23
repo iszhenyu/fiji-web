@@ -20,27 +20,27 @@ import java.util.Map;
 public class DruidDataSourceProperties {
 
     /** druid 数据源 */
-    Map<String, DruidDataSource> dataSources = new HashMap<>();
+    private Map<String, DruidDataSource> dataSources = new HashMap<>();
 
     /** druid encoding-filter 配置 */
     @NestedConfigurationProperty
-    DruidEncodingFilterProperties encoding = new DruidEncodingFilterProperties();
+    private DruidEncodingFilterProperties encoding = new DruidEncodingFilterProperties();
 
     /** druid config-filter 配置 */
     @NestedConfigurationProperty
-    DruidConfigFilterProperties config = new DruidConfigFilterProperties();
+    private DruidConfigFilterProperties config = new DruidConfigFilterProperties();
 
     /** druid stat-view-servlet 配置 */
     @NestedConfigurationProperty
-    DruidStatViewServletProperties statViewServlet = new DruidStatViewServletProperties();
+    private DruidStatViewServletProperties statViewServlet = new DruidStatViewServletProperties();
 
     /** druid web-stat 配置 */
     @NestedConfigurationProperty
-    DruidWebStatProperties webStat = new DruidWebStatProperties();
+    private DruidWebStatProperties webStat = new DruidWebStatProperties();
 
     /** druid aop-stat 配置 */
     @NestedConfigurationProperty
-    DruidAopStatProperties aopStat = new DruidAopStatProperties();
+    private DruidAopStatProperties aopStat = new DruidAopStatProperties();
 
     @Getter
     @Setter
@@ -70,7 +70,7 @@ public class DruidDataSourceProperties {
         /** 是否开启 druid 的数据统计页面，默认否 */
         private boolean enabled;
         /** servlet 的映射规则，默认访问 "http:/**xxx/druid/" */
-        private String urlMappings = "/druid/*";
+        private String urlPattern = "/druid/*";
         /** druid 统计页面的登陆用户名 */
         private String loginUsername;
         /** druid 统计页面的登陆密码 */
@@ -89,7 +89,7 @@ public class DruidDataSourceProperties {
         /** 是否开启 web-jdbc 监控，默认否 */
         private boolean enabled;
         /** 过滤器 url 的映射规则 */
-        private String urlPatterns = "/*";
+        private String urlPattern = "/*";
         /** 过滤器 url 的排除规则 */
         private String exclusions = "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*";
         /** 是否开启 session 统计，默认否 */

@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.annotation.PostConstruct;
-
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
@@ -24,8 +23,8 @@ import tech.jianshuo.component.datasource.properties.DruidDataSourceProperties;
  * @author zhenyu
  * @date 2018-10-18
  */
-@ConfigurationProperties(prefix = DruidConstants.DATA_SOURCE_PREFIX)
-public abstract class AbstractFijiDataSource extends DruidDataSource {
+@ConfigurationProperties(prefix = DruidConstants.DRUID_DATA_SOURCE_PREFIX)
+public class DruidDataSourceWrapper extends DruidDataSource implements InitializingBean {
     private static final long serialVersionUID = 2109786850351486762L;
 
     @Autowired
@@ -37,25 +36,25 @@ public abstract class AbstractFijiDataSource extends DruidDataSource {
     @Autowired
     private ObjectProvider<List<FilterAdapter>> druidFilters;
 
-    @PostConstruct
-    public void initDruidParentProperties() {
+    @Override
+    public void afterPropertiesSet() throws Exception {
         initDataSourceProperties();
         initConnectionProperties();
         initFilters();
     }
 
     private void initDataSourceProperties() {
-        if (StringUtils.isNotEmpty(dataSourceProperties.getDriverClassName())) {
+        if (super.getUsername() == null) {
+            super.setUsername(dataSourceProperties.determineUsername());
+        }
+        if (super.getPassword() == null) {
+            super.setPassword(dataSourceProperties.determinePassword());
+        }
+        if (super.getUrl() == null) {
+            super.setUrl(dataSourceProperties.determineUrl());
+        }
+        if(super.getDriverClassName() == null){
             super.setDriverClassName(dataSourceProperties.getDriverClassName());
-        }
-        if (StringUtils.isNotEmpty(dataSourceProperties.getUrl())) {
-            super.setUrl(dataSourceProperties.getUrl());
-        }
-        if (StringUtils.isNotEmpty(dataSourceProperties.getUsername())) {
-            super.setUsername(dataSourceProperties.getUsername());
-        }
-        if (StringUtils.isNotEmpty(dataSourceProperties.getPassword())) {
-            super.setPassword(dataSourceProperties.getPassword());
         }
     }
 
