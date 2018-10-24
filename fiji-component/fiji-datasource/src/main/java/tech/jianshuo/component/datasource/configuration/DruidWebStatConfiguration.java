@@ -43,18 +43,24 @@ public class DruidWebStatConfiguration {
         WebStatFilter filter = new WebStatFilter();
         registration.setFilter(filter);
         registration.addUrlPatterns(properties.getUrlPattern() != null ? properties.getUrlPattern() : "/*");
+        // 需要排除一些不必要的url，比如*.js,/jslib/*等等
         registration.addInitParameter("exclusions", properties.getExclusions());
+        // session统计功能
         registration.addInitParameter("sessionStatEnable", Boolean.toString(properties.isSessionStatEnable()));
 
         if (properties.getSessionStatMaxCount() != null) {
+            // 缺省sessionStatMaxCount是1000个。你可以按需要进行配置
             registration.addInitParameter("sessionStatMaxCount", Integer.toString(properties.getSessionStatMaxCount()));
         }
         if (properties.getPrincipalSessionName() != null) {
+            // 你可以配置principalSessionName，使得druid能够知道当前的session的用户是谁
             registration.addInitParameter("principalSessionName", properties.getPrincipalSessionName());
         }
         if (properties.getPrincipalCookieName() != null) {
+            // 如果你的user信息保存在cookie中，你可以配置principalCookieName，使得druid知道当前的user是谁
             registration.addInitParameter("principalCookieName", properties.getPrincipalCookieName());
         }
+        // 配置profileEnable能够监控单个url调用的sql列表
         registration.addInitParameter("profileEnable", Boolean.toString(properties.isProfileEnable()));
         return registration;
     }
