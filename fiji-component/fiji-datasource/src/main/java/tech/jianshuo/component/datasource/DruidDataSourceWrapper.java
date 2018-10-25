@@ -17,8 +17,6 @@ import com.alibaba.druid.filter.config.ConfigFilter;
 import com.alibaba.druid.filter.encoding.CharsetParameter;
 import com.alibaba.druid.pool.DruidDataSource;
 
-import tech.jianshuo.component.datasource.properties.DruidDataSourceProperties;
-
 /**
  * @author zhenyu
  * @date 2018-10-18

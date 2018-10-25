@@ -37,7 +37,7 @@ import tech.jianshuo.component.datasource.configuration.DruidAopStatConfiguratio
 import tech.jianshuo.component.datasource.configuration.DruidDataSourceConfiguration;
 import tech.jianshuo.component.datasource.configuration.DruidStatViewServletConfiguration;
 import tech.jianshuo.component.datasource.configuration.DruidWebStatConfiguration;
-import tech.jianshuo.component.datasource.properties.DruidDataSourceProperties;
+import tech.jianshuo.component.datasource.DruidDataSourceProperties;
 
 /**
  * @author zhenyu
