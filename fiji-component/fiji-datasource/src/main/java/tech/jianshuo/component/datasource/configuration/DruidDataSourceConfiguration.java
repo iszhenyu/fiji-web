@@ -27,6 +27,7 @@ import com.alibaba.druid.pool.DruidDataSource;
 import lombok.extern.slf4j.Slf4j;
 import tech.jianshuo.component.datasource.DruidDataSourceCustomizer;
 import tech.jianshuo.component.datasource.DruidDataSourceWrapper;
+import tech.jianshuo.component.datasource.route.PollingRoutingDataSource;
 import tech.jianshuo.component.util.CharUtils;
 import tech.jianshuo.component.util.MapUtils;
 
@@ -38,6 +39,7 @@ import tech.jianshuo.component.util.MapUtils;
 @Import(DruidDataSourceConfiguration.DruidDataSourceImportSelector.class)
 public class DruidDataSourceConfiguration {
 
+    private static final String ROUTING_DATA_SOURCE_BEAN_NAME = "routingDataSource";
     private static final String DATA_SOURCE_BEAN_NAME = "dataSource";
     private static final String DATA_SOURCE_BEAN_SUFFIX = "DataSource";
     private static final String MULTI_DATA_SOURCES_PREFIX = "spring.datasource.druid.data-sources";
@@ -58,7 +60,7 @@ public class DruidDataSourceConfiguration {
     /**
      * 多数据源注册
      */
-    private static class DynamicDataSourceRegistrar implements ImportBeanDefinitionRegistrar, EnvironmentAware {
+    private static class RoutingDataSourceRegistrar implements ImportBeanDefinitionRegistrar, EnvironmentAware {
 
         private Map<String, Object> dataSources;
 
@@ -69,7 +71,7 @@ public class DruidDataSourceConfiguration {
 
         @Override
         public void registerBeanDefinitions(AnnotationMetadata metadata, BeanDefinitionRegistry registry) {
-            this.dataSources.keySet().forEach(dataSourceName -> {
+            for (String dataSourceName: this.dataSources.keySet()) {
                 // 注册 BeanDefinition
                 String camelName = CharUtils.separatedToCamel().apply(dataSourceName);
                 registry.registerBeanDefinition(camelName, genericDruidBeanDefinition());
@@ -77,7 +79,11 @@ public class DruidDataSourceConfiguration {
                 if (!StringUtils.endsWithIgnoreCase(camelName, DATA_SOURCE_BEAN_SUFFIX)) {
                     registry.registerAlias(camelName, camelName + DATA_SOURCE_BEAN_SUFFIX);
                 }
-            });
+            }
+            registry.registerBeanDefinition(
+                    ROUTING_DATA_SOURCE_BEAN_NAME,
+                    genericRoutingDataSourceBeanDefinition(this.dataSources)
+            );
         }
 
     }
@@ -89,6 +95,12 @@ public class DruidDataSourceConfiguration {
         return BeanDefinitionBuilder.genericBeanDefinition(DruidDataSourceWrapper.class)
                 .setInitMethodName("init")
                 .setDestroyMethodName("close")
+                .getBeanDefinition();
+    }
+
+    private static BeanDefinition genericRoutingDataSourceBeanDefinition(Map<String, Object> dataSources) {
+        return BeanDefinitionBuilder.genericBeanDefinition(PollingRoutingDataSource.class)
+                .addConstructorArgValue(dataSources)
                 .getBeanDefinition();
     }
 
@@ -156,7 +168,7 @@ public class DruidDataSourceConfiguration {
         @Override
         public String[] selectImports(AnnotationMetadata metadata) {
             Stream.Builder<Class<?>> imposts = Stream.<Class<?>>builder().add(DruidDataSourceBeanPostProcessor.class);
-            imposts.add(dataSources.isEmpty() ? SingleDataSourceRegistrar.class : DynamicDataSourceRegistrar.class);
+            imposts.add(dataSources.isEmpty() ? SingleDataSourceRegistrar.class : RoutingDataSourceRegistrar.class);
             return imposts.build().map(Class::getName).toArray(String[]::new);
         }
 

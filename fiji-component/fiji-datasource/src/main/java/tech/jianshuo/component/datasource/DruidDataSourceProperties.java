@@ -1,14 +1,15 @@
-package tech.jianshuo.component.datasource.properties;
-
-import com.alibaba.druid.pool.DruidDataSource;
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.NestedConfigurationProperty;
-import tech.jianshuo.component.datasource.DruidConstants;
+package tech.jianshuo.component.datasource;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.NestedConfigurationProperty;
+
+import com.alibaba.druid.pool.DruidDataSource;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @author zhenyu

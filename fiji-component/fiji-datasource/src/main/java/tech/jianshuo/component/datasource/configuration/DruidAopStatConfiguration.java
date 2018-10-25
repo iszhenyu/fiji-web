@@ -13,7 +13,7 @@ import com.alibaba.druid.support.spring.stat.DruidStatInterceptor;
 
 import lombok.extern.slf4j.Slf4j;
 import tech.jianshuo.component.datasource.DruidConstants;
-import tech.jianshuo.component.datasource.properties.DruidDataSourceProperties;
+import tech.jianshuo.component.datasource.DruidDataSourceProperties;
 
 /**
  * 用于采集 Spring 和 JDBC 关联监控的数据

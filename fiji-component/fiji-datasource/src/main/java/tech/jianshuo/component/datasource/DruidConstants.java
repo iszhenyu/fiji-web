@@ -18,4 +18,5 @@ public interface DruidConstants {
     String DRUID_STAT_VIEW_SERVLET_PREFIX   = "spring.datasource.druid.stat-view-servlet";
     String DRUID_WEB_STAT_PREFIX            = "spring.datasource.druid.web-stat";
     String DRUID_AOP_STAT_PREFIX            = "spring.datasource.druid.aop-stat";
+
 }

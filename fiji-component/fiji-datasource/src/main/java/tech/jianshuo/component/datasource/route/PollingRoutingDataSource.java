@@ -1,4 +1,4 @@
-package tech.jianshuo.fiji.core.orm.datasource;
+package tech.jianshuo.component.datasource.route;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,21 +10,25 @@ import javax.sql.DataSource;
 
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author zhenyu
- * Created on 2018-10-22
+ * Created on 2018-10-25
  */
 @Slf4j
-@Getter
-@RequiredArgsConstructor
-public class DynamicDataSource extends AbstractRoutingDataSource {
+public class PollingRoutingDataSource extends AbstractRoutingDataSource {
 
     private final AtomicInteger count = new AtomicInteger();
     private final Map<String, DataSource> targetDataSources;
+
+    public PollingRoutingDataSource(Map<String, DataSource> targetDataSources) {
+        this.targetDataSources = targetDataSources;
+    }
+
+    public Map<String, DataSource> getTargetDataSources() {
+        return targetDataSources;
+    }
 
     /**
      * 基于轮询算法指定实际的数据源

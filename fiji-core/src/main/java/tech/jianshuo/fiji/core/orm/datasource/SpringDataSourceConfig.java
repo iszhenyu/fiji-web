@@ -34,15 +34,15 @@ public class SpringDataSourceConfig {
     }
 
     /**
-     * 构造 DynamicDataSource，指定数据源切换规则
+     * 构造 DynamicRoutingDataSource，指定数据源切换规则
      *
      * @param druidDataSourceMap druidDataSourceMap
      * @return dataSource
      */
     @Bean
     @Primary
-    public DynamicDataSource dataSource(Map<String, DruidDataSource> druidDataSourceMap) {
+    public DynamicRoutingDataSource dataSource(Map<String, DruidDataSource> druidDataSourceMap) {
         Map<String, DataSource> dataSourceMap = new HashMap<>(druidDataSourceMap);
-        return new DynamicDataSource(dataSourceMap);
+        return new DynamicRoutingDataSource(dataSourceMap);
     }
 }

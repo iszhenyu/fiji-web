@@ -15,7 +15,7 @@ import com.alibaba.druid.support.http.StatViewServlet;
 import lombok.extern.slf4j.Slf4j;
 
 import tech.jianshuo.component.datasource.DruidConstants;
-import tech.jianshuo.component.datasource.properties.DruidDataSourceProperties;
+import tech.jianshuo.component.datasource.DruidDataSourceProperties;
 
 /**
  * Druid 提供了一个 StatViewServlet 用于展示 Druid 的统计信息
