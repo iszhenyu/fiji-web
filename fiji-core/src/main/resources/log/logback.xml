@@ -6,6 +6,7 @@
 
     <include resource="org/springframework/boot/logging/logback/defaults.xml" />
     <property name="LOG_PATH" value="/Users/zhenyu/DevLogs"/>
+
     <!--<property name="LOG_FILE" value="${LOG_FILE:-${LOG_PATH:-${LOG_TEMP:-${java.io.tmpdir:-/tmp}}}/fiji.log}"/>-->
     <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
     <include resource="log/rolling-file-appender.xml" />
@@ -14,11 +15,9 @@
         <appender-ref ref="ROLLING-FILE"/>
     </appender>
 
-    <!-- 我们自己的代码使用DEBUG级别，框架层代码使用INFO级别 -->
     <springProfile name="dev, test">
         <root level="INFO">
             <appender-ref ref="CONSOLE"/>
-            <!--<appender-ref ref="ROLLING-FILE"/>-->
         </root>
         <!-- name:用来指定受此loger约束的某一个包或者具体的某一个类 -->
         <!-- addtivity:是否向上级loger传递打印信息, 默认是true -->

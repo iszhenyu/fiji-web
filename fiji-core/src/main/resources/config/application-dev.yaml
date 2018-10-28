@@ -114,4 +114,4 @@ pagehelper:
     support-methods-arguments: true
     params: count=countSql
 logging:
-  config: classpath:log/log4j2.xml
+  config: classpath:log/logback.xml

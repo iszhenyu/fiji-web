@@ -20,7 +20,6 @@
         <dependency>
             <groupId>tech.jianshuo</groupId>
             <artifactId>fiji-security</artifactId>
-            <version>${fiji.version}</version>
         </dependency>
     </dependencies>
 

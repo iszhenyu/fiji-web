@@ -16,7 +16,6 @@
         <dependency>
             <groupId>tech.jianshuo</groupId>
             <artifactId>fiji-biz</artifactId>
-            <version>${fiji.version}</version>
         </dependency>
 
         <!-- security -->
