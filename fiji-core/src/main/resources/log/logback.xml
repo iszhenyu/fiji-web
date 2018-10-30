@@ -9,7 +9,7 @@
 
     <!--<property name="LOG_FILE" value="${LOG_FILE:-${LOG_PATH:-${LOG_TEMP:-${java.io.tmpdir:-/tmp}}}/fiji.log}"/>-->
     <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
-    <include resource="log/rolling-file-appender.xml" />
+    <include resource="log/logback-rolling-file-appender.xml" />
 
     <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
         <appender-ref ref="ROLLING-FILE"/>
