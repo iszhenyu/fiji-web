@@ -50,11 +50,6 @@
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>druid</artifactId>
-                <version>${druid.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>tech.jianshuo</groupId>
                 <artifactId>fiji-datasource</artifactId>
                 <version>${project.version}</version>
@@ -63,6 +58,11 @@
                 <groupId>tech.jianshuo</groupId>
                 <artifactId>fiji-datasource-actuator</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>${druid.version}</version>
             </dependency>
             <dependency>
                 <groupId>tech.jianshuo</groupId>
