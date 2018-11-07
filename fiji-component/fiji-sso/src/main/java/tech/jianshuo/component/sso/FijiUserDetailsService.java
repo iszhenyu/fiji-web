@@ -1,4 +1,4 @@
-package tech.jianshuo.fiji.core.security;
+package tech.jianshuo.component.sso;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
