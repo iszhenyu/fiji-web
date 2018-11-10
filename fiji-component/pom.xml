@@ -17,6 +17,7 @@
         <module>fiji-datasource-actuator</module>
         <module>fiji-util</module>
         <module>fiji-sso</module>
+        <module>fiji-rpc</module>
     </modules>
 
 </project>
